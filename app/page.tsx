@@ -5,8 +5,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Hero3D from "../components/Hero3D";
 import PastelRibbons3D from "../components/PastelRibbons3D";
-import LuminaLogo from "../components/LuminaLogo";
 import Image from "next/image";
+import ArrowRight from "@/components/ArrowRight";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -82,15 +82,13 @@ export default function Home() {
                 </div>
 
                 {/* Floating Info Card */}
-                <div className="absolute bottom-10 right-10 bg-white rounded-2xl p-6 shadow-xl max-w-sm z-30">
+                <div className="hidden absolute bottom-0 right-0 bg-white rounded-2xl p-6 shadow-xl max-w-sm z-30">
                     <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
-                            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 4a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V8zm8 0a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1V8zm0 4a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1v-2z" clipRule="evenodd" />
-                            </svg>
-                        </div>
+                        <ArrowRight size={20} />
                         <div>
-                            <h3 className="font-bold text-gray-900">Intelligent molecular synthesis</h3>
+                            <h3 className="font-bold text-gray-900">
+                                Intelligent molecular synthesis
+                            </h3>
                         </div>
                     </div>
                 </div>
@@ -274,47 +272,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-[#151f25] py-12">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="md:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <LuminaLogo size={32} animated={false} />
-                <span className="text-xl font-bold text-white">LUMINA</span>
-                <span className="text-sm text-white/70">TECHNOLOGIES</span>
-              </div>
-              <p className="text-sm text-white/70 mb-4">© 2025 LUMINA TECHNOLOGIES. All Rights Reserved.</p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-white mb-4">What we do</h4>
-              <ul className="space-y-2 text-sm text-white/70">
-                <li><a href="#" className="hover:text-[#35E3ED]">How</a></li>
-                <li><a href="#" className="hover:text-[#35E3ED]">Why</a></li>
-                <li><a href="#" className="hover:text-[#35E3ED]">Benefits</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-white mb-4">LuminaLab</h4>
-              <ul className="space-y-2 text-sm text-white/70">
-                <li><a href="#" className="hover:text-[#35E3ED]">Lumi 1</a></li>
-                <li><a href="#" className="hover:text-[#35E3ED]">Lumi 2</a></li>
-                <li><a href="#" className="hover:text-[#35E3ED]">Lumi 3</a></li>
-                <li><a href="#" className="hover:text-[#35E3ED]">Lumi 4</a></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-8 pt-8 border-t border-gray-200 text-center">
-            <p className="text-sm text-gray-500">
-              Created by <span className="font-semibold">hipposoft</span> | All Right Reserved
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

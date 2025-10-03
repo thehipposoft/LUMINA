@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -28,7 +28,7 @@ function createCircleTexture() {
 
 function SmokeParticles() {
   const particlesRef = useRef<THREE.Points>(null);
-  const particleCount = 300; // Increased particle count
+  const particleCount = 800; // Much more particles for denser effect
 
   useFrame((state) => {
     if (particlesRef.current) {
@@ -36,6 +36,19 @@ function SmokeParticles() {
       const geometry = particlesRef.current.geometry as THREE.BufferGeometry;
       const positions = geometry.attributes.position;
       const opacity = geometry.attributes.opacity;
+      const colors = geometry.attributes.color;
+
+      // Initialize colors array if it doesn't exist
+      if (!colors) {
+        const colorArray = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount; i++) {
+          // Default gray-blue color
+          colorArray[i * 3] = 0.545; // R
+          colorArray[i * 3 + 1] = 0.616; // G
+          colorArray[i * 3 + 2] = 0.765; // B
+        }
+        geometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+      }
 
       for (let i = 0; i < particleCount; i++) {
         const x = positions.getX(i);
@@ -71,20 +84,55 @@ function SmokeParticles() {
         // Base opacity with subtle breathing effect
         const baseOpacity = 0.3 + Math.sin(time * 1.5 + i * 0.2) * 0.15;
 
+        // Intense neon glow effect near mouse
+        const glowRadius = 18;
+        const neonInfluence = Math.max(0, 1 - mouseDistance / glowRadius);
+        const coreGlow = Math.max(0, 1 - mouseDistance / (glowRadius * 0.5)); // Brighter core
+
         // Update positions with floating motion + mouse avoidance
         positions.setX(i, x + floatX + pushX);
         positions.setY(i, y + floatY + pushY);
         positions.setZ(i, z + floatZ);
 
-        // Update opacity
+        // Update opacity with intense neon glow enhancement
         if (opacity) {
-          opacity.setX(i, baseOpacity);
+          const neonGlow = neonInfluence * (0.8 + 0.4 * Math.sin(time * 10 + i * 0.5));
+          const glowOpacity = baseOpacity + neonGlow;
+          opacity.setX(i, Math.min(1.0, glowOpacity));
+        }
+
+        // Update colors with neon effect
+        if (colors) {
+          const colorAttribute = geometry.attributes.color;
+          if (neonInfluence > 0) {
+            // Ultra-bright neon colors near mouse
+            const intensity = (neonInfluence + coreGlow * 0.5) * (1.5 + 0.8 * Math.sin(time * 8 + i * 0.4));
+            const colorPhase = Math.sin(time * 5 + i * 0.3) * 0.5 + 0.5;
+
+            // Electric neon color cycling: hot pink -> electric cyan -> neon green
+            const neonR = intensity * (1.0 - colorPhase * 0.7) + 0.2; // Hot pink to cyan
+            const neonG = intensity * (0.3 + colorPhase * 0.7) + 0.1; // Electric green boost
+            const neonB = intensity * (colorPhase + 0.5) + 0.3; // Electric blue/cyan
+
+            colorAttribute.setXYZ(
+              i,
+              Math.min(2.0, neonR), // Super saturated red/pink
+              Math.min(2.5, neonG), // Ultra bright green
+              Math.min(2.2, neonB)  // Electric blue
+            );
+          } else {
+            // Darker base color for more contrast
+            colorAttribute.setXYZ(i, 0.3, 0.4, 0.6);
+          }
         }
       }
 
       positions.needsUpdate = true;
       if (opacity) {
         opacity.needsUpdate = true;
+      }
+      if (colors) {
+        colors.needsUpdate = true;
       }
     }
   });
@@ -113,11 +161,10 @@ function SmokeParticles() {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.3}
-        color="#8B9DC3"
+        size={0.25}
         transparent
-        opacity={0.5}
-        vertexColors={false}
+        opacity={0.6}
+        vertexColors
         blending={THREE.AdditiveBlending}
         sizeAttenuation
         map={new THREE.CanvasTexture(createCircleTexture())}
@@ -223,7 +270,33 @@ function SimpleWave() {
 
 export default function Hero3D() {
   return (
-    <div className="absolute inset-0 w-full h-full">
+    <>
+      {/* SVG clip path definition with rounded corners */}
+      <svg width="0" height="0" style={{ position: 'absolute' }}>
+        <defs>
+          <clipPath id="heroClipPath" clipPathUnits="objectBoundingBox">
+            <path d="M 0,0
+                     L 1,0
+                     L 1,0.76
+                     Q 1,0.76 0.985,0.76
+                     L 0.635,0.76
+                     Q 0.62,0.76 0.62,.775
+                     L 0.62,1
+                     L 0,0.99
+                     Q 0,0.99 0,0.975
+                     L 0,0.615
+                     Q 0,0.6 0.015,0.6
+                     L 0,0.6
+                     Q 0,0.6 0,0.585
+                     L 0,0 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
+      <div
+        className="absolute inset-0 w-full h-full"
+        style={{ clipPath: 'url(#heroClipPath)' }}
+      >
       {/* Dark foggy background */}
       <div
         className="absolute inset-0 w-full h-full"
@@ -261,5 +334,6 @@ export default function Hero3D() {
         <SmokeParticles />
       </Canvas>
     </div>
+    </>
   );
 }
