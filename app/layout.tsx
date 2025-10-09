@@ -22,16 +22,16 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-        <body className={`${montserrat.variable} antialiased`}>
-            <PersistentHeader />
-            <PageTransition>
-                {children}
-                <Footer />
-            </PageTransition>
-            <SmoothLinkTransition />
-        </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body className={`${montserrat.variable} antialiased`}>
+                <PersistentHeader />
+                <PageTransition>
+                    {children}
+                    <Footer />
+                </PageTransition>
+                <SmoothLinkTransition />
+            </body>
+        </html>
+    );
 }

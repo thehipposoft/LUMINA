@@ -10,6 +10,7 @@ import NavigationArrow from "./NavigationArrow";
 const navigationItems = [
     { href: "/", label: "Home" },
     { href: "/what-we-do", label: "What we do" },
+    { href: "/benefits", label: "Benefits" },
     { href: "/animations", label: "Blog" },
     { href: "/logo-showcase", label: "LuminaLab" },
 ];
