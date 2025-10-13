@@ -138,3 +138,13 @@ html {
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
+
+
+/* Swiper */
+
+.swiper-pagination {
+    width: fit-content !important;
+    left: auto !important;
+    right: 7rem !important;
+    bottom: 1rem;
+}

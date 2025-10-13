@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HeroBanner from "@/components/HeroBanner";
+import Carousel from "@/components/Carousel";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -60,8 +61,14 @@ const WhatWeDo = () => {
         {/* Content Sections */}
         <section className="content-sections p-20 fade-in">
             <div className="flex gap-10">
-                <div className="w-7/12 bg-amber-300">
-                    Carousel
+                <div className="w-7/12 ">
+                    <Carousel
+                        slides={[
+                            { image: '/images/what-we-do/slide-1.png', text: 'Slide 1' },
+                            { image: '/images/what-we-do/slide-1.png', text: 'Slide 2' },
+                            { image: '/images/what-we-do/slide-1.png', text: 'Slide 3' },
+                        ]}
+                    />
                 </div>
                 <div className="w-5/12">
                     <h2>
