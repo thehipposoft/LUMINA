@@ -14,16 +14,7 @@ const navigationItems = [
     { href: "/logo-showcase", label: "LuminaLab" },
 ];
 
-const navigationSecondary = [
-    { href: "/what-we-do", label: "What we do" },
-    { href: "/blog", label: "Blog" },
-    { href: "/lab", label: "LuminaLab" },
-    { href: "/faqs", label: "FAQS" },
-    { href: "/#contact", label: "Contact" },
-
-];
-
-export default function PersistentHeader({}) {
+export default function PersistentHeader() {
     const pathname = usePathname();
     const headerRef = useRef<HTMLElement>(null);
     const arrowRef = useRef<HTMLDivElement>(null);
@@ -89,7 +80,7 @@ export default function PersistentHeader({}) {
     return (
         <header
             ref={headerRef}
-            className={`${pathname === '/' ? "left-1/2 transform -translate-x-1/2 fixed" : "w-screen sticky"}  top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm mx-auto rounded-b-2xl`}
+            className="fixed top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transform rounded-b-2xl"
         >
             <div className="w-max mx-auto px-6 py-4">
                 <nav className="flex items-center justify-between gap-10">
@@ -109,9 +100,7 @@ export default function PersistentHeader({}) {
                             <NavigationArrow size={16} />
                         </div>
 
-                        {
-                        pathname === '/' ?
-                        navigationItems.map((item) => {
+                        {navigationItems.map((item) => {
                             const isActive = pathname === item.href;
 
                             return (
@@ -127,26 +116,7 @@ export default function PersistentHeader({}) {
                                     {item.label}
                                 </Link>
                             );
-                        })
-                        :
-                        navigationSecondary.map((item) => {
-                            const isActive = pathname === item.href;
-
-                            return (
-                                <Link
-                                    key={item.href}
-                                    href={item.href}
-                                    className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-[#007BFF] text-black relative px-2 py-1 ${
-                                        isActive
-                                        ? 'font-semibold'
-                                        : ''
-                                    }`}
-                                    >
-                                    {item.label}
-                                </Link>
-                            );
-                        })
-                        }
+                        })}
                     </div>
 
                     {/* Mobile menu button */}

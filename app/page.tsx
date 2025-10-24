@@ -3,10 +3,9 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Hero3D from "../components/Hero3D";
 import PastelRibbons3D from "../components/PastelRibbons3D";
 import Image from "next/image";
-import ArrowRight from "@/components/ArrowRight";
+import Banner from "@/components/Banner";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -50,9 +49,9 @@ export default function Home() {
                 stagger: 0.3,
                 ease: "power3.out",
                 scrollTrigger: {
-                trigger: ".sections-container",
-                start: "top 70%",
-                end: "bottom center",
+                    trigger: ".sections-container",
+                    start: "top 70%",
+                    end: "bottom center",
                 },
             });
         }, containerRef);
@@ -61,14 +60,12 @@ export default function Home() {
     }, []);
 
     return (
-        <div ref={containerRef} className="min-h-screen bg-white overflow-hidden">
-            {/* Hero Section */}
-            <section className="p-4">
+        <div ref={containerRef} className=" bg-white ">
+            <Banner />
+            {/* <section className="p-4">
                 <div className="relative min-h-screen bg-gradient-to-br bg-brand-primary overflow-hidden rounded-3xl">
-                    {/* 3D Background */}
                     <Hero3D />
 
-                    {/* Hero Content */}
                     <div className="relative z-20 flex items-center justify-center min-h-screen px-6 pointer-events-none">
                         <div className="text-center max-w-4xl">
                             <h1
@@ -80,7 +77,6 @@ export default function Home() {
                         </div>
                     </div>
 
-                    {/* Floating Info Card */}
                     <div className="hidden absolute bottom-0 right-0 bg-white rounded-2xl p-6 shadow-xl max-w-sm z-30">
                         <div className="flex items-center space-x-3">
                             <ArrowRight size={20} />
@@ -92,7 +88,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* Content Sections */}
             <div className="sections-container">

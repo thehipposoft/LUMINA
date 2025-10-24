@@ -333,6 +333,7 @@ export default function Hero3D() {
         {/* Interactive smoke particles that dissipate around mouse */}
         <SmokeParticles />
       </Canvas>
+
     </div>
     </>
   );

@@ -7,7 +7,6 @@ type HeroBannerProps = {
 
 const HeroBanner = ({
     title,
-    imageUrl
 }: HeroBannerProps) => {
     return (
         <section className="min-h-[80vh] bg-green-300 relative">
