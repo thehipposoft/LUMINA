@@ -3,6 +3,7 @@ import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import Carousel from "@/components/Carousel";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -33,7 +34,7 @@ const Benefits = () => {
 
     return (
         <div ref={containerRef} className="min-h-screen bg-white">
-            <section className="container mx-auto py-20 flex gap-8 w-[85vw]">
+            <section className="container mx-auto py-20 flex gap-8 w-[85vw] justify-between">
                 <div className="text-black-text md:w-[415px] flex flex-col gap-3">
                     <h3 className="text-4xl font-semibold ">
                         Brighter displays
@@ -49,12 +50,19 @@ const Benefits = () => {
                         Our company has generated an idealized chemical that addresses multiple pain points within OLEDs and works cross-platform.
                     </p>
                 </div>
-                <div className="w-7/12 content-sections bg-amber-200">
-                    Carousel
+                <div className="w-7/12 ">
+                    <Carousel
+                        slides={[
+
+                            { image: '/images/benefits/benefits-1.jpg', text: 'Create brighter OLED displays with Lumina.' },
+                            { image: '/images/benefits/benefits-2.jpg', text: 'Improve energy efficiency of devices.' },
+                            { image: '/images/benefits/benefits-3.jpg', text: 'We create high-performance materials designed to meet the demands of modern electronics.' },
+                        ]}
+                    />
                 </div>
             </section>
 
-            <section className="w-screen relative">
+            <section className="max-w-screen relative">
                 <Image src={'/images/vectors/angle.svg'} width={120} height={360} alt="Lumina Arrow" className=" w-20 absolute left-0" />
                 <div className="flex flex-col w-[85vw] mx-auto">
                     <h4 className="font-semibold text-2xl">Our chemical can:</h4>
@@ -83,10 +91,17 @@ const Benefits = () => {
             </section>
 
             <section className="container mx-auto py-20 flex gap-8">
-                <div className="w-7/12 content-sections bg-amber-200">
-                    Carousel
+                <div className="w-7/12">
+                    <Carousel
+                        slides={[
+
+                            { image: '/images/benefits/benefits-4.jpg', text: 'Boost efficiency while reducing carbon footprint.' },
+                            { image: '/images/benefits/benefits-5.jpg', text: 'Stronger interfaces, thinner electrodes, superior performance' },
+                            { image: '/images/benefits/benefits-6.jpg', text: 'At Lumina, we reduce the use of materials and lower manufacturing costs.' },
+                        ]}
+                    />
                 </div>
-                <div className="text-black-text md:w-[415px]  flex flex-col gap-3">
+                <div className="text-black-text md:w-[415px] text-justify flex flex-col gap-3">
                     <h3 className="text-4xl font-semibold ">
                         Innovative Solutions
                     </h3>
@@ -102,7 +117,7 @@ const Benefits = () => {
                 </div>
             </section>
 
-           <section className="container mx-auto py-20 flex gap-8 w-[85vw]">
+           <section className="container mx-auto py-20 flex justify-between gap-8 w-[85vw]">
                 <div className="text-black-text md:w-[415px] flex flex-col gap-3">
                     <h3 className="text-4xl font-semibold ">
                         Revolution in OLED performance
@@ -115,17 +130,15 @@ const Benefits = () => {
                     <p className="mb-2 text-sm">
                         This allows them to remain relevant in a highly competitive ecosystem where alternative technologies (e.g., microLED) are attacking existing methods from within, while changes in form factors and function (foldable phones, under-screen cameras, etc.) are forcing rapid evolution from the outside, all with billions of dollars at stake ($44 billion per year).</p>
                 </div>
-                <div className="w-7/12 content-sections bg-amber-200">
-                    Carousel
-                </div>
-            </section>
+                <div className="w-7/12">
+                    <Carousel
+                        slides={[
 
-             <section className="container mx-auto py-20 flex gap-8">
-                <div className="w-5/12">
-
-                </div>
-                <div className="w-7/12 content-sections bg-amber-200">
-                    Carousel
+                            { image: '/images/benefits/benefits-7.jpg', text: "Let's create the device revolution together—sustainable chemistry is driving the future of displays." },
+                            { image: '/images/benefits/benefits-8.jpg', text: "Let's create the device revolution together—sustainable chemistry is driving the future of displays." },
+                            { image: '/images/benefits/benefits-9.jpg', text: 'Achieve higher transparency for under-display cameras.' },
+                        ]}
+                    />
                 </div>
             </section>
         </div>

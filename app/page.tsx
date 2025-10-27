@@ -6,6 +6,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PastelRibbons3D from "../components/PastelRibbons3D";
 import Image from "next/image";
 import Banner from "@/components/Banner";
+import Contact from "@/components/Contact";
+import Scene from "@/components/Banner3d/Scene";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -61,6 +63,9 @@ export default function Home() {
 
     return (
         <div ref={containerRef} className=" bg-white ">
+            <div className="h-screen relative">
+                <Scene />
+            </div>
             <Banner />
             {/* <section className="p-4">
                 <div className="relative min-h-screen bg-gradient-to-br bg-brand-primary overflow-hidden rounded-3xl">
@@ -210,65 +215,7 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-
-                {/* Contact Section */}
-                <section id="contact" className="py-20 px-6">
-                    <div className="max-w-7xl mx-auto">
-                        <div className="grid lg:grid-cols-2 gap-12 items-start">
-                            <div>
-                                <div className="flex items-center space-x-4 mb-8">
-                                <div className="w-16 h-16 bg-gradient-to-br from-[#007BFF] to-[#A044FF] rounded-2xl flex items-center justify-center">
-                                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 4a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V8zm8 0a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1V8zm0 4a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1v-2z" clipRule="evenodd" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h2 className="text-4xl font-bold text-[#151f25]">Contact us</h2>
-                                </div>
-                                </div>
-                                <h3 className="text-2xl font-semibold text-[#151f25] mb-4">Let&apos;s Create the Future Together</h3>
-                                <p className="text-[#151f25]/70 leading-relaxed">
-                                Whether you&apos;re developing a next-generation device or
-                                looking for research solutions, our team is ready to
-                                collaborate. Contact us to explore how LUMINA can help
-                                bring your vision to life.
-                                </p>
-                            </div>
-
-                            <div className="bg-white rounded-2xl shadow-xl p-8">
-                                <form className="space-y-6">
-                                    <div>
-                                        <input
-                                        type="text"
-                                        placeholder="Company / Name"
-                                        className="w-full px-4 py-3 border border-[#151f25]/20 rounded-lg focus:ring-2 focus:ring-[#007BFF] focus:border-transparent outline-none"
-                                        />
-                                    </div>
-                                    <div>
-                                        <input
-                                        type="email"
-                                        placeholder="Email"
-                                        className="w-full px-4 py-3 border border-[#151f25]/20 rounded-lg focus:ring-2 focus:ring-[#007BFF] focus:border-transparent outline-none"
-                                        />
-                                    </div>
-                                    <div>
-                                        <textarea
-                                        rows={4}
-                                        placeholder="Message"
-                                        className="w-full px-4 py-3 border border-[#151f25]/20 rounded-lg focus:ring-2 focus:ring-[#007BFF] focus:border-transparent outline-none resize-none"
-                                        ></textarea>
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        className="w-full bg-[#007BFF] text-white py-3 rounded-lg hover:bg-[#35E3ED] transition-colors font-semibold"
-                                    >
-                                        Send
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <Contact />
             </div>
         </div>
     );

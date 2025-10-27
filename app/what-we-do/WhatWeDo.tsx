@@ -35,14 +35,14 @@ const WhatWeDo = () => {
 
   return (
     <div ref={containerRef} className="min-h-screen bg-white">
-        {/* Hero Section */}
-        <div className="w-screen flex flex-col justify-center min-h-[630px] relative">
-            <div className="w-[85vw] mx-auto flex gap-4 relative z-10">
-                <div className="relative w-10">
+        <div className="max-w-screen flex flex-col justify-center min-h-[630px] relative">
+            <div className="w-[85vw] mx-auto flex gap-4 relative z-10 ">
+                <div className="relative w-10 z-10">
                     <Image src={'/images/vectors/angle.svg'} alt="Lumina Arrow" fill className="object-contain" />
                 </div>
-                <div>
-                    <h1 className="text-black-text font-bold text-4xl">
+                <div className="bg-white/60 blur-3xl rounded-full absolute w-[400px] h-[300px] -left-12 top-0" />
+                <div className="relative z-10">
+                    <h1 className="text-black-text font-bold text-5xl">
                         FUTURE
                         <br />
                         FORWARD
@@ -68,9 +68,9 @@ const WhatWeDo = () => {
                     <Carousel
                         slides={[
 
-                            { image: '/images/innovative-solutions.png', text: 'Slide 3' },
-                            { image: '/images/what-we-do/wedo.png', text: 'Slide 2' },
-                            { image: '/images/revolution-oled.png', text: 'Slide 3' },
+                            { image: '/images/what-we-do/wedo1.jpg', text: 'Through intelligent molecular synthesis, we transform how devices interact with light, matter, and energy.' },
+                            { image: '/images/what-we-do/wedo2.jpg', text: 'The vapor deposition process used to construct OLEDs' },
+                            { image: '/images/what-we-do/wedo3.jpg', text: 'Through intelligent molecular synthesis, we transform how devices interact with light, matter, and energy.' },
                         ]}
                     />
                 </div>
@@ -81,7 +81,7 @@ const WhatWeDo = () => {
                     <h6 className="font-semibold text-2xl">
                         Innovating at the Molecular Level
                     </h6>
-                    <p>
+                    <p className="max-w-[440px]">
                         At Lumina Technologies, we design the chemistry that powers the future of optoelectronics.
                         Our team develops advanced surface solutions for OLED, microLED, and next-gen displays,
                         optimizing performance, efficiency, and durability.
@@ -90,25 +90,38 @@ const WhatWeDo = () => {
             </div>
         </section>
 
-        <section className="content-sections bg-black py-20 fade-in min-h-[585px]">
-            <div className="container flex w-[85vw] mx-auto ">
-                <div className="w-7/12">
-                    Video module
+        <section className="content-sections bg-black py-20 fade-in min-h-[585px] relative">
+            <div className="absolute left-0 top-0 h-full w-full bg-[#151F27]/65" />
+            <Image src={'/images/what-we-do/videobg.png'} alt="" fill className="object-cover -scale-x-100 -z-10" />
+            <Image src={'/images/vectors/shape3.svg'} alt="" width={220} height={120} className="absolute left-0" />
+            <div className="flex justify-between w-[85vw] mx-auto relative">
+                <div className="w-7/12 flex flex-col justify-center items-center gap-12">
+                    <h2 className="text-2xl font-semibold mb-2 text-white">
+                        Advanced display technology.
+                    </h2>
+                    <div className="flex flex-col justify-center items-center gap-4 cursor-pointer">
+                        <div className="bg-white/30 rounded-full w-20 h-20 flex justify-center items-center">
+                            <div className="bg-white rounded-full flex justify-center items-center w-12 h-12">
+                                <Image src={'/images/vectors/play.svg'} width={25} height={25} alt="Play vector" />
+                            </div>
+                        </div>
+                        <h4 className="cursor-pointer uppercase hover:underline text-white font-semibold tracking-widest text-sm">watch video</h4>
+                    </div>
                 </div>
-                <div className="text-white w-5/12 flex flex-col gap-3">
-                    <h3 className="text-4xl font-semibold text-white">
+                <div className="text-white w-[415px] text-justify flex flex-col gap-4 mr-12">
+                    <h3 className="text-5xl font-black text-white">
                         How
                     </h3>
-                    <h2 className="text-xl font-semibold mb-2">
-                        Design Solutions
+                    <h2 className="text-2xl font-semibold mb-2">
+                        Designing Solutions
                     </h2>
-                    <p className="mb-2">
+                    <p className="mb-2 text-sm leading-6">
                         As an industry forerunner in OLED display manufacturing, we constantly seek innovative solutions to enhance brightness, transparency, and energy efficiency.
                     </p>
-                    <p className="mb-2">
+                    <p className="mb-2 text-sm leading-6">
                         Lumina&apos;s groundbreaking chemical technology has transformed our production process, allowing us to achieve thinner electrodes, brighter displays, and superior transparency—critical for next-generation applications like under-display cameras and AR/VR. Their technical support and expert guidance ensured a seamless integration into our pilot lines, setting the stage for mass production success. Lumina&apos;s solution is not just an upgrade;
                     </p>
-                    <p className="font-bold">
+                    <p className="font-bold text-sm leading-6">
                         It&apos;s a revolution in OLED performance.
                     </p>
                 </div>
@@ -116,30 +129,42 @@ const WhatWeDo = () => {
         </section>
 
         <section className="container py-10 grid grid-cols-1 lg:grid-cols-3 gap-4 w-[85vw] mx-auto">
-            <div className="w-[390px] h-[380px] bg-teal-300 rounded-3xl flex flex-col p-8 gap-16">
-                <h4 className="uppercase text-3xl text-white font-bold">
-                    partnerships
-                </h4>
-                <p className="text-sm text-white">
-                    Partnering with major technologuy corporations to make the vision a reality
-                </p>
+            <div className="w-[390px] h-[380px] bg-[#174FF6] rounded-3xl flex flex-col relative">
+                <Image src={'/images/what-we-do/tile1.png'} alt="Fondo 1" fill className="object-cover z-10 rounded-3xl" />
+                <div className="p-8 flex flex-col gap-12 relative z-20">
+                    <h4 className="uppercase text-3xl text-white font-bold">
+                        partnerships
+                    </h4>
+                    <p className="text-sm text-white">
+                        Partnering with major technologuy corporations to make the vision a reality
+                    </p>
+                </div>
+                <Image src={'/images/what-we-do/shape.svg'} alt="V Shape" width={390} height={180} className="absolute bottom-0 scale-105 z-20" />
             </div>
-            <div className="w-[390px] h-[380px] bg-teal-300 rounded-3xl flex flex-col p-8 gap-16">
-                <h4 className="uppercase text-3xl text-white font-bold">
-                    consulting
-                </h4>
-                <p className="text-sm text-white ">
-                    Corporate contracting for consulting solutions
-                </p>
+            <div className="w-[390px] h-[380px] bg-[#9747FF] rounded-3xl flex flex-col relative">
+                <Image src={'/images/what-we-do/tile2.png'} alt="Fondo 2" fill className="object-cover z-10 rounded-3xl" />
+                <div className="p-8 flex flex-col gap-12 relative z-20">
+                    <h4 className="uppercase text-3xl text-white font-bold">
+                        consulting
+                    </h4>
+                    <p className="text-sm text-white w-5/6">
+                        Corporate contracting for consulting solutions
+                    </p>
+                </div>
+                <Image src={'/images/what-we-do/shape.svg'} alt="V Shape" width={390} height={180} className="absolute bottom-0 scale-105 z-20" />
             </div>
-            <div className="w-[390px] h-[380px] bg-teal-300 rounded-3xl flex flex-col p-8 gap-16">
-                <h4 className="uppercase text-3xl text-white font-bold">
-                    INDEPENDENT
-                    RESEARCH
-                </h4>
-                <p className="text-sm text-white ">
-                    Have a problem that needs assistance from a trained professionals?
-                </p>
+            <div className="w-[390px] h-[380px] bg-[#35E3ED] rounded-3xl flex flex-col relative">
+                <Image src={'/images/what-we-do/tile3.png'} alt="Fondo 3" fill className="object-cover z-10 rounded-3xl" />
+                <div className="p-8 flex flex-col gap-8 relative z-20">
+                    <h4 className="uppercase text-3xl text-white font-bold">
+                        INDEPENDENT
+                        RESEARCH
+                    </h4>
+                    <p className="text-sm text-white ">
+                        Have a problem that needs assistance from a trained professionals?
+                    </p>
+                </div>
+                <Image src={'/images/what-we-do/shape.svg'} alt="V Shape" width={390} height={180} className="absolute bottom-0 scale-105 z-20" />
             </div>
         </section>
 
@@ -170,8 +195,15 @@ const WhatWeDo = () => {
                         the display industry forward—securely and sustainably.
                     </p>
                 </div>
-                <div className="w-7/12 bg-amber-300">
-                    Carousel
+                <div className="w-7/12 ">
+                    <Carousel
+                        slides={[
+
+                            { image: '/images/what-we-do/team.webp', text: "Lumina's Team" },
+                            { image: '/images/what-we-do/wedo2.png', text: 'The vapor deposition process used to construct OLEDs' },
+                            { image: '/images/what-we-do/wedo3.png', text: 'Through intelligent molecular synthesis, we transform how devices interact with light, matter, and energy.' },
+                        ]}
+                    />
                 </div>
             </div>
             <div className="flex flex-col gap-4 pt-12">

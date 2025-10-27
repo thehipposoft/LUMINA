@@ -37,14 +37,15 @@ const Carousel = ({
             >
                 {slides.map((slide, index) => (
                     <SwiperSlide key={index}>
+                                <div className='absolute top-0 left-0 w-full h-full bg-black/10 z-10 shape' />
                                 <Image
                                     src={slide.image}
                                     alt={`Slide ${index + 1}`}
                                     fill
-                                    className="w-full object-cover shape2"
+                                    className="w-full object-cover shape"
                                 />
-                                <div className='absolute left-0 bottom-0'>
-                                    <p className=''>
+                                <div className='absolute bottom-12'>
+                                    <p className='md:w-[380px] text-sm'>
                                         {slide.text}
                                     </p>
                                 </div>
