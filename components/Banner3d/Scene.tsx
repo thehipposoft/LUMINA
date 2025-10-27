@@ -5,6 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import GlassModel from './GlassModel'
 import { OrbitControls, Text } from '@react-three/drei'
 import { Group } from 'three'
+import { Html } from '@react-three/drei'
 
 const Scene = () => {
   return (
@@ -13,8 +14,12 @@ const Scene = () => {
       <directionalLight position={[5, 5, 5]} intensity={1} />
       <Suspense fallback={null}>
         <AnimatedModel />
-        <CenteredText />
       </Suspense>
+        <Html center>
+        <div className='text-6xl w-7xl mx-auto text-center' style={{fontFamily: 'Montserrat' }}>
+            A <strong className='font-semibold'>REVOLUTION</strong> in OLED technology
+        </div>
+        </Html>
       <OrbitControls enableZoom={false} />
     </Canvas>
   )
@@ -24,14 +29,17 @@ const Scene = () => {
 const CenteredText = () => {
   return (
     <Text
-      position={[0, 0, 2]} // Detrás del modelo
-      fontSize={0.08}
-      color="#000000"
-      anchorX="center"
-      anchorY="middle"
-      font="/three/Montserrat-Regular.ttf"
+        position={[0, 0, 2]}
+        fontSize={0.08}
+        color="#000000"
+        anchorX="center"
+        anchorY="middle"
+        font="/three/Montserrat-Regular.ttf"
+        // Fijo respecto a la cámara
+        // La propiedad "renderOrder" asegura que siempre se vea
+        renderOrder={999}
     >
-      A REVOLUTION in OLED technology
+    A REVOLUTION in OLED technology
     </Text>
   )
 }
@@ -44,9 +52,7 @@ const AnimatedModel = () => {
     if (groupRef.current) {
       const t = clock.getElapsedTime()
       // Movimiento flotante
-      groupRef.current.position.y = -0.3 + Math.sin(t * 1) * 0.05
-      // Ligero balanceo
-
+      groupRef.current.position.y = -0.3 + Math.sin(t * 1) * 0.08
     }
   })
 
