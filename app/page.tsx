@@ -8,6 +8,7 @@ import Image from "next/image";
 import Banner from "@/components/Banner";
 import Contact from "@/components/Contact";
 import Scene from "@/components/Banner3d/Scene";
+import CustomButton from "@/components/commons/CustomButton";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -110,9 +111,7 @@ export default function Home() {
                                 UV-vis, XRD, X-ray crystallography, and SEM we seize one the chemical
                                 changes within a surface for improved device behavior.
                                 </p>
-                                <button className="bg-[#007BFF] text-white px-6 py-3 rounded-full hover:bg-[#35E3ED] transition-colors">
-                                Discover
-                                </button>
+                                <CustomButton href="/benefits" text="Discover"/>
                             </div>
                             <Image
                                 src="/images/brighter-display.png"
@@ -157,9 +156,7 @@ export default function Home() {
                                     precision. Our mission: to enable brighter, more efficient, and more reliable
                                     devices by transforming how surfaces interact.
                                 </p>
-                                <button className="bg-[#007BFF] text-white px-6 py-3 rounded-full hover:bg-[#35E3ED] transition-colors">
-                                    Discover
-                                </button>
+                                <CustomButton href="/benefits#material" text="Discover" />
                             </div>
                         </div>
                     </div>
@@ -180,9 +177,7 @@ export default function Home() {
                                     developments Molecular Interfaces will increase efficiency of OLED and LED
                                     electronics for consumer and corporate utilization.
                                 </p>
-                                <button className="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition-colors">
-                                    Discover
-                                </button>
+                                <CustomButton href="/benefits" text="Discover" />
                             </div>
 
                             <Image
@@ -196,22 +191,17 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* LuminaLAB Section */}
                 <section id="luminalab" className="relative py-20 bg-gradient-to-br from-[#35E3ED]/10 via-[#007BFF]/10 to-[#A044FF]/10 overflow-hidden">
-                    {/* 3D Ribbons Background */}
                     <PastelRibbons3D />
-
                     <div className="relative z-10 px-6">
-                        <div className="text-right lg:w-1/2">
+                        <div className="text-right flex flex-col items-end lg:w-1/2">
                             <p className="text-lg text-right">
                                 We reimagine the interface between <span className="font-semibold">light and matter</span>
                             </p>
                             <h2 className="text-3xl mb-8 text-right">
                                 Lumina <span className="font-semibold">LAB.</span>
                             </h2>
-                            <button className="bg-[#007BFF] text-white px-8 py-3 rounded-full hover:bg-[#35E3ED] transition-colors">
-                                Discover
-                            </button>
+                            <CustomButton href="/lab" text="Discover" />
                         </div>
                     </div>
                 </section>

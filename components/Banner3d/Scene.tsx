@@ -16,7 +16,7 @@ const Scene = () => {
         <AnimatedModel />
       </Suspense>
         <Html center>
-        <div className='text-6xl w-7xl mx-auto text-center' style={{fontFamily: 'Montserrat' }}>
+        <div className='md:text-6xl text-5xl bg-white/20 rounded-4xl p-4 md:bg-transparent md:w-7xl mx-auto md:text-center' style={{fontFamily: 'Montserrat' }}>
             A <strong className='font-semibold'>REVOLUTION</strong> in OLED technology
         </div>
         </Html>

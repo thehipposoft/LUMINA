@@ -4,9 +4,9 @@ import Image from 'next/image'
 const Contact = () => {
   return (
         <section id="contact" className="py-20 px-6">
-            <div className="flex max-w-7xl mx-auto justify-between">
-                <div className="md:w-[605px] gap-4 flex relative">
-                    <Image src={'/images/vectors/shape2.svg'} width={120} height={360} alt="Lumina Arrow" className="w-16 " />
+            <div className="flex flex-col md:flex-row max-w-7xl mx-auto justify-between">
+                <div className="md:w-[605px] md:gap-4 gap-8 flex relative">
+                    <Image src={'/images/vectors/shape2.svg'} width={120} height={360} alt="Lumina Arrow" className="md:w-16 w-12 " />
                     <div className='flex flex-col justify-center'>
                         <h2 className="text-4xl font-bold text-[#151f25] mb-4">Contact us</h2>
                         <h3 className="text-2xl font-semibold text-[#151f25] mb-4">Let&apos;s Create the Future Together</h3>

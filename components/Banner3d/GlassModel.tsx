@@ -9,8 +9,9 @@ const GlassModel = () => {
   const gltf = useGLTF('/three/lumina.gltf')
 
   // Parámetros del vidrio controlables con Leva
-  const { opacity, roughness, metalness, color } = useControls('Glass', {
+  const { opacity, roughness, metalness, color, isEnabled } = useControls('Glass', {
     opacity: { value: 0.85, min: 0, max: 1, step: 0.01 },
+    isEnabled: false,
     roughness: { value: 0.25, min: 0, max: 1, step: 0.01 },
     metalness: { value: 0.70, min: 0, max: 1, step: 0.01 },
     color: '#007BFF'

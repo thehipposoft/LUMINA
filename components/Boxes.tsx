@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const Boxes = () => {
   return (
-            <section className=" py-10 grid grid-cols-1 lg:grid-cols-3 gap-4 w-[85vw] mx-auto">
+        <section className="py-10 grid grid-cols-1 lg:grid-cols-3 gap-4 w-[85vw] mx-auto">
             <div className="w-[390px] h-[380px] bg-[#174FF6] rounded-3xl flex flex-col relative">
                 <Image src={'/images/what-we-do/tile1.png'} alt="Fondo 1" fill className="object-cover z-10 rounded-3xl" />
                 <div className="p-8 flex flex-col gap-12 relative z-20">

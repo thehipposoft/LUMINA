@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const Banner = () => {
   return (
-        <section className="py-4 w-[1400px] max-h-[750px] mx-auto relative">
+        <section className="py-4 lg:w-[1400px] max-h-[750px] mx-auto relative">
 {/*             <svg width="1390" height="909" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1360 0c16.57 0 30 13.4315 30 30v676.225c0 16.568-13.43 30-30 30H857c-16.569 0-30 13.431-30 30V879c0 16.569-13.431 30-30 30H30c-16.5685 0-30-13.431-30-30V30C.0000147 13.4315 13.4315 0 30 0h1330Z" fill="#fff"/>
             </svg> */}

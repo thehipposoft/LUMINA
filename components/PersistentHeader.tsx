@@ -11,7 +11,7 @@ const navigationItems = [
     { href: "/what-we-do", label: "What we do" },
     { href: "/benefits", label: "Benefits" },
     { href: "/animations", label: "Blog" },
-    { href: "/logo-showcase", label: "LuminaLab" },
+    { href: "/lab", label: "LuminaLab" },
 ];
 
 const navigationSecondary = [
@@ -101,15 +101,6 @@ export default function PersistentHeader({}) {
                     </Link>
 
                     <div className="hidden md:flex space-x-8 relative">
-                        {/* Navigation Arrow */}
-                        <div
-                            ref={arrowRef}
-                            className="absolute -bottom-7 left-0 opacity-0 z-10"
-                            style={{ transform: 'translateX(0px)' }}
-                            >
-                            <NavigationArrow size={16} />
-                        </div>
-
                         {
                         pathname === '/' ?
                         navigationItems.map((item) => {
