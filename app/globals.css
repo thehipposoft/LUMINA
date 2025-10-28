@@ -16,6 +16,7 @@
     --color-brand-white: #FFFFFF;
     --color-black-text: #010101;
     --color-secondary-bg: #EDF1FF;
+    --color-grey-text: #878C91;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,7 +27,6 @@
 }
 
 body {
-    background: var(--background);
     font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
 }
 
