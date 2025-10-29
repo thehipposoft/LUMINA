@@ -3,8 +3,12 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import LuminaLogo from "./LuminaLogo";
-import NavigationArrow from "./NavigationArrow";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
 
 const navigationItems = [
     { href: "/", label: "Home" },
@@ -27,7 +31,6 @@ const navigationSecondary = [
 export default function PersistentHeader({}) {
     const pathname = usePathname();
     const headerRef = useRef<HTMLElement>(null);
-    const arrowRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         // Animate header on mount
@@ -44,7 +47,30 @@ export default function PersistentHeader({}) {
         });
     }, []);
 
-    useEffect(() => {
+
+    useGSAP(() => {
+
+        gsap.to('.menu', {
+            scrollTrigger: {
+                start: "0 top",
+                end: "800 25%",
+                scrub: 3,
+            },
+            width: "60vw",
+            ease: 'sine.out'
+        })
+/*         gsap.to('.nav-item', {
+            scrollTrigger: {
+                start: "0 top",
+                end: "800 25%",
+                scrub: 3,
+            },
+            paddingLeft: 1,
+            paddingRight: 1,
+            ease: 'sine.out'
+        }) */
+    })
+/*     useEffect(() => {
             // Animate arrow position when pathname changes
             const arrow = arrowRef.current;
             if (!arrow) return;
@@ -85,22 +111,22 @@ export default function PersistentHeader({}) {
                     });
                 }
             }
-    }, [pathname]);
+    }, [pathname]); */
 
     return (
         <header
             ref={headerRef}
-            className={`${pathname === '/' ? "left-1/2 transform -translate-x-1/2 fixed" : "max-w-screen sticky border-0"}  top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm mx-auto rounded-b-2xl`}
+            className={`${pathname === '/' ? "left-1/2 transform -translate-x-1/2 fixed" : "max-w-screen sticky border-0"}  top-0 z-50 bg-white/95 backdrop-blur-md shadow-lg mx-auto rounded-b-2xl`}
         >
-            <div className={`${pathname === '/' ? "w-max px-6" : "max-w-[85vw]"} mx-auto py-4`}>
-                <nav className={`${pathname === '/' ? "" : "max-w-[85vw]"} flex items-center justify-between gap-10`}>
-                    <Link href="/" className="flex items-center space-x-2 nav-item">
+            <div className={`menu  ${pathname === '/' ? "w-[85vw] px-6" : "max-w-[85vw]"} mx-auto py-4`}>
+                <nav className=" flex items-center justify-between gap-10">
+                    <Link href="/" className="flex items-center gap-2 nav-item">
                         <LuminaLogo size={32} animated={true} />
                         <span className="text-xl font-bold text-black">LUMINA</span>
                         <span className="text-sm text-black/70">TECHNOLOGIES</span>
                     </Link>
 
-                    <div className="hidden md:flex space-x-8 relative">
+                    <div className="hidden md:flex gap-8 relative">
                         {
                         pathname === '/' ?
                         navigationItems.map((item) => {

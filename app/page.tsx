@@ -64,7 +64,7 @@ export default function Home() {
 
     return (
         <div ref={containerRef} className=" bg-white ">
-            <div className="h-screen relative">
+            <div className="h-screen relative hidden">
                 <Scene />
             </div>
             <Banner />
