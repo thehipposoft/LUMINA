@@ -8,93 +8,110 @@ import * as THREE from 'three'
 // Shared mouse position state
 const mousePositionState = { x: 0, y: 0 }
 
-// Sinusoidal Wave Particles - Inspired by flowing wave animation
-function SinusoidalWaveParticles() {
+// Static Grid with Wave Effect - Particles in fixed grid positions with floating wave motion
+function StaticWaveGrid() {
   const particlesRef = useRef<THREE.Points>(null)
-  const particleCount = 600 // Same as original
 
-  // Helper function for normal distribution (simplified)
-  const randomNormal = (mean: number, dev: number) => {
-    const u1 = Math.random()
-    const u2 = Math.random()
-    const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2)
-    return z0 * dev + mean
-  }
+  // Grid parameters
+  const gridWidth = 40
+  const gridHeight = 20
+  const spacing = 4
+  const particleCount = gridWidth * gridHeight
 
-  // Create particle data similar to original code
-  const particleData = React.useMemo(() => {
+  // Create static grid with wave data
+  const gridData = React.useMemo(() => {
     const positions = new Float32Array(particleCount * 3)
     const colors = new Float32Array(particleCount * 3)
     const sizes = new Float32Array(particleCount)
-    const particles = []
+    const basePositions = new Float32Array(particleCount * 3) // Store original positions
+    const waveParams = []
 
-    for (let i = 0; i < particleCount; i++) {
-      const i3 = i * 3
+    let index = 0
+    for (let x = 0; x < gridWidth; x++) {
+      for (let y = 0; y < gridHeight; y++) {
+        const i3 = index * 3
 
-      // Create particle properties similar to original
-      const particle = {
-        x: -2, // Start off screen left
-        y: -2,
-        diameter: Math.max(0.1, randomNormal(0.5, 0.25)), // PARTICLE_SIZE equivalent
-        duration: randomNormal(20, 2), // SPEED equivalent (scaled for Three.js)
-        amplitude: randomNormal(16, 2), // Wave amplitude
-        offsetY: randomNormal(0, 10), // Y offset
-        startTime: performance.now() - Math.random() * 20000,
-        index: i
+        // Calculate grid position
+        const posX = (x - gridWidth / 2) * spacing
+        const posY = (y - gridHeight / 2) * spacing
+        const posZ = Math.random() * 20 - 10 // Random depth
+
+        // Store base positions
+        basePositions[i3] = posX
+        basePositions[i3 + 1] = posY
+        basePositions[i3 + 2] = posZ
+
+        // Initial positions (same as base)
+        positions[i3] = posX
+        positions[i3 + 1] = posY
+        positions[i3 + 2] = posZ
+
+        // Wave parameters for each particle
+        waveParams.push({
+          phaseX: Math.random() * Math.PI * 2, // Random phase for X wave
+          phaseY: Math.random() * Math.PI * 2, // Random phase for Y wave
+          amplitudeX: 0.5 + Math.random() * 1.0, // Wave amplitude in X
+          amplitudeY: 0.3 + Math.random() * 0.7, // Wave amplitude in Y
+          amplitudeZ: 0.2 + Math.random() * 0.5, // Wave amplitude in Z
+          frequencyX: 0.8 + Math.random() * 0.4, // Wave frequency in X
+          frequencyY: 1.0 + Math.random() * 0.5, // Wave frequency in Y
+          frequencyZ: 0.6 + Math.random() * 0.3  // Wave frequency in Z
+        })
+
+        // Colors - warm orange-yellow spectrum like original
+        const intensity = 0.8 + Math.random() * 0.2
+        colors[i3] = 1.0 * intensity     // r - full red
+        colors[i3 + 1] = (0.6 + Math.random() * 0.4) * intensity // g - variable orange-yellow
+        colors[i3 + 2] = 0.1 * intensity // b - minimal blue
+
+        // Sizes with slight variation
+        sizes[index] = 0.8 + Math.random() * 0.4
+
+        index++
       }
-
-      particles.push(particle)
-
-      // Initial positions (will be updated in animation)
-      positions[i3] = -100 // x - start off screen
-      positions[i3 + 1] = 0 // y - center
-      positions[i3 + 2] = Math.random() * 40 - 20 // z - random depth
-
-      // Colors inspired by original (yellow-orange-red spectrum)
-      const greenVariation = randomNormal(125, 20) / 255
-      colors[i3] = 1.0 // r - full red (like original 255)
-      colors[i3 + 1] = Math.max(0, Math.min(1, greenVariation)) // g - variable green
-      colors[i3 + 2] = 0.2 // b - low blue (like original 50)
-
-      // Sizes
-      sizes[i] = particle.diameter
     }
 
-    return { positions, colors, sizes, particles }
-  }, [particleCount])
+    return { positions, colors, sizes, basePositions, waveParams }
+  }, [gridWidth, gridHeight, spacing, particleCount])
 
-  useFrame(() => {
-    if (particlesRef.current && particleData.particles) {
-      const time = performance.now()
+  useFrame((state) => {
+    if (particlesRef.current && gridData.waveParams) {
+      const time = state.clock.elapsedTime
       const positionAttribute = particlesRef.current.geometry.attributes.position
 
-      particleData.particles.forEach((particle, i) => {
-        // Calculate progress (same logic as original moveParticle)
-        const progress = ((time - particle.startTime) % (particle.duration * 1000)) / (particle.duration * 1000)
+      // Apply wave motion to each particle in the grid
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3
+        const waveParam = gridData.waveParams[i]
 
-        // Update particle position
-        particle.x = progress
-        particle.y = (Math.sin(progress * Math.PI * 2) * particle.amplitude) + particle.offsetY
+        // Get base position
+        const baseX = gridData.basePositions[i3]
+        const baseY = gridData.basePositions[i3 + 1]
+        const baseZ = gridData.basePositions[i3 + 2]
 
-        // Convert to 3D coordinates
-        const x = (progress * 200) - 100 // Map 0-1 to -100 to 100
-        const y = particle.y * 0.5 // Scale down for 3D space
-        const z = positionAttribute.getZ(i) // Keep original Z
+        // Calculate wave offsets
+        const waveX = Math.sin(time * waveParam.frequencyX + waveParam.phaseX) * waveParam.amplitudeX
+        const waveY = Math.sin(time * waveParam.frequencyY + waveParam.phaseY) * waveParam.amplitudeY
+        const waveZ = Math.sin(time * waveParam.frequencyZ + waveParam.phaseX) * waveParam.amplitudeZ
 
-        // Mouse interaction - particles are attracted to cursor
-        const mouseX = mousePositionState.x * 50
-        const mouseY = mousePositionState.y * 25
-        const attraction = 0.02
-        const finalX = x + (mouseX - x) * attraction
-        const finalY = y + (mouseY - y) * attraction
+        // Apply waves to base position
+        let finalX = baseX + waveX
+        let finalY = baseY + waveY
+        const finalZ = baseZ + waveZ
 
-        positionAttribute.setXYZ(i, finalX, finalY, z)
+        // Subtle mouse interaction - slight attraction to cursor
+        const mouseX = mousePositionState.x * 30
+        const mouseY = mousePositionState.y * 15
+        const distanceFromMouse = Math.sqrt((finalX - mouseX) ** 2 + (finalY - mouseY) ** 2)
 
-        // Reset particle when it goes off screen (like original)
-        if (progress >= 1) {
-          particleData.particles[i].startTime = time
+        if (distanceFromMouse < 15) {
+          const attraction = (1 - distanceFromMouse / 15) * 0.5
+          finalX += (mouseX - finalX) * attraction * 0.1
+          finalY += (mouseY - finalY) * attraction * 0.1
         }
-      })
+
+        positionAttribute.setXYZ(i, finalX, finalY, finalZ)
+      }
 
       positionAttribute.needsUpdate = true
     }
@@ -106,23 +123,23 @@ function SinusoidalWaveParticles() {
         <bufferAttribute
           attach="attributes-position"
           count={particleCount}
-          array={particleData.positions}
+          array={gridData.positions}
           itemSize={3}
-          args={[particleData.positions, 3]}
+          args={[gridData.positions, 3]}
         />
         <bufferAttribute
           attach="attributes-color"
           count={particleCount}
-          array={particleData.colors}
+          array={gridData.colors}
           itemSize={3}
-          args={[particleData.colors, 3]}
+          args={[gridData.colors, 3]}
         />
         <bufferAttribute
           attach="attributes-size"
           count={particleCount}
-          array={particleData.sizes}
+          array={gridData.sizes}
           itemSize={1}
-          args={[particleData.sizes, 1]}
+          args={[gridData.sizes, 1]}
         />
       </bufferGeometry>
       <pointsMaterial
@@ -153,20 +170,34 @@ function WideOLEDDisplay() {
         const x = positionAttribute.getX(i)
         const y = positionAttribute.getY(i)
 
-        // Multiple wave patterns across the surface (more prominent amplitudes)
-        const wave1 = Math.sin(x * 0.1 + time * 1.5) * 0.6  // Increased from 0.3 to 0.6
-        const wave2 = Math.sin(y * 0.15 + time * 1.2) * 0.4  // Increased from 0.2 to 0.4
-        const wave3 = Math.sin((x + y) * 0.08 + time * 0.8) * 0.3  // Increased from 0.15 to 0.3
-        const ripple = Math.sin(Math.sqrt(x * x + y * y) * 0.1 - time * 2.0) * 0.2  // Increased from 0.1 to 0.2
+        // Multiple wave patterns across the surface (much more prominent amplitudes)
+        const wave1 = Math.sin(x * 0.1 + time * 1.5) * 1.2  // Increased from 0.6 to 1.2
+        const wave2 = Math.sin(y * 0.15 + time * 1.2) * 0.8  // Increased from 0.4 to 0.8
+        const wave3 = Math.sin((x + y) * 0.08 + time * 0.8) * 0.6  // Increased from 0.3 to 0.6
+        const ripple = Math.sin(Math.sqrt(x * x + y * y) * 0.1 - time * 2.0) * 0.4  // Increased from 0.2 to 0.4
 
-        // Combine waves for complex surface motion
-        const z = wave1 + wave2 + wave3 + ripple
+        // Add bump effects for surface texture
+        const bump1 = Math.sin(x * 0.3 + time * 2.0) * Math.cos(y * 0.25 + time * 1.8) * 0.3  // Small frequent bumps
+        const bump2 = Math.sin(x * 0.15 + time * 0.9) * Math.sin(y * 0.2 + time * 1.1) * 0.5   // Medium bumps
+        const bump3 = Math.cos(x * 0.05 + time * 0.6) * Math.sin(y * 0.08 + time * 0.7) * 0.4  // Large slow bumps
 
-        // Add mouse interaction (adjusted for wider display, more prominent)
-        const mouseInfluence = Math.exp(-((x - mousePositionState.x * 35) ** 2 + (y - mousePositionState.y * 12) ** 2) / 150)
-        const mouseWave = mouseInfluence * Math.sin(time * 3.0) * 0.8  // Increased from 0.4 to 0.8
+        // Traveling bump waves
+        const travelBump1 = Math.sin((x + time * 8) * 0.2) * Math.exp(-Math.abs(y) * 0.05) * 0.6  // Horizontal traveling bumps
+        const travelBump2 = Math.cos((y + time * 6) * 0.18) * Math.exp(-Math.abs(x) * 0.02) * 0.4 // Vertical traveling bumps
 
-        positionAttribute.setZ(i, z + mouseWave)
+        // Combine waves and bumps for complex surface motion
+        const z = wave1 + wave2 + wave3 + ripple + bump1 + bump2 + bump3 + travelBump1 + travelBump2
+
+        // Add mouse interaction (adjusted for wider display, much more prominent)
+        const mouseInfluence = Math.exp(-((x - mousePositionState.x * 50) ** 2 + (y - mousePositionState.y * 14) ** 2) / 200)
+        const mouseWave = mouseInfluence * Math.sin(time * 3.0) * 1.5  // Increased from 0.8 to 1.5
+
+        // Mouse-induced bump effects
+        const mouseBumpDistance = Math.sqrt((x - mousePositionState.x * 50) ** 2 + (y - mousePositionState.y * 14) ** 2)
+        const mouseBump1 = mouseInfluence * Math.sin(mouseBumpDistance * 0.3 + time * 4.0) * 0.8  // Rippling bumps from cursor
+        const mouseBump2 = mouseInfluence * Math.cos(mouseBumpDistance * 0.5 - time * 3.5) * 0.6  // Counter-rotating bumps
+
+        positionAttribute.setZ(i, z + mouseWave + mouseBump1 + mouseBump2)
       }
 
       positionAttribute.needsUpdate = true
@@ -225,7 +256,7 @@ function WideOLEDDisplay() {
 
   return (
     <mesh ref={meshRef} position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-      <planeGeometry ref={geometryRef} args={[100, 12, 200, 24]} />
+      <planeGeometry ref={geometryRef} args={[140, 14, 280, 28]} />
       <meshStandardMaterial
         color="#FFFFFF"
         emissive="#000000"
@@ -280,8 +311,8 @@ export default function Hero3D() {
           target={[0, 0, 0]}
         />
 
-        {/* Sinusoidal wave particles background */}
-        <SinusoidalWaveParticles />
+        {/* Static wave grid background */}
+        <StaticWaveGrid />
 
         {/* Single wide OLED display spanning the container */}
         <WideOLEDDisplay />

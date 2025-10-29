@@ -8,135 +8,6 @@ import * as THREE from 'three'
 // Shared mouse position state
 const mousePositionState = { x: 0, y: 0 }
 
-// Sinusoidal Wave Particles - Inspired by flowing wave animation
-function SinusoidalWaveParticles() {
-  const particlesRef = useRef<THREE.Points>(null)
-  const particleCount = 600 // Same as original
-
-  // Helper function for normal distribution (simplified)
-  const randomNormal = (mean: number, dev: number) => {
-    const u1 = Math.random()
-    const u2 = Math.random()
-    const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2)
-    return z0 * dev + mean
-  }
-
-  // Create particle data similar to original code
-  const particleData = React.useMemo(() => {
-    const positions = new Float32Array(particleCount * 3)
-    const colors = new Float32Array(particleCount * 3)
-    const sizes = new Float32Array(particleCount)
-    const particles = []
-
-    for (let i = 0; i < particleCount; i++) {
-      const i3 = i * 3
-
-      // Create particle properties similar to original
-      const particle = {
-        x: -2, // Start off screen left
-        y: -2,
-        diameter: Math.max(0.1, randomNormal(0.5, 0.25)), // PARTICLE_SIZE equivalent
-        duration: randomNormal(20, 2), // SPEED equivalent (scaled for Three.js)
-        amplitude: randomNormal(16, 2), // Wave amplitude
-        offsetY: randomNormal(0, 10), // Y offset
-        startTime: performance.now() - Math.random() * 20000,
-        index: i
-      }
-
-      particles.push(particle)
-
-      // Initial positions (will be updated in animation)
-      positions[i3] = -100 // x - start off screen
-      positions[i3 + 1] = 0 // y - center
-      positions[i3 + 2] = Math.random() * 40 - 20 // z - random depth
-
-      // Colors inspired by original (yellow-orange-red spectrum)
-      const greenVariation = randomNormal(125, 20) / 255
-      colors[i3] = 1.0 // r - full red (like original 255)
-      colors[i3 + 1] = Math.max(0, Math.min(1, greenVariation)) // g - variable green
-      colors[i3 + 2] = 0.2 // b - low blue (like original 50)
-
-      // Sizes
-      sizes[i] = particle.diameter
-    }
-
-    return { positions, colors, sizes, particles }
-  }, [particleCount])
-
-  useFrame(() => {
-    if (particlesRef.current && particleData.particles) {
-      const time = performance.now()
-      const positionAttribute = particlesRef.current.geometry.attributes.position
-
-      particleData.particles.forEach((particle, i) => {
-        // Calculate progress (same logic as original moveParticle)
-        const progress = ((time - particle.startTime) % (particle.duration * 1000)) / (particle.duration * 1000)
-
-        // Update particle position
-        particle.x = progress
-        particle.y = (Math.sin(progress * Math.PI * 2) * particle.amplitude) + particle.offsetY
-
-        // Convert to 3D coordinates
-        const x = (progress * 200) - 100 // Map 0-1 to -100 to 100
-        const y = particle.y * 0.5 // Scale down for 3D space
-        const z = positionAttribute.getZ(i) // Keep original Z
-
-        // Mouse interaction - particles are attracted to cursor
-        const mouseX = mousePositionState.x * 50
-        const mouseY = mousePositionState.y * 25
-        const attraction = 0.02
-        const finalX = x + (mouseX - x) * attraction
-        const finalY = y + (mouseY - y) * attraction
-
-        positionAttribute.setXYZ(i, finalX, finalY, z)
-
-        // Reset particle when it goes off screen (like original)
-        if (progress >= 1) {
-          particleData.particles[i].startTime = time
-        }
-      })
-
-      positionAttribute.needsUpdate = true
-    }
-  })
-
-  return (
-    <points ref={particlesRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={particleCount}
-          array={particleData.positions}
-          itemSize={3}
-          args={[particleData.positions, 3]}
-        />
-        <bufferAttribute
-          attach="attributes-color"
-          count={particleCount}
-          array={particleData.colors}
-          itemSize={3}
-          args={[particleData.colors, 3]}
-        />
-        <bufferAttribute
-          attach="attributes-size"
-          count={particleCount}
-          array={particleData.sizes}
-          itemSize={1}
-          args={[particleData.sizes, 1]}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={2.0}
-        transparent={true}
-        opacity={0.8}
-        vertexColors={true}
-        blending={THREE.AdditiveBlending}
-        sizeAttenuation={false}
-      />
-    </points>
-  )
-}
-
 // Wide OLED Display Component with surface waves
 function WideOLEDDisplay() {
   const meshRef = useRef<THREE.Mesh>(null)
@@ -240,6 +111,14 @@ function WideOLEDDisplay() {
   )
 }
 
+
+
+
+
+
+
+
+
 export default function Hero3D() {
   // Handle mouse movement
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -279,9 +158,6 @@ export default function Hero3D() {
           autoRotate={false}
           target={[0, 0, 0]}
         />
-
-        {/* Sinusoidal wave particles background */}
-        <SinusoidalWaveParticles />
 
         {/* Single wide OLED display spanning the container */}
         <WideOLEDDisplay />

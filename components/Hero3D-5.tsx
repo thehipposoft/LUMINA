@@ -8,97 +8,103 @@ import * as THREE from 'three'
 // Shared mouse position state
 const mousePositionState = { x: 0, y: 0 }
 
-// Sinusoidal Wave Particles - Inspired by flowing wave animation
-function SinusoidalWaveParticles() {
+// Floating Particles Background Component
+function FloatingParticles() {
   const particlesRef = useRef<THREE.Points>(null)
-  const particleCount = 600 // Same as original
+  const particleCount = 300 // Doubled the particle count
 
-  // Helper function for normal distribution (simplified)
-  const randomNormal = (mean: number, dev: number) => {
-    const u1 = Math.random()
-    const u2 = Math.random()
-    const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2)
-    return z0 * dev + mean
+  // Create particle positions and data
+  const positions = new Float32Array(particleCount * 3)
+  const colors = new Float32Array(particleCount * 3)
+  const speeds = new Float32Array(particleCount)
+  const sizes = new Float32Array(particleCount)
+
+  // Initialize particles
+  for (let i = 0; i < particleCount; i++) {
+    const i3 = i * 3
+
+    // Random positions in a larger area for more particles
+    positions[i3] = (Math.random() - 0.5) * 250      // x - wider area
+    positions[i3 + 1] = (Math.random() - 0.5) * 50   // y - taller area
+    positions[i3 + 2] = (Math.random() - 0.5) * 120  // z - deeper area
+
+    // Random speeds for each particle
+    speeds[i] = Math.random() * 0.025 + 0.005
+
+    // Random sizes for variety
+    sizes[i] = Math.random() * 0.8 + 0.4 // Size between 0.4 and 1.2
+
+    // Base blue color with more variations
+    const intensity = Math.random() * 0.4 + 0.3
+    colors[i3] = 0.1 * intensity      // r - slight blue tint
+    colors[i3 + 1] = 0.6 * intensity  // g
+    colors[i3 + 2] = 1 * intensity    // b
   }
 
-  // Create particle data similar to original code
-  const particleData = React.useMemo(() => {
-    const positions = new Float32Array(particleCount * 3)
-    const colors = new Float32Array(particleCount * 3)
-    const sizes = new Float32Array(particleCount)
-    const particles = []
+  useFrame((state) => {
+    if (particlesRef.current) {
+      const time = state.clock.elapsedTime
+      const positionAttribute = particlesRef.current.geometry.attributes.position
+      const colorAttribute = particlesRef.current.geometry.attributes.color
 
-    for (let i = 0; i < particleCount; i++) {
-      const i3 = i * 3
+      // Animate particles
+      for (let i = 0; i < particleCount; i++) {
+        // Floating motion
+        const x = positionAttribute.getX(i)
+        const y = positionAttribute.getY(i)
 
-      // Create particle properties similar to original
-      const particle = {
-        x: -2, // Start off screen left
-        y: -2,
-        diameter: Math.max(0.1, randomNormal(0.5, 0.25)), // PARTICLE_SIZE equivalent
-        duration: randomNormal(20, 2), // SPEED equivalent (scaled for Three.js)
-        amplitude: randomNormal(16, 2), // Wave amplitude
-        offsetY: randomNormal(0, 10), // Y offset
-        startTime: performance.now() - Math.random() * 20000,
-        index: i
+        // Slow floating movement
+        positionAttribute.setY(i, y + Math.sin(time * speeds[i] * 50 + i) * 0.01)
+        positionAttribute.setX(i, x + Math.cos(time * speeds[i] * 30 + i) * 0.005)
+
+        // Mouse interaction - particles glow when near cursor
+        const mouseX = mousePositionState.x * 50
+        const mouseY = mousePositionState.y * 6
+        const distanceToMouse = Math.sqrt((x - mouseX) ** 2 + (y - mouseY) ** 2)
+
+        // Glow effect based on mouse proximity
+        const glowRadius = 15
+        const glow = Math.max(0, 1 - (distanceToMouse / glowRadius))
+        const glowIntensity = glow * glow * 0.8 + 0.2
+
+        // Update colors with glow
+        colorAttribute.setXYZ(i,
+          0.1 * glowIntensity,
+          0.6 * glowIntensity,
+          1 * glowIntensity
+        )
+
+        // Reset particles that drift too far
+        if (Math.abs(x) > 140 || Math.abs(y) > 30) {
+          positionAttribute.setX(i, (Math.random() - 0.5) * 250)
+          positionAttribute.setY(i, (Math.random() - 0.5) * 50)
+        }
       }
 
-      particles.push(particle)
-
-      // Initial positions (will be updated in animation)
-      positions[i3] = -100 // x - start off screen
-      positions[i3 + 1] = 0 // y - center
-      positions[i3 + 2] = Math.random() * 40 - 20 // z - random depth
-
-      // Colors inspired by original (yellow-orange-red spectrum)
-      const greenVariation = randomNormal(125, 20) / 255
-      colors[i3] = 1.0 // r - full red (like original 255)
-      colors[i3 + 1] = Math.max(0, Math.min(1, greenVariation)) // g - variable green
-      colors[i3 + 2] = 0.2 // b - low blue (like original 50)
-
-      // Sizes
-      sizes[i] = particle.diameter
-    }
-
-    return { positions, colors, sizes, particles }
-  }, [particleCount])
-
-  useFrame(() => {
-    if (particlesRef.current && particleData.particles) {
-      const time = performance.now()
-      const positionAttribute = particlesRef.current.geometry.attributes.position
-
-      particleData.particles.forEach((particle, i) => {
-        // Calculate progress (same logic as original moveParticle)
-        const progress = ((time - particle.startTime) % (particle.duration * 1000)) / (particle.duration * 1000)
-
-        // Update particle position
-        particle.x = progress
-        particle.y = (Math.sin(progress * Math.PI * 2) * particle.amplitude) + particle.offsetY
-
-        // Convert to 3D coordinates
-        const x = (progress * 200) - 100 // Map 0-1 to -100 to 100
-        const y = particle.y * 0.5 // Scale down for 3D space
-        const z = positionAttribute.getZ(i) // Keep original Z
-
-        // Mouse interaction - particles are attracted to cursor
-        const mouseX = mousePositionState.x * 50
-        const mouseY = mousePositionState.y * 25
-        const attraction = 0.02
-        const finalX = x + (mouseX - x) * attraction
-        const finalY = y + (mouseY - y) * attraction
-
-        positionAttribute.setXYZ(i, finalX, finalY, z)
-
-        // Reset particle when it goes off screen (like original)
-        if (progress >= 1) {
-          particleData.particles[i].startTime = time
-        }
-      })
-
       positionAttribute.needsUpdate = true
+      colorAttribute.needsUpdate = true
     }
   })
+
+  // Create circular texture for particles
+  const circleTexture = React.useMemo(() => {
+    const canvas = document.createElement('canvas')
+    canvas.width = 32
+    canvas.height = 32
+    const context = canvas.getContext('2d')!
+
+    // Create circular gradient
+    const gradient = context.createRadialGradient(16, 16, 0, 16, 16, 16)
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)')
+    gradient.addColorStop(0.4, 'rgba(255, 255, 255, 0.8)')
+    gradient.addColorStop(0.7, 'rgba(255, 255, 255, 0.3)')
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
+
+    context.fillStyle = gradient
+    context.fillRect(0, 0, 32, 32)
+
+    return new THREE.CanvasTexture(canvas)
+  }, [])
 
   return (
     <points ref={particlesRef}>
@@ -106,32 +112,27 @@ function SinusoidalWaveParticles() {
         <bufferAttribute
           attach="attributes-position"
           count={particleCount}
-          array={particleData.positions}
+          array={positions}
           itemSize={3}
-          args={[particleData.positions, 3]}
+          args={[positions, 3]}
         />
         <bufferAttribute
           attach="attributes-color"
           count={particleCount}
-          array={particleData.colors}
+          array={colors}
           itemSize={3}
-          args={[particleData.colors, 3]}
-        />
-        <bufferAttribute
-          attach="attributes-size"
-          count={particleCount}
-          array={particleData.sizes}
-          itemSize={1}
-          args={[particleData.sizes, 1]}
+          args={[colors, 3]}
         />
       </bufferGeometry>
       <pointsMaterial
-        size={2.0}
+        size={1.2}
         transparent={true}
-        opacity={0.8}
+        opacity={0.7}
         vertexColors={true}
         blending={THREE.AdditiveBlending}
-        sizeAttenuation={false}
+        sizeAttenuation={true}
+        map={circleTexture}
+        alphaTest={0.001}
       />
     </points>
   )
@@ -280,8 +281,8 @@ export default function Hero3D() {
           target={[0, 0, 0]}
         />
 
-        {/* Sinusoidal wave particles background */}
-        <SinusoidalWaveParticles />
+        {/* Floating particles background */}
+        <FloatingParticles />
 
         {/* Single wide OLED display spanning the container */}
         <WideOLEDDisplay />
