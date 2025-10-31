@@ -161,6 +161,10 @@ html {
     background-color: white;
 }
 
+.swiper-slide-next {
+    opacity: 0 !important;
+}
+
 .polygon {
      clip-path: path("M.5 30.5v690c0 16.569 13.4314 30 30 30h804c16.569 0 30-13.431 30-30V624c0-16.569 13.431-30 30-30h476c16.57 0 30-13.431 30-30V30.5c0-16.5685-13.43-30-30-30H30.5C13.9315.5.5 13.9315.5 30.5Z")
 }

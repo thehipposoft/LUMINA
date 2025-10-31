@@ -21,7 +21,7 @@ const navigationItems = [
 const navigationSecondary = [
     { href: "/what-we-do", label: "What we do" },
     { href: "/benefits", label: "Benefits" },
-    { href: "/blog", label: "Blog" },
+    /* { href: "/blog", label: "Blog" }, */
     { href: "/lab", label: "LuminaLab" },
     { href: "/faqs", label: "FAQS" },
     { href: "/#contact", label: "Contact" },
@@ -49,76 +49,35 @@ export default function PersistentHeader({}) {
 
 
     useGSAP(() => {
-
         gsap.to('.menu', {
             scrollTrigger: {
                 start: "0 top",
-                end: "800 25%",
+                end: "500 25%",
                 scrub: 3,
             },
             width: "60vw",
             ease: 'sine.out'
         })
-/*         gsap.to('.nav-item', {
+        gsap.to(headerRef.current, {
             scrollTrigger: {
                 start: "0 top",
-                end: "800 25%",
+                end: "500 25%",
                 scrub: 3,
             },
-            paddingLeft: 1,
-            paddingRight: 1,
-            ease: 'sine.out'
-        }) */
+            width: "60vw",
+            ease: 'sine.out',
+            backgroundColor: "#FFFFFF80"
+        })
     })
-/*     useEffect(() => {
-            // Animate arrow position when pathname changes
-            const arrow = arrowRef.current;
-            if (!arrow) return;
 
-            const activeIndex = navigationItems.findIndex(item => item.href === pathname);
-                if (activeIndex === -1) {
-                // Hide arrow if no matching page
-                gsap.to(arrow, {
-                    //opacity: 0,
-                    duration: 0.3,
-                    ease: "power2.out"
-                });
-                return;
-            }
-
-            // Show arrow and position it
-            gsap.to(arrow, {
-                //opacity: 1,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-
-            // Calculate position based on active nav item
-            const navItems = document.querySelectorAll('.nav-link');
-            const activeNavItem = navItems[activeIndex] as HTMLElement;
-
-            if (activeNavItem) {
-                const headerRect = headerRef.current?.getBoundingClientRect();
-                const itemRect = activeNavItem.getBoundingClientRect();
-
-                if (headerRect) {
-                    const leftPosition = itemRect.left - headerRect.left + (itemRect.width / 2) - 12; // Center the arrow
-
-                    gsap.to(arrow, {
-                    x: leftPosition,
-                    duration: 0.8,
-                    ease: "power3.out"
-                    });
-                }
-            }
-    }, [pathname]); */
 
     return (
         <header
+            style={{backgroundColor: "#FFFFFF"}}
             ref={headerRef}
-            className={`${pathname === '/' ? "left-1/2 transform -translate-x-1/2 fixed" : "max-w-screen sticky border-0"}  top-0 z-50 bg-white/95 backdrop-blur-md shadow-lg mx-auto rounded-b-2xl`}
+            className={`${pathname === '/' ? "left-1/2 transform -translate-x-1/2 fixed" : "max-w-screen sticky border-0"}  top-0 z-50 bg-white/95 backdrop-blur-lg shadow-lg mx-auto rounded-b-2xl`}
         >
-            <div className={`menu  ${pathname === '/' ? "w-[85vw] px-6" : "max-w-[85vw]"} mx-auto py-4`}>
+            <div className={`menu ${pathname === '/' ? "w-[85vw]" : " max-w-[85vw]"} px-6 mx-auto py-4`}>
                 <nav className=" flex items-center justify-between gap-10">
                     <Link href="/" className="flex items-center gap-2 nav-item">
                         <LuminaLogo size={32} animated={true} />
@@ -154,7 +113,7 @@ export default function PersistentHeader({}) {
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-[#007BFF] text-black relative px-2 py-1 ${
+                                    className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-[#007BFF] text-black relative py-1 ${
                                         isActive
                                         ? 'font-semibold'
                                         : ''

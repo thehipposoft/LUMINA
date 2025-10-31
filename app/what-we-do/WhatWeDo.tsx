@@ -7,6 +7,7 @@ import Image from "next/image";
 import Carousel from "@/components/Carousel";
 import Boxes from "@/components/Boxes";
 import VideoComponent from "@/components/VideoComponent";
+import { useGSAP } from "@gsap/react";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -16,24 +17,45 @@ if (typeof window !== "undefined") {
 const WhatWeDo = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.from(".fade-in", {
-                opacity: 0,
-                y: 50,
-                duration: 1,
-                stagger: 0.2,
-                ease: "power3.out",
-                scrollTrigger: {
+    useGSAP(() => {
+        const tl = gsap.timeline()
+        tl.from(".title > *" ,{
+            y: 100,
+            opacity: 0,
+            duration: 1.1,
+            stagger: 0.15,
+            ease: "power3.out",
+        })
+        tl.from(".subtitle" ,{
+            opacity: 0,
+            duration: 1.1,
+            ease: "power3.out",
+        })
+        gsap.from(".content-sections", {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
                 trigger: ".content-sections",
-                start: "top 70%",
+                start: "top 60%",
                 end: "bottom center",
-                },
-            });
-        }, containerRef);
-
-        return () => ctx.revert();
-    }, []);
+            },
+        });
+        gsap.from(".how", {
+            scrollTrigger: {
+                trigger: ".conteiner-how",
+                start: "top 60%",
+                end: "bottom center",
+            },
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out",
+        });
+    }, {scope: containerRef})
 
   return (
     <div ref={containerRef} className="min-h-screen bg-white">
@@ -44,14 +66,16 @@ const WhatWeDo = () => {
                 </div>
                 <div className="bg-white/60 blur-3xl rounded-full absolute w-[400px] h-[300px] -left-12 top-0" />
                 <div className="relative z-10">
-                    <h1 className="text-black-text font-bold text-5xl">
-                        FUTURE
-                        <br />
-                        FORWARD
-                        <br />
-                        INNOVATION
-                    </h1>
-                    <p className="text-xl text-black-text leading-relaxed">
+                    <div className="title text-black-text overflow-hidden  font-bold text-6xl">
+                        <h1 className="">FUTURE</h1>
+                    </div>
+                    <div className="title text-black-text overflow-hidden  font-bold text-6xl">
+                        <h1 className="">FORWARD</h1>
+                    </div>
+                    <div className="title text-black-text overflow-hidden  font-bold text-6xl">
+                        <h1 className="">INNOVATION</h1>
+                    </div>
+                    <p className="text-xl subtitle text-black-text leading-relaxed">
                         {'Intelligent molecular synthesis'}
                     </p>
                 </div>
@@ -63,10 +87,9 @@ const WhatWeDo = () => {
                 className="object-cover"
             />
         </div>
-        {/* Content Sections */}
-        <section className="content-sections py-20 w-[85vw] mx-auto fade-in">
+        <section className="content-sections py-20 w-[85vw] xl:max-w-7xl mx-auto">
             <div className="flex items-center justify-between gap-10">
-                <div className="w-7/12 ">
+                <div className="">
                     <Carousel
                         slides={[
 
@@ -94,9 +117,9 @@ const WhatWeDo = () => {
 
         <VideoComponent />
         <Boxes />
-        <section className="content-sections w-[85vw] mx-auto py-20">
+        <section className="conteiner-how w-[85vw] xl:max-w-7xl  mx-auto py-20">
             <div className="flex justify-between gap-10">
-                <div className="w-5/12 flex flex-col gap-2">
+                <div className="md:w-[500px] w-5/12 flex flex-col gap-2 how">
                     <h2 className="text-4xl font-semibold text-black-text">
                         Why
                     </h2>
@@ -124,10 +147,10 @@ const WhatWeDo = () => {
                 <div className="w-7/12 ">
                     <Carousel
                         slides={[
-
                             { image: '/images/what-we-do/team.webp', text: "Lumina's Team" },
-                            { image: '/images/what-we-do/wedo2.png', text: 'The vapor deposition process used to construct OLEDs' },
-                            { image: '/images/what-we-do/wedo3.png', text: 'Through intelligent molecular synthesis, we transform how devices interact with light, matter, and energy.' },
+                            { image: '/images/what-we-do/team2.jpg', text: 'High-performance materials engineered for the demands of modern electronics.' },
+                            { image: '/images/what-we-do/team3.jpg', text: 'High-performance materials engineered for the demands of modern electronics.' },
+                            { image: '/images/what-we-do/team4.jpg', text: 'High-performance materials engineered for the demands of modern electronics.' },
                         ]}
                     />
                 </div>

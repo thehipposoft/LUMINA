@@ -1,10 +1,20 @@
-import React from 'react'
+'use client'
+import React, { useRef } from 'react'
 import Image from 'next/image'
+import gsap from 'gsap'
+import { useGSAP } from '@gsap/react'
 
 const Boxes = () => {
+    const container = useRef(null);
+
+    useGSAP(() => {
+
+    }, {scope: container})
+
+
   return (
-        <section className="py-10 grid grid-cols-1 lg:grid-cols-3 gap-4 w-[85vw] mx-auto">
-            <div className="w-[390px] h-[380px] bg-[#174FF6] rounded-3xl flex flex-col relative">
+        <section ref={container} className="py-10 lg:py-20 grid grid-cols-1 lg:grid-cols-3 gap-4 w-[85vw] xl:max-w-7xl mx-auto">
+            <div className="group w-[390px] h-[380px] bg-brand-primary/90 hover:bg-brand-primary duration-500 rounded-3xl flex flex-col relative">
                 <Image src={'/images/what-we-do/tile1.png'} alt="Fondo 1" fill className="object-cover z-10 rounded-3xl" />
                 <div className="p-8 flex flex-col gap-12 relative z-20">
                     <h4 className="uppercase text-3xl text-white font-bold">
@@ -14,9 +24,9 @@ const Boxes = () => {
                         Partnering with major technologuy corporations to make the vision a reality
                     </p>
                 </div>
-                <Image src={'/images/what-we-do/shape.svg'} alt="V Shape" width={390} height={180} className="absolute bottom-0 scale-105 z-20" />
+                <Image src={'/images/what-we-do/shape.svg'} alt="V Shape" width={390} height={180} className="absolute bottom-0 scale-105 z-20 group-hover:translate-y-8 group-hover:scale-y-95 origin-bottom duration-700" />
             </div>
-            <div className="w-[390px] h-[380px] bg-[#9747FF] rounded-3xl flex flex-col relative">
+            <div className="group w-[390px] h-[380px] bg-brand-turquoise/90 hover:bg-brand-turquoise duration-300 rounded-3xl flex flex-col relative">
                 <Image src={'/images/what-we-do/tile2.png'} alt="Fondo 2" fill className="object-cover z-10 rounded-3xl" />
                 <div className="p-8 flex flex-col gap-12 relative z-20">
                     <h4 className="uppercase text-3xl text-white font-bold">
@@ -26,9 +36,9 @@ const Boxes = () => {
                         Corporate contracting for consulting solutions
                     </p>
                 </div>
-                <Image src={'/images/what-we-do/shape.svg'} alt="V Shape" width={390} height={180} className="absolute bottom-0 scale-105 z-20" />
+                <Image src={'/images/what-we-do/shape.svg'} alt="V Shape" width={390} height={180} className="absolute bottom-0 scale-105 z-20 group-hover:translate-y-8 group-hover:scale-y-95 origin-bottom duration-700" />
             </div>
-            <div className="w-[390px] h-[380px] bg-[#35E3ED] rounded-3xl flex flex-col relative">
+            <div className="group w-[390px] h-[380px] bg-brand-purple/90 hover:bg-brand-purple duration-300 rounded-3xl flex flex-col relative">
                 <Image src={'/images/what-we-do/tile3.png'} alt="Fondo 3" fill className="object-cover z-10 rounded-3xl" />
                 <div className="p-8 flex flex-col gap-8 relative z-20">
                     <h4 className="uppercase text-3xl text-white font-bold">
@@ -39,7 +49,7 @@ const Boxes = () => {
                         Have a problem that needs assistance from a trained professionals?
                     </p>
                 </div>
-                <Image src={'/images/what-we-do/shape.svg'} alt="V Shape" width={390} height={180} className="absolute bottom-0 scale-105 z-20" />
+                <Image src={'/images/what-we-do/shape.svg'} alt="V Shape" width={390} height={180} className="absolute bottom-0 scale-105 z-20 group-hover:translate-y-8 group-hover:scale-y-95 origin-bottom duration-700" />
             </div>
         </section>
   )

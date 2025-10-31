@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Carousel from "@/components/Carousel";
+import { useGSAP } from "@gsap/react";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -13,29 +14,34 @@ if (typeof window !== "undefined") {
 const Benefits = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.from(".fade-in", {
-                opacity: 0,
-                y: 50,
-                duration: 1,
-                stagger: 0.2,
-                ease: "power3.out",
-                scrollTrigger: {
-                trigger: ".content-sections",
-                start: "top 70%",
-                end: "bottom center",
-                },
-            });
-        }, containerRef);
-
-        return () => ctx.revert();
-    }, []);
+    useGSAP(() => {
+        gsap.from(".container", {
+            opacity: 0,
+            y: 50,
+            delay: 1,
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".container",
+                start: "top 60%",
+            },
+        })
+        gsap.from(".container__two", {
+            opacity: 0,
+            y: 50,
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".container__two",
+                start: "top 60%",
+            },
+        })
+    }, {scope: containerRef})
 
     return (
         <div ref={containerRef} className="min-h-screen bg-white">
-            <section className="container mx-auto py-20 flex gap-8 w-[85vw] justify-between">
-                <div className="text-black-text md:w-[415px] flex flex-col gap-3">
+            <section className="container mx-auto py-20 flex gap-8 w-[85vw] xl:max-w-7xl justify-between">
+                <div className="text-black-text md:w-[415px] md:pt-12 flex flex-col gap-3">
                     <h3 className="text-4xl font-semibold ">
                         Brighter displays
                     </h3>
@@ -50,7 +56,7 @@ const Benefits = () => {
                         Our company has generated an idealized chemical that addresses multiple pain points within OLEDs and works cross-platform.
                     </p>
                 </div>
-                <div className="w-7/12 ">
+                <div className="">
                     <Carousel
                         slides={[
 
@@ -64,7 +70,7 @@ const Benefits = () => {
 
             <section className="max-w-screen relative">
                 <Image src={'/images/vectors/angle.svg'} width={120} height={360} alt="Lumina Arrow" className=" w-20 absolute left-0" />
-                <div className="flex flex-col w-[85vw] mx-auto">
+                <div className="flex flex-col w-[85vw] xl:max-w-7xl mx-auto">
                     <h4 className="font-semibold text-2xl">Our chemical can:</h4>
                     <div className="flex justify-between pt-8">
                         <div className="flex relative flex-col gap-4">
@@ -90,7 +96,7 @@ const Benefits = () => {
                 </div>
             </section>
 
-            <section className="container mx-auto py-20 flex gap-8">
+            <section className="container__two xl:max-w-7xl mx-auto py-20 flex gap-8">
                 <div className="w-7/12">
                     <Carousel
                         slides={[
@@ -101,7 +107,7 @@ const Benefits = () => {
                         ]}
                     />
                 </div>
-                <div className="text-black-text md:w-[415px] text-justify flex flex-col gap-3">
+                <div className="text-black-text md:w-[415px] md:pt-12 text-justify flex flex-col gap-3">
                     <h3 className="text-4xl font-semibold ">
                         Innovative Solutions
                     </h3>
@@ -117,8 +123,8 @@ const Benefits = () => {
                 </div>
             </section>
 
-           <section className="container mx-auto py-20 flex justify-between gap-8 w-[85vw]">
-                <div className="text-black-text md:w-[415px] flex flex-col gap-3">
+           <section className="container mx-auto py-20 flex justify-between gap-8 w-[85vw] xl:max-w-7xl">
+                <div className="text-black-text md:w-[415px] md:pt-12 flex flex-col gap-3">
                     <h3 className="text-4xl font-semibold ">
                         Revolution in OLED performance
                     </h3>

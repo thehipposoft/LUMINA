@@ -117,7 +117,7 @@ export default function LabPage() {
             <Image src={'/images/lab/lab-6.jpg'} alt='Background texture' fill className='object-cover rounded-4xl' />
             <div className='absolute w-full h-full left-0 top-0 rounded-4xl bg-brand-dark/60' />
             <div className='flex flex-col lg:flex-row items-center relative z-10 w-full lg:justify-around'>
-                <Image src={'/images/vectors/angle.svg'} alt="Lumina Arrow" width={170} height={280} className="w-24 h-48 rotate-90 lg:w-full" />
+                <Image src={'/images/vectors/angle.svg'} alt="Lumina Arrow" width={170} height={280} className="w-24 h-48 rotate-90 md:rotate-0 md:h-[400px] md:w-32" />
                 <h4 className='text-white font-bold text-4xl'>Coming Soon!</h4>
                 <div className='flex flex-col gap-4 lg:w-[425px] text-white px-8 lg:px-0 py-6 lg:py-0'>
                     <p className='text-sm leading-6'>Our latest chemical material product, designed to optimize device and material properties is set to deliver transformative performance enhancements.</p>

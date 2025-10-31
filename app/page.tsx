@@ -9,11 +9,7 @@ import Banner from "@/components/Banner";
 import Contact from "@/components/Contact";
 import Scene from "@/components/Banner3d/Scene";
 import CustomButton from "@/components/commons/CustomButton";
-
-// Register ScrollTrigger plugin
-if (typeof window !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger);
-}
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -53,7 +49,31 @@ export default function Home() {
                 ease: "power3.out",
                 scrollTrigger: {
                     trigger: ".sections-container",
-                    start: "top 70%",
+                    start: "top 60%",
+                    end: "bottom center",
+                },
+            });
+            gsap.from(".section-two", {
+                opacity: 0,
+                y: 80,
+                duration: 1,
+                stagger: 0.3,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".sections-containertwo",
+                    start: "top 60%",
+                    end: "bottom center",
+                },
+            });
+            gsap.from(".section-three", {
+                opacity: 0,
+                y: 80,
+                duration: 1,
+                stagger: 0.3,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".sections-containerthree",
+                    start: "top 60%",
                     end: "bottom center",
                 },
             });
@@ -68,37 +88,7 @@ export default function Home() {
                 <Scene />
             </div>
             <Banner />
-            {/* <section className="p-4">
-                <div className="relative min-h-screen bg-gradient-to-br bg-brand-primary overflow-hidden rounded-3xl">
-                    <Hero3D />
-
-                    <div className="relative z-20 flex items-center justify-center min-h-screen px-6 pointer-events-none">
-                        <div className="text-center max-w-4xl">
-                            <h1
-                                ref={titleRef}
-                                className="text-5xl md:text-7xl font-bold text-white"
-                            >
-                                A <span className="font-black">REVOLUTION</span> in OLED technology.
-                            </h1>
-                        </div>
-                    </div>
-
-                    <div className="hidden absolute bottom-0 right-0 bg-white rounded-2xl p-6 shadow-xl max-w-sm z-30">
-                        <div className="flex items-center space-x-3">
-                            <ArrowRight size={20} />
-                            <div>
-                                <h3 className="font-bold text-gray-900">
-                                    Intelligent molecular synthesis
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section> */}
-
-            {/* Content Sections */}
             <div className="sections-container">
-                {/* Brighter Displays Section */}
                 <section className="py-20 px-6">
                     <div className="max-w-7xl mx-auto">
                         <div className="section-card grid lg:grid-cols-2 gap-12 items-center">
@@ -111,7 +101,9 @@ export default function Home() {
                                 UV-vis, XRD, X-ray crystallography, and SEM we seize one the chemical
                                 changes within a surface for improved device behavior.
                                 </p>
-                                <CustomButton href="/benefits" text="Discover"/>
+                                <div className="flex items-center gap-10">
+                                    <CustomButton href="/benefits" text="Discover"/>
+                                </div>
                             </div>
                             <Image
                                 src="/images/brighter-display.png"
@@ -123,11 +115,9 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-
-                {/* Innovative Solutions Section */}
-                <section className="py-20 px-6 bg-gray-50">
+                <section className="py-20 px-6 bg-gray-50 sections-containertwo">
                     <div className="max-w-7xl mx-auto">
-                        <div className="section-card grid lg:grid-cols-2 gap-12 items-center">
+                        <div className="section-two grid lg:grid-cols-2 gap-12 items-center">
                             <div className="order-2 lg:order-1">
                                 <div className="bg-white rounded-3xl overflow-hidden shadow-xl">
                                 <Image
@@ -161,11 +151,9 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-
-                {/* Revolution in OLED Performance Section */}
-                <section className="py-20 px-6">
+                <section className="py-20 px-6 sections-containerthree">
                     <div className="max-w-7xl mx-auto">
-                        <div className="section-card grid lg:grid-cols-2 gap-12 items-center">
+                        <div className="section-three grid lg:grid-cols-2 gap-12 items-center">
                             <div>
                                 <h2 className="text-4xl font-bold text-gray-900 mb-6">Revolution in OLED performance</h2>
                                 <h3 className="text-xl font-semibold text-gray-800 mb-4">We increase efficiency</h3>
@@ -178,8 +166,8 @@ export default function Home() {
                                     electronics for consumer and corporate utilization.
                                 </p>
                                 <CustomButton href="/benefits" text="Discover" />
-                            </div>
 
+                            </div>
                             <Image
                                 src="/images/revolution-oled.png"
                                 alt="OLED Device"
