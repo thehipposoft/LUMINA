@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+import { OrbitControls, RoundedBox } from '@react-three/drei'
 import * as THREE from 'three'
 
 /*
@@ -189,54 +189,13 @@ function OLEDLayer1() {
       hoverState.isHovered = isHovered
       hoverState.intensity = isHovered ? Math.max(0, 1 - (distance / hoverRadius)) : 0
 
-      // Layer 1 positioned as TOP OLED layer (closest to camera) - Z-axis stacking
-      // Base position: top layer in Z-stack with mouse proximity effect
-      meshRef.current.position.x = 0
-      meshRef.current.position.y = -0.1 + (hoverState.intensity * 0.2)  // Slight upward movement on hover
-      meshRef.current.position.z = 0  // Top layer at z=0 (closest to camera)
+      // Layer 1 stays at base position [0, 0, 0] - no gap expansion needed
+      const baseY = Math.sin(time * 0.5) * 0.1
+      meshRef.current.position.y = baseY
 
-      //Initial rotation
-        meshRef.current.rotation.x = -1.6
-
-      // Mouse interaction - minimal rotation for OLED realism
-      //meshRef.current.rotation.x = mousePositionState.y * 0.9
-      meshRef.current.rotation.y = mousePositionState.x * 0.02
-      meshRef.current.rotation.z = 0
-
-      // 🔧 FLEXIBLE OLED BENDING EFFECT
-      // Apply vertex deformation for flexible OLED behavior
-      console.log(">>meshRef.current.geometry", meshRef.current.geometry);
-
-      if (meshRef.current.geometry) {
-        const geometry = meshRef.current.geometry as THREE.PlaneGeometry
-        const positionAttribute = geometry.attributes.position
-
-        // Bend amount based on hover intensity (0 = flat, 1 = max bend)
-        const bendAmount = hoverState.intensity * 0.40  // Max 0.40 units forward bend
-
-        // Smooth bending transition
-        const targetBend = bendAmount
-        const geometryWithBend = geometry as THREE.PlaneGeometry & { currentBend?: number }
-        const currentBend = geometryWithBend.currentBend || 0
-        const newBend = THREE.MathUtils.lerp(currentBend, targetBend, 0.1)
-        geometryWithBend.currentBend = newBend
-
-        // Apply bending to vertices
-        for (let i = 0; i < positionAttribute.count; i++) {
-          const x = positionAttribute.getX(i)
-          const y = positionAttribute.getY(i)
-
-          // Create smooth curve: center bulges forward, edges stay put
-          const distanceFromCenter = Math.sqrt(x * x + y * y) / 3  // Normalize to panel size
-          const bendFactor = Math.cos(distanceFromCenter * Math.PI / 2)  // Smooth falloff
-          const zOffset = bendFactor * newBend
-
-          positionAttribute.setZ(i, zOffset)
-        }
-
-        positionAttribute.needsUpdate = true
-        geometry.computeVertexNormals()  // Recalculate normals for proper lighting
-      }
+      // Mouse interaction - slight rotation
+      meshRef.current.rotation.x = mousePositionState.y * 0.1
+      meshRef.current.rotation.y = mousePositionState.x * 0.1
 
       // ═══════════════════════════════════════════════════════════════
       // 🎨 LAYER 1 - COLORS & BRIGHTNESS CONTROL
@@ -258,9 +217,9 @@ function OLEDLayer1() {
         // 💡 BRIGHTNESS SETTINGS - Adjust these values to control glow intensity
         material.emissiveIntensity = THREE.MathUtils.lerp(0.3, 3.5, t) // 👈 Brightness: 0.3 (default) → 3.5 (hover)
 
-        // 🔍 GLASS EFFECT SETTINGS - Layer 1: Least glassy, most opaque
-        material.opacity = THREE.MathUtils.lerp(0.6, 0.95, t)          // 👈 Less transparent: 0.6 (solid) → 0.95 (very opaque)
-        material.transmission = THREE.MathUtils.lerp(0.4, 0.05, t)      // 👈 Reduced transmission: 0.4 (less glass) → 0.05 (solid)
+        // 🔍 GLASS EFFECT SETTINGS - Control transparency and glass-like appearance
+        material.opacity = THREE.MathUtils.lerp(0.3, 0.85, t)          // 👈 Transparency: 0.3 (glass) → 0.85 (opaque)
+        material.transmission = THREE.MathUtils.lerp(0.9, 0.1, t)       // 👈 Light transmission: 0.9 (glass) → 0.1 (solid)
         material.roughness = THREE.MathUtils.lerp(0.1, 0.3, t)         // 👈 Surface roughness: 0.1 (smooth) → 0.3 (diffuse)
 
         material.needsUpdate = true
@@ -275,71 +234,84 @@ function OLEDLayer1() {
           ═══════════════════════════════════════════════════════════════ */}
 
       {/* 🌟 GLOW LAYER 1 - Closest/Brightest glow */}
-      <mesh position={[0, 0, -0.01]}>      {/* 👈 Behind Layer 1 (z=0) */}
-        <planeGeometry args={[6.4, 3.4]} />  {/* 👈 Slightly larger than main OLED */}
+      <RoundedBox
+        position={[0, 0, -0.05]}           // 👈 Position behind main layer
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[6.4, 3.4, 0.1]}             // 👈 Slightly larger than main (6.4 vs 6.0)
+        radius={0.12}
+        smoothness={4}
+      >
         <meshBasicMaterial
           color={new THREE.Color(COLORS.GLOW_COLOR)}      // 👈 Glow color from COLORS object
           transparent={true}
           opacity={hoverState.intensity * 0.9}            // 👈 Glow intensity: 0.9 = strongest
           blending={THREE.AdditiveBlending}               // 👈 Additive = light adds together
-          side={THREE.DoubleSide}
         />
-      </mesh>
+      </RoundedBox>
 
       {/* 🌟 GLOW LAYER 2 - Medium glow */}
-      <mesh position={[0, 0, -0.02]}>      {/* 👈 Behind Layer 1 */}
-        <planeGeometry args={[6.6, 3.6]} />  {/* 👈 Even larger (6.6 vs 6.0) */}
+      <RoundedBox
+        position={[0, 0, -0.08]}           // 👈 Further behind
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[6.6, 3.6, 0.1]}             // 👈 Even larger (6.6 vs 6.0)
+        radius={0.14}
+        smoothness={4}
+      >
         <meshBasicMaterial
           color={new THREE.Color(COLORS.GLOW_COLOR)}      // 👈 Glow color from COLORS object
           transparent={true}
           opacity={hoverState.intensity * 0.2}            // 👈 Glow intensity: 0.2 = medium
           blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
         />
-      </mesh>
+      </RoundedBox>
 
       {/* 🌟 GLOW LAYER 3 - Outermost/Softest glow */}
-      <mesh position={[0, 0, -0.03]}>      {/* 👈 Behind Layer 1 */}
-        <planeGeometry args={[7.0, 4.0]} />  {/* 👈 Largest size (7.0 vs 6.0) */}
+      <RoundedBox
+        position={[0, 0, -0.12]}           // 👈 Furthest behind
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[7.0, 4.0, 0.1]}             // 👈 Largest size (7.0 vs 6.0)
+        radius={0.16}
+        smoothness={4}
+      >
         <meshBasicMaterial
           color={new THREE.Color(COLORS.GLOW_COLOR)}      // 👈 Glow color from COLORS object
           transparent={true}
           opacity={hoverState.intensity * 0.1}            // 👈 Glow intensity: 0.1 = softest
           blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
         />
-      </mesh>
+      </RoundedBox>
 
       {/* ═══════════════════════════════════════════════════════════════
-          📺 MAIN OLED LAYER 1 - Flexible Display Panel (Top Layer)
+          📺 MAIN OLED LAYER 1 - Primary Display Panel
           ═══════════════════════════════════════════════════════════════ */}
-      <mesh
+      <RoundedBox
         ref={meshRef}
-        position={[0, 0, 0]}               // 👈 Top layer Z-position (closest to camera)
-        rotation={[Math.PI / 2, 0, 0]}     // 👈 90° rotation - flat side points upward
+        position={[0, 0, 0]}               // 👈 Front layer position
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[6, 3, 0.2]}                 // 👈 Layer dimensions: width=6, height=3, depth=0.2
+        radius={0.1}
+        smoothness={4}
       >
-        <planeGeometry args={[6, 3, 32, 32]} />  {/* 👈 High-segment geometry for smooth bending */}
         <meshPhysicalMaterial
           // 🎨 BASE COLORS (modified dynamically on hover via useFrame above)
           color={new THREE.Color(COLORS.DEFAULT_OLED)}    // 👈 Base color from COLORS object
           emissive={new THREE.Color(COLORS.DEFAULT_OLED)} // 👈 Emissive color from COLORS object
           emissiveIntensity={0.3}                        // 👈 Default glow intensity: 0.3
 
-          // 🔍 TRANSPARENCY SETTINGS - Layer 1: Less glassy baseline
+          // 🔍 TRANSPARENCY SETTINGS
           transparent={true}
-          opacity={0.6}                                  // 👈 Less transparent baseline: 0.6 (more solid)
+          opacity={0.3}                                  // 👈 Default transparency: 0.3 (glass-like)
 
-          // ✨ GLASS EFFECT PROPERTIES - Layer 1: Reduced glass effect
+          // ✨ GLASS EFFECT PROPERTIES
           roughness={0.1}                                // 👈 Surface roughness: 0.1 = very smooth/glossy
           metalness={0.0}                                // 👈 Metallic properties: 0.0 = non-metallic
-          transmission={0.4}                             // 👈 Reduced light transmission: 0.4 = less glassy
-          thickness={0.8}                                // 👈 Increased glass thickness for refraction
+          transmission={0.9}                             // 👈 Light transmission: 0.9 = very transparent glass
+          thickness={0.1}                                // 👈 Glass thickness for refraction
           ior={1.5}                                      // 👈 Index of refraction: 1.5 = glass-like
           clearcoat={1.0}                                // 👈 Clear coating: 1.0 = full glossy finish
           clearcoatRoughness={0.1}                       // 👈 Clear coat roughness: 0.1 = smooth
-          side={THREE.DoubleSide}                        // 👈 Show both sides of OLED panel
         />
-      </mesh>
+      </RoundedBox>
     </group>
   )
 }
@@ -352,54 +324,22 @@ function OLEDLayer2() {
     if (meshRef.current) {
       const time = state.clock.elapsedTime
 
-      // Layer 2 positioned as MIDDLE OLED layer - Z-axis stacking
-      // Base position: middle layer in Z-stack with mouse proximity effect
-      meshRef.current.position.x = 0
-      //meshRef.current.position.y = Math.sin(time * 0.5 + 0.5) * 0.05
-      meshRef.current.position.y = 0.4 + (hoverState.intensity * 0.1)  // Increased base gap, slight movement on hover
-      meshRef.current.position.z = 0.02  // Middle layer at z=0.02
+      // Use shared hover state to expand gap by 50%
+      const expandIntensity = hoverState.intensity
+      const basePos = { y: -0.12, z: -0.24 }  // Much closer position
+      const expandedPos = { y: -0.36, z: -0.72 }  // Expanded to original position for dramatic effect
 
-       //Initial rotation
-        meshRef.current.rotation.x = -1.6
+      // Interpolate between base and expanded positions
+      const currentY = basePos.y + (expandedPos.y - basePos.y) * expandIntensity
+      const currentZ = basePos.z + (expandedPos.z - basePos.z) * expandIntensity
 
+      // Apply position with oscillation
+      meshRef.current.position.y = currentY + Math.sin(time * 0.5 + 0.5) * 0.1
+      meshRef.current.position.z = currentZ
 
-      // Mouse interaction - minimal rotation for OLED realism
-      //meshRef.current.rotation.x = mousePositionState.y * 0.02
-      meshRef.current.rotation.y = mousePositionState.x * 0.02
-      meshRef.current.rotation.z = 0
-
-      // 🔧 FLEXIBLE OLED BENDING EFFECT
-      // Apply vertex deformation for flexible OLED behavior (same as Layer 1)
-      if (meshRef.current.geometry) {
-        const geometry = meshRef.current.geometry as THREE.PlaneGeometry
-        const positionAttribute = geometry.attributes.position
-
-        // Bend amount based on hover intensity (synchronized with other layers)
-        const bendAmount = hoverState.intensity * 0.40  // Max 0.40 units forward bend
-
-        // Smooth bending transition
-        const targetBend = bendAmount
-        const geometryWithBend = geometry as THREE.PlaneGeometry & { currentBend?: number }
-        const currentBend = geometryWithBend.currentBend || 0
-        const newBend = THREE.MathUtils.lerp(currentBend, targetBend, 0.1)
-        geometryWithBend.currentBend = newBend
-
-        // Apply bending to vertices
-        for (let i = 0; i < positionAttribute.count; i++) {
-          const x = positionAttribute.getX(i)
-          const y = positionAttribute.getY(i)
-
-          // Create smooth curve: center bulges forward, edges stay put
-          const distanceFromCenter = Math.sqrt(x * x + y * y) / 3  // Normalize to panel size
-          const bendFactor = Math.cos(distanceFromCenter * Math.PI / 2)  // Smooth falloff
-          const zOffset = bendFactor * newBend
-
-          positionAttribute.setZ(i, zOffset)
-        }
-
-        positionAttribute.needsUpdate = true
-        geometry.computeVertexNormals()  // Recalculate normals for proper lighting
-      }
+      // Mouse interaction - slight rotation
+      meshRef.current.rotation.x = mousePositionState.y * 0.08
+      meshRef.current.rotation.y = mousePositionState.x * 0.08
 
       // ═══════════════════════════════════════════════════════════════
       // 🎨 LAYER 2 - COLORS & BRIGHTNESS CONTROL
@@ -421,9 +361,9 @@ function OLEDLayer2() {
         // 💡 BRIGHTNESS SETTINGS - Adjust these values to control glow intensity
         material.emissiveIntensity = THREE.MathUtils.lerp(0.25, 3.0, t) // 👈 Brightness: 0.25 (default) → 3.0 (hover)
 
-        // 🔍 GLASS EFFECT SETTINGS - Layer 2: Moderately glassy (between Layer 1 and 3)
-        material.opacity = THREE.MathUtils.lerp(0.4, 0.85, t)          // 👈 Moderate transparency: 0.4 → 0.85 (opaque)
-        material.transmission = THREE.MathUtils.lerp(0.7, 0.1, t)       // 👈 Moderate transmission: 0.7 (glassy) → 0.1 (solid)
+        // 🔍 GLASS EFFECT SETTINGS - Control transparency and glass-like appearance
+        material.opacity = THREE.MathUtils.lerp(0.25, 0.8, t)          // 👈 Transparency: 0.25 (glass) → 0.8 (opaque)
+        material.transmission = THREE.MathUtils.lerp(0.9, 0.15, t)      // 👈 Light transmission: 0.9 (glass) → 0.15 (solid)
         material.roughness = THREE.MathUtils.lerp(0.15, 0.25, t)       // 👈 Surface roughness: 0.15 (smooth) → 0.25 (diffuse)
 
         material.needsUpdate = true
@@ -434,62 +374,75 @@ function OLEDLayer2() {
   return (
     <group>
       {/* Glow layers - multiple layers for box-shadow effect */}
-      <mesh position={[0, 0, 0.01]}>       {/* 👈 Behind Layer 2 (z=0.02) */}
-        <planeGeometry args={[5.9, 3.2]} />
+      <RoundedBox
+        position={[0, -0.12, -0.29]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[5.9, 3.2, 0.1]}
+        radius={0.11}
+        smoothness={4}
+      >
         <meshBasicMaterial
           color={new THREE.Color(COLORS.GLOW_COLOR)}      // 👈 Glow color from COLORS object
           transparent={true}
           opacity={hoverState.intensity * 0.3}
           blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
         />
-      </mesh>
+      </RoundedBox>
 
-      <mesh position={[0, 0, 0.0]}>       {/* 👈 Behind Layer 2 */}
-        <planeGeometry args={[6.1, 3.4]} />
+      <RoundedBox
+        position={[0, -0.12, -0.32]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[6.1, 3.4, 0.1]}
+        radius={0.13}
+        smoothness={4}
+      >
         <meshBasicMaterial
           color={new THREE.Color(COLORS.GLOW_COLOR)}      // 👈 Glow color from COLORS object
           transparent={true}
           opacity={hoverState.intensity * 0.2}
           blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
         />
-      </mesh>
+      </RoundedBox>
 
-      <mesh position={[0, 0, -0.01]}>      {/* 👈 Behind Layer 2 */}
-        <planeGeometry args={[6.5, 3.8]} />
+      <RoundedBox
+        position={[0, -0.12, -0.36]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[6.5, 3.8, 0.1]}
+        radius={0.15}
+        smoothness={4}
+      >
         <meshBasicMaterial
           color={new THREE.Color(COLORS.GLOW_COLOR)}      // 👈 Glow color from COLORS object
           transparent={true}
           opacity={hoverState.intensity * 0.1}
           blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
         />
-      </mesh>
+      </RoundedBox>
 
-      {/* Main OLED Layer 2 - Flexible Display Panel */}
-      <mesh
+      {/* Main OLED Layer */}
+      <RoundedBox
         ref={meshRef}
-        position={[0, 0, 0.02]}             // 👈 Middle layer Z-position
-        rotation={[Math.PI / 2, 0, 0]}      // 👈 90° rotation - flat side points upward
+        position={[0, -0.12, -0.24]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[5.5, 2.8, 0.18]}
+        radius={0.09}
+        smoothness={4}
       >
-        <planeGeometry args={[5.5, 2.8, 32, 32]} />  {/* 👈 High-segment geometry for smooth bending */}
         <meshPhysicalMaterial
           color={new THREE.Color(COLORS.DEFAULT_OLED)}    // 👈 Base color from COLORS object
           emissive={new THREE.Color(COLORS.DEFAULT_OLED)} // 👈 Emissive color from COLORS object
           emissiveIntensity={0.25}
           transparent={true}
-          opacity={0.4}                                // 👈 Layer 2: Moderate baseline opacity
+          opacity={0.25}
           roughness={0.15}
           metalness={0.0}
-          transmission={0.7}                           // 👈 Layer 2: Moderate glass effect
-          thickness={0.25}                             // 👈 Increased thickness for Layer 2
+          transmission={0.9}
+          thickness={0.1}
           ior={1.5}
           clearcoat={1.0}
           clearcoatRoughness={0.15}
-          side={THREE.DoubleSide}
         />
-      </mesh>
+      </RoundedBox>
     </group>
   )
 }
@@ -502,54 +455,22 @@ function OLEDLayer3() {
     if (meshRef.current) {
       const time = state.clock.elapsedTime
 
-      // Layer 3 positioned as BOTTOM OLED layer (furthest from camera) - Z-axis stacking
-      // Base position: bottom layer in Z-stack with mouse proximity effect
-      meshRef.current.position.x = 0
-      //meshRef.current.position.y = Math.sin(time * 0.5 + 1.0) * 0.05
-      meshRef.current.position.y = 0.7 + (hoverState.intensity * 0.05)  // Increased base gap, minimal movement on hover
-      meshRef.current.position.z = 0.04  // Bottom layer at z=0.04 (furthest from camera)
+      // Use shared hover state to expand gap by 50%
+      const expandIntensity = hoverState.intensity
+      const basePos = { y: -0.24, z: -0.48 }  // Much closer position
+      const expandedPos = { y: -0.72, z: -1.44 }  // Expanded to original far position for dramatic effect
 
-       //Initial rotation
-        meshRef.current.rotation.x = -1.6
+      // Interpolate between base and expanded positions
+      const currentY = basePos.y + (expandedPos.y - basePos.y) * expandIntensity
+      const currentZ = basePos.z + (expandedPos.z - basePos.z) * expandIntensity
 
+      // Apply position with oscillation
+      meshRef.current.position.y = currentY + Math.sin(time * 0.5 + 1.0) * 0.1
+      meshRef.current.position.z = currentZ
 
-      // Mouse interaction - minimal rotation for OLED realism
-      //meshRef.current.rotation.x = mousePositionState.y * 0.02
-      meshRef.current.rotation.y = mousePositionState.x * 0.02
-      meshRef.current.rotation.z = 0
-
-      // 🔧 FLEXIBLE OLED BENDING EFFECT
-      // Apply vertex deformation for flexible OLED behavior (synchronized with other layers)
-      if (meshRef.current.geometry) {
-        const geometry = meshRef.current.geometry as THREE.PlaneGeometry
-        const positionAttribute = geometry.attributes.position
-
-        // Bend amount based on hover intensity (synchronized with other layers)
-        const bendAmount = hoverState.intensity * 0.40  // Max 0.40 units forward bend
-
-        // Smooth bending transition
-        const targetBend = bendAmount
-        const geometryWithBend = geometry as THREE.PlaneGeometry & { currentBend?: number }
-        const currentBend = geometryWithBend.currentBend || 0
-        const newBend = THREE.MathUtils.lerp(currentBend, targetBend, 0.1)
-        geometryWithBend.currentBend = newBend
-
-        // Apply bending to vertices
-        for (let i = 0; i < positionAttribute.count; i++) {
-          const x = positionAttribute.getX(i)
-          const y = positionAttribute.getY(i)
-
-          // Create smooth curve: center bulges forward, edges stay put
-          const distanceFromCenter = Math.sqrt(x * x + y * y) / 3  // Normalize to panel size
-          const bendFactor = Math.cos(distanceFromCenter * Math.PI / 2)  // Smooth falloff
-          const zOffset = bendFactor * newBend
-
-          positionAttribute.setZ(i, zOffset)
-        }
-
-        positionAttribute.needsUpdate = true
-        geometry.computeVertexNormals()  // Recalculate normals for proper lighting
-      }
+      // Mouse interaction - slight rotation
+      meshRef.current.rotation.x = mousePositionState.y * 0.06
+      meshRef.current.rotation.y = mousePositionState.x * 0.06
 
       // ═══════════════════════════════════════════════════════════════
       // 🎨 LAYER 3 - COLORS & BRIGHTNESS CONTROL
@@ -584,46 +505,60 @@ function OLEDLayer3() {
   return (
     <group>
       {/* Glow layers - multiple layers for box-shadow effect */}
-      <mesh position={[0, 0, 0.03]}>       {/* 👈 Behind Layer 3 (z=0.04) */}
-        <planeGeometry args={[5.4, 2.9]} />
+      <RoundedBox
+        position={[0, -0.24, -0.53]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[5.4, 2.9, 0.1]}
+        radius={0.10}
+        smoothness={4}
+      >
         <meshBasicMaterial
           color={new THREE.Color(COLORS.GLOW_COLOR)}      // 👈 Glow color from COLORS object
           transparent={true}
           opacity={hoverState.intensity * 0.3}
           blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
         />
-      </mesh>
+      </RoundedBox>
 
-      <mesh position={[0, 0, 0.02]}>       {/* 👈 Behind Layer 3 */}
-        <planeGeometry args={[5.6, 3.1]} />
+      <RoundedBox
+        position={[0, -0.24, -0.56]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[5.6, 3.1, 0.1]}
+        radius={0.12}
+        smoothness={4}
+      >
         <meshBasicMaterial
           color={new THREE.Color(COLORS.GLOW_COLOR)}      // 👈 Glow color from COLORS object
           transparent={true}
           opacity={hoverState.intensity * 0.2}
           blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
         />
-      </mesh>
+      </RoundedBox>
 
-      <mesh position={[0, 0, 0.01]}>       {/* 👈 Behind Layer 3 */}
-        <planeGeometry args={[6.0, 3.5]} />
+      <RoundedBox
+        position={[0, -0.24, -0.60]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[6.0, 3.5, 0.1]}
+        radius={0.14}
+        smoothness={4}
+      >
         <meshBasicMaterial
           color={new THREE.Color(COLORS.GLOW_COLOR)}      // 👈 Glow color from COLORS object
           transparent={true}
           opacity={hoverState.intensity * 0.1}
           blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
         />
-      </mesh>
+      </RoundedBox>
 
-      {/* Main OLED Layer 3 - Flexible Display Panel */}
-      <mesh
+      {/* Main OLED Layer */}
+      <RoundedBox
         ref={meshRef}
-        position={[0, 0, 0.04]}             // 👈 Bottom layer Z-position (furthest from camera)
-        rotation={[0, 0, 0]}                // 👈 Flat orientation for OLED
+        position={[0, -0.24, -0.48]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[5, 2.5, 0.15]}
+        radius={0.08}
+        smoothness={4}
       >
-        <planeGeometry args={[5, 2.5, 32, 32]} />  {/* 👈 High-segment geometry for smooth bending */}
         <meshPhysicalMaterial
           color={new THREE.Color(COLORS.DEFAULT_OLED)}    // 👈 Base color from COLORS object
           emissive={new THREE.Color(COLORS.DEFAULT_OLED)} // 👈 Emissive color from COLORS object
@@ -633,13 +568,12 @@ function OLEDLayer3() {
           roughness={0.2}
           metalness={0.0}
           transmission={0.95}
-          thickness={0.2}                              // 👈 Increased thickness for Layer 3
+          thickness={0.1}
           ior={1.5}
           clearcoat={1.0}
           clearcoatRoughness={0.2}
-          side={THREE.DoubleSide}
         />
-      </mesh>
+      </RoundedBox>
     </group>
   )
 }
@@ -672,7 +606,7 @@ export default function Hero3D() {
           enableZoom={false}
           enableRotate={true}
           autoRotate={false}
-          target={[0, 0, 0]}              // 👈 Center of vertical stack
+          target={[0, -0.4, -0.8]}
         />
 
         {/* Background dots grid */}
