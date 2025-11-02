@@ -182,7 +182,7 @@ function OLEDLayer1() {
 
       // Detect hover over OLED layers area
       const distance = Math.sqrt(mousePositionState.x * mousePositionState.x + mousePositionState.y * mousePositionState.y)
-      const hoverRadius = 1.2
+      const hoverRadius = 1.5
       const isHovered = distance < hoverRadius
 
       // Update shared hover state
@@ -211,7 +211,7 @@ function OLEDLayer1() {
         const positionAttribute = geometry.attributes.position
 
         // Bend amount based on hover intensity (0 = flat, 1 = max bend)
-        const bendAmount = hoverState.intensity * 0.40  // Max 0.40 units forward bend
+        const bendAmount = hoverState.intensity * 0.55  // Max 0.40 units forward bend
 
         // Smooth bending transition
         const targetBend = bendAmount
@@ -334,8 +334,8 @@ function OLEDLayer1() {
           transmission={0.4}                             // 👈 Reduced light transmission: 0.4 = less glassy
           thickness={0.8}                                // 👈 Increased glass thickness for refraction
           ior={1.5}                                      // 👈 Index of refraction: 1.5 = glass-like
-          clearcoat={1.0}                                // 👈 Clear coating: 1.0 = full glossy finish
-          clearcoatRoughness={0.1}                       // 👈 Clear coat roughness: 0.1 = smooth
+          clearcoat={0.1}                                // 👈 Clear coating: 1.0 = full glossy finish
+          clearcoatRoughness={0.8}                       // 👈 Clear coat roughness: 0.1 = smooth
           side={THREE.DoubleSide}                        // 👈 Show both sides of OLED panel
         />
       </mesh>
@@ -374,7 +374,7 @@ function OLEDLayer2() {
         const positionAttribute = geometry.attributes.position
 
         // Bend amount based on hover intensity (synchronized with other layers)
-        const bendAmount = hoverState.intensity * 0.40  // Max 0.40 units forward bend
+        const bendAmount = hoverState.intensity * 0.55  // Max 0.60 units forward bend
 
         // Smooth bending transition
         const targetBend = bendAmount
@@ -524,7 +524,7 @@ function OLEDLayer3() {
         const positionAttribute = geometry.attributes.position
 
         // Bend amount based on hover intensity (synchronized with other layers)
-        const bendAmount = hoverState.intensity * 0.40  // Max 0.40 units forward bend
+        const bendAmount = hoverState.intensity * 0.55  // Max 0.40 units forward bend
 
         // Smooth bending transition
         const targetBend = bendAmount
@@ -561,21 +561,21 @@ function OLEDLayer3() {
 
         // 🎨 COLOR SETTINGS - Using color variables from COLORS object
         const defaultColor = new THREE.Color(COLORS.DEFAULT_OLED) // 👈 Default OLED color
-        const hoverColor = new THREE.Color(COLORS.HOVER_OLED)     // 👈 Hover OLED color
+        const hoverColor = new THREE.Color(COLORS.DEFAULT_OLED)     // 👈 Hover OLED color
 
         // Apply color interpolation
         material.color.lerpColors(defaultColor, hoverColor, t)
         material.emissive.lerpColors(defaultColor, hoverColor, t)
 
         // 💡 BRIGHTNESS SETTINGS - Adjust these values to control glow intensity
-        material.emissiveIntensity = THREE.MathUtils.lerp(0.2, 2.5, t)  // 👈 Brightness: 0.2 (default) → 2.5 (hover)
+        material.emissiveIntensity = THREE.MathUtils.lerp(0.2, 0.1,t)  // 👈 Brightness: 0.2 (default) → 2.5 (hover)
 
         // 🔍 GLASS EFFECT SETTINGS - Control transparency and glass-like appearance
-        material.opacity = THREE.MathUtils.lerp(0.2, 0.75, t)          // 👈 Transparency: 0.2 (glass) → 0.75 (opaque)
-        material.transmission = THREE.MathUtils.lerp(0.95, 0.2, t)      // 👈 Light transmission: 0.95 (glass) → 0.2 (solid)
-        material.roughness = THREE.MathUtils.lerp(0.2, 0.2, t)         // 👈 Surface roughness: 0.2 (constant)
+        material.opacity = THREE.MathUtils.lerp(0.2, 1, t)          // 👈 Transparency: 0.2 (glass) → 0.75 (opaque)
+        material.transmission = THREE.MathUtils.lerp(0.95, 0.05, t)      // 👈 Light transmission: 0.95 (glass) → 0.2 (solid)
+        material.roughness = THREE.MathUtils.lerp(0.2, 0.1, t)         // 👈 Surface roughness: 0.2 (constant)
 
-        material.needsUpdate = true
+        material.needsUpdate = true;
       }
     }
   })
@@ -634,7 +634,7 @@ function OLEDLayer3() {
           transmission={0.95}
           thickness={0.2}                              // 👈 Increased thickness for Layer 3
           ior={1.5}
-          clearcoat={1.0}
+          clearcoat={0.1}
           clearcoatRoughness={0.2}
           side={THREE.DoubleSide}
         />
@@ -652,38 +652,38 @@ export default function Hero3D() {
 
   return (
     <div
-      className="relative w-full h-screen overflow-hidden bg-black"
-      onMouseMove={handleMouseMove}
+        className="relative w-full overflow-hidden h-full"
+        onMouseMove={handleMouseMove}
     >
-      <Canvas
-        camera={{ position: [6, 2, 4], fov: 75 }}
-        style={{ width: '100%', height: '100%' }}
-      >
-        <ambientLight intensity={0.3} />
-        <directionalLight position={[5, 5, 5]} intensity={0.6} />
-        <directionalLight position={[-5, 3, -2]} intensity={0.4} />
-        <pointLight position={[3, 2, 2]} intensity={0.8} color={COLORS.POINT_LIGHT} />
-        <pointLight position={[-3, 1, -1]} intensity={0.5} color={COLORS.POINT_LIGHT} />
+        <Canvas
+            camera={{ position: [6, 3.5, 4], fov: 75 }}
+            style={{ width: '100%', height: '100%' }}
+        >
+            <ambientLight intensity={0.3} />
+            <directionalLight position={[5, 5, 5]} intensity={0.6} />
+            <directionalLight position={[-5, 3, -2]} intensity={0.4} />
+            <pointLight position={[3, 2, 2]} intensity={0.8} color={COLORS.POINT_LIGHT} />
+            <pointLight position={[-3, 1, -1]} intensity={0.5} color={COLORS.POINT_LIGHT} />
 
-        {/* Orbit controls for better viewing */}
-        <OrbitControls
-          enablePan={true}
-          enableZoom={false}
-          enableRotate={true}
-          autoRotate={false}
-          target={[0, 0, 0]}              // 👈 Center of vertical stack
-        />
+            {/* Orbit controls for better viewing */}
+            <OrbitControls
+            enablePan={true}
+            enableZoom={false}
+            enableRotate={true}
+            autoRotate={false}
+            target={[0, 0, 0]}              // 👈 Center of vertical stack
+            />
 
-        {/* Background dots grid */}
-        <DotsGrid />
+            {/* Background dots grid */}
+            <DotsGrid />
 
-        {/* Three OLED layers separated in depth */}
-        <OLEDLayer1 />
-        <OLEDLayer2 />
-        <OLEDLayer3 />
+            {/* Three OLED layers separated in depth */}
+            <OLEDLayer1 />
+            <OLEDLayer2 />
+            <OLEDLayer3 />
 
-        <fog attach="fog" args={[COLORS.FOG_COLOR, 2, 25]} />
-      </Canvas>
+            <fog attach="fog" args={[COLORS.FOG_COLOR, 2, 25]} />
+        </Canvas>
     </div>
   )
 }

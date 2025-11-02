@@ -11,8 +11,8 @@
 
     --color-brand-primary: #007BFF;
     --color-brand-primary-transp: #007BFF80;
-    --color-brand-purple: #35E3ED;
-    --color-brand-turquoise: #A044FF;
+    --color-brand-purple: #A044FF;
+    --color-brand-turquoise: #35E3ED;
     --color-brand-dark: #151f27;
     --color-brand-white: #FFFFFF;
     --color-black-text: #010101;
@@ -183,3 +183,19 @@ html {
 
 
  /*     clip-path: path("M 2 100 L 2 100 Q 0 100, 0 98 L 0 3 Q 0 0, 2 0 L 98 0 Q 100 0, 100 2 L 100 80 Q 100 82, 98 82 L 70 82 Q 68 82, 68 84 L 68 98 Q 68 100, 66 100 Z"); */
+
+
+ /* Hero background */
+.hero-background {
+    background: -webkit-linear-gradient(135deg, hsla(211, 100%, 50%, 1) 0%, hsla(207, 30%, 12%, 1) 100%);
+}
+
+.hero-example-3-page {
+    h1 {
+        position: relative;
+        font-size: 2rem;
+        color: white;
+        text-align: center;
+        -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(255, 255, 255, 0.2));
+    }
+}
