@@ -5,8 +5,8 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 
-// Shared mouse position state
-const mousePositionState = { x: 0, y: 0 }
+// Shared mouse position state with hover detection
+const mousePositionState = { x: 0, y: 0, isOverOLED: false, previousHoverState: false }
 
 // Static Grid with Wave Effect - Particles in fixed grid positions with floating wave motion
 function StaticWaveGrid() {
@@ -189,11 +189,11 @@ function WideOLEDDisplay() {
         const z = wave1 + wave2  + ripple + bump1 + bump2 + bump3 + travelBump1 + travelBump2
 
         // Add mouse interaction (adjusted for wider display, much more prominent)
-        const mouseInfluence = Math.exp(-((x - mousePositionState.x * 50) ** 2 + (y - mousePositionState.y * 14) ** 2) / 200)
+        const mouseInfluence = Math.exp(-((x - mousePositionState.x * 50) ** 2 + (y - mousePositionState.y * 28) ** 2) / 200)  // 👈 Doubled Y scaling from 14 to 28
         const mouseWave = mouseInfluence * Math.sin(time * 3.0) * 1.5  // Increased from 0.8 to 1.5
 
         // Mouse-induced bump effects
-        const mouseBumpDistance = Math.sqrt((x - mousePositionState.x * 50) ** 2 + (y - mousePositionState.y * 14) ** 2)
+        const mouseBumpDistance = Math.sqrt((x - mousePositionState.x * 50) ** 2 + (y - mousePositionState.y * 28) ** 2)  // 👈 Doubled Y scaling
         const mouseBump1 = mouseInfluence * Math.sin(mouseBumpDistance * 0.3 + time * 4.0) * 0.8  // Rippling bumps from cursor
         const mouseBump2 = mouseInfluence * Math.cos(mouseBumpDistance * 0.5 - time * 3.5) * 0.6  // Counter-rotating bumps
 
@@ -207,11 +207,30 @@ function WideOLEDDisplay() {
       meshRef.current.rotation.x = -Math.PI / 2
       meshRef.current.position.set(0, 0, 0)
 
-      // Create lighting effect that follows mouse cursor
+      // Detect if mouse is over OLED surface bounds
       const mouseX = mousePositionState.x * 50 // Scale to match display width
-      const mouseY = mousePositionState.y * 6  // Scale to match display height
+      const mouseY = mousePositionState.y * 12 // Scale to match display height
 
-      // Update vertex colors based on mouse position
+      // Check if mouse is within OLED surface bounds (140 x 28 surface)
+      const isMouseOverOLED = Math.abs(mouseX) <= 70 && Math.abs(mouseY) <= 14
+      mousePositionState.isOverOLED = isMouseOverOLED
+
+      // Enhanced Debug: Log every few frames to see what's happening
+      if (Math.floor(time * 2) % 60 === 0) { // Log every 30 frames (~0.5 seconds)
+        console.log('DEBUG - Raw Mouse:', mousePositionState.x.toFixed(2), mousePositionState.y.toFixed(2))
+        console.log('DEBUG - Scaled Mouse:', mouseX.toFixed(1), mouseY.toFixed(1))
+        console.log('DEBUG - OLED Bounds Check: |', mouseX.toFixed(1), '| <=', 70, '&&', '|', mouseY.toFixed(1), '| <=', 14)
+        console.log('DEBUG - Is Over OLED:', isMouseOverOLED)
+        console.log('---')
+      }
+
+      // Debug: Log hover state changes (remove this later)
+      if (isMouseOverOLED !== mousePositionState.previousHoverState) {
+        console.log('🎯 OLED Hover State Changed:', isMouseOverOLED, 'MousePos:', mouseX.toFixed(1), mouseY.toFixed(1))
+        mousePositionState.previousHoverState = isMouseOverOLED
+      }
+
+      // Update vertex colors - uniform brightness when hovering over OLED
       const colorAttribute = geometry.attributes.color
       if (!colorAttribute) {
         // Create color attribute if it doesn't exist
@@ -220,24 +239,20 @@ function WideOLEDDisplay() {
       }
 
       const colors = geometry.attributes.color
-      const baseColor = new THREE.Color(0x004488) // Lighter blue base - more visible
-      const activeColor = new THREE.Color(0x00CCFF) // Super bright neon cyan when "on"
+      const baseColor = new THREE.Color(0x0088BB) // More opaque/visible blue by default
+      const activeColor = new THREE.Color(0x00FFFF) // Very bright cyan when hovering
+
+      // Use proper interpolation factor (0 = base color, 1 = active color)
+      const colorBlendFactor = isMouseOverOLED ? 1.0 : 0.0 // 1.0 when hovering (active color), 0.0 when not (base color)
+
+      // Debug: Log color changes
+      if (isMouseOverOLED !== mousePositionState.previousHoverState) {
+        console.log('🎨 Color Change - Factor:', colorBlendFactor, 'Base:', baseColor.getHexString(), 'Active:', activeColor.getHexString())
+      }
 
       for (let i = 0; i < positionAttribute.count; i++) {
-        const x = positionAttribute.getX(i)
-        const y = positionAttribute.getY(i)
-
-        // Calculate distance from mouse position
-        const distanceFromMouse = Math.sqrt((x - mouseX) ** 2 + (y - mouseY) ** 2)
-
-        // Create circular light area around cursor
-        const lightRadius = 8 // Size of the lit area
-        const intensity = Math.max(0, 1 - (distanceFromMouse / lightRadius))
-        const smoothIntensity = intensity * intensity * (3 - 2 * intensity) // Smooth step function
-
-        // Blend between off and on colors
-        const currentColor = baseColor.clone().lerp(activeColor, smoothIntensity)
-
+        // Apply uniform color across entire OLED surface
+        const currentColor = baseColor.clone().lerp(activeColor, colorBlendFactor)
         colors.setXYZ(i, currentColor.r, currentColor.g, currentColor.b)
       }
 
@@ -245,18 +260,35 @@ function WideOLEDDisplay() {
 
       if (meshRef.current.material) {
         const material = meshRef.current.material as THREE.MeshStandardMaterial
-        // High emissive intensity for bright neon effect
-        material.emissiveIntensity = 0.6
-        material.emissive.setHex(0x002244) // Brighter base glow
-        material.color.setHex(0xFFFFFF) // White base to show vertex colors properly
-        material.vertexColors = true // Enable vertex colors
+
+        // Try using material color directly instead of vertex colors
+        const materialColor = isMouseOverOLED ? 0x00FFFF : 0x0088BB // Cyan when hovering, blue when not
+        material.color.setHex(materialColor)
+
+        // Dynamic emissive intensity based on hover state
+        material.emissiveIntensity = isMouseOverOLED ? 1.5 : 0.6  // 👈 Brighter default, even brighter on hover
+
+        // Dynamic emissive color - very bright when hovering, visible default
+        if (isMouseOverOLED) {
+          material.emissive.setHex(0x0088BB) // Very bright glow when hovering
+        } else {
+          material.emissive.setHex(0x003366) // More visible blue glow by default
+        }
+
+        // Debug: Log material color changes
+        if (isMouseOverOLED !== mousePositionState.previousHoverState) {
+          console.log('🎨 Material Color Set to:', materialColor.toString(16))
+        }
+
+        material.vertexColors = false // 👈 Disable vertex colors to use material color
+        material.needsUpdate = true // 👈 Force material update
       }
     }
   })
 
   return (
     <mesh ref={meshRef} position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-      <planeGeometry ref={geometryRef} args={[140, 14, 280, 28]} />
+      <planeGeometry ref={geometryRef} args={[140, 28, 280, 56]} />  {/* 👈 Increased height from 14 to 28 and segments from 28 to 56 */}
       <meshStandardMaterial
         color="#FFFFFF"
         emissive="#000000"
@@ -274,13 +306,21 @@ function WideOLEDDisplay() {
 export default function Hero3D() {
   // Handle mouse movement
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    mousePositionState.x = (event.clientX / window.innerWidth) * 2 - 1
-    mousePositionState.y = -(event.clientY / window.innerHeight) * 2 + 1
+    const newX = (event.clientX / window.innerWidth) * 2 - 1
+    const newY = -(event.clientY / window.innerHeight) * 2 + 1
+
+    // Debug: Log mouse movement occasionally
+    if (Math.random() < 0.01) { // Log ~1% of mouse moves to avoid spam
+      console.log('🖱️ Mouse Move:', newX.toFixed(2), newY.toFixed(2))
+    }
+
+    mousePositionState.x = newX
+    mousePositionState.y = newY
   }
 
   return (
     <div
-      className="relative w-full h-screen overflow-hidden bg-black"
+      className="relative w-full h-screen overflow-hidden"
       onMouseMove={handleMouseMove}
     >
       <Canvas
