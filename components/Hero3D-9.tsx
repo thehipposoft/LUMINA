@@ -652,11 +652,22 @@ export default function Hero3D() {
 
   return (
     <div
-        className="relative w-full overflow-hidden h-full"
+        className="relative w-full h-screen overflow-hidden sm:h-[80vh] md:h-[90vh] lg:h-screen canvas-container"
         onMouseMove={handleMouseMove}
     >
         <Canvas
-            camera={{ position: [6, 3.5, 4], fov: 75 }}
+            camera={{
+                position: typeof window !== 'undefined' && window.innerWidth < 768
+                    ? [8, 4, 6]      // Mobile: pulled back more for better view
+                    : typeof window !== 'undefined' &&  window.innerWidth < 1024
+                    ? [7, 3.8, 5]    // Tablet: medium distance
+                    : [6, 3.5, 4],   // Desktop: original position
+                fov: typeof window !== 'undefined' && window.innerWidth < 768
+                    ? 85             // Mobile: wider FOV
+                    : typeof window !== 'undefined' &&  window.innerWidth < 1024
+                    ? 80             // Tablet: medium FOV
+                    : 75             // Desktop: original FOV
+            }}
             style={{ width: '100%', height: '100%' }}
         >
             <ambientLight intensity={0.3} />

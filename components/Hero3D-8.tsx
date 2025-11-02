@@ -654,38 +654,50 @@ export default function Hero3D() {
     <div className="relative min-h-screen overflow-hidden">
         {/* Text overlay positioned over the 3D scene */}
         <div
-            className="relative w-full h-screen overflow-hidden bg-black"
+            className="relative w-full h-screen overflow-hidden sm:h-[80vh] md:h-[90vh] lg:h-screen canvas-container"
             onMouseMove={handleMouseMove}
         >
-        <Canvas
-            camera={{ position: [6, 3.5, 4], fov: 75 }}
-            style={{ width: '100%', height: '100%' }}
-        >
-            <ambientLight intensity={0.3} />
-            <directionalLight position={[5, 5, 5]} intensity={0.6} />
-            <directionalLight position={[-5, 3, -2]} intensity={0.4} />
-            <pointLight position={[3, 2, 2]} intensity={0.8} color={COLORS.POINT_LIGHT} />
-            <pointLight position={[-3, 1, -1]} intensity={0.5} color={COLORS.POINT_LIGHT} />
+            <Canvas
+                camera={{
+                    position: typeof window !== 'undefined' && window.innerWidth < 768
+                        ? [8, 4, 6]      // Mobile: pulled back more for better view
+                        : typeof window !== 'undefined' &&  window.innerWidth < 1024
+                        ? [7, 3.8, 5]    // Tablet: medium distance
+                        : [6, 3.5, 4],   // Desktop: original position
+                    fov: typeof window !== 'undefined' && window.innerWidth < 768
+                        ? 85             // Mobile: wider FOV
+                        : typeof window !== 'undefined' &&  window.innerWidth < 1024
+                        ? 80             // Tablet: medium FOV
+                        : 75             // Desktop: original FOV
+                }}
+                style={{ width: '100%', height: '100%' }}
+                className="canvas-responsive"
+            >
+                <ambientLight intensity={0.3} />
+                <directionalLight position={[5, 5, 5]} intensity={0.6} />
+                <directionalLight position={[-5, 3, -2]} intensity={0.4} />
+                <pointLight position={[3, 2, 2]} intensity={0.8} color={COLORS.POINT_LIGHT} />
+                <pointLight position={[-3, 1, -1]} intensity={0.5} color={COLORS.POINT_LIGHT} />
 
-            {/* Orbit controls for better viewing */}
-            <OrbitControls
-            enablePan={true}
-            enableZoom={false}
-            enableRotate={true}
-            autoRotate={false}
-            target={[0, 0, 0]}              // 👈 Center of vertical stack
-            />
+                {/* Orbit controls for better viewing */}
+                <OrbitControls
+                    enablePan={true}
+                    enableZoom={false}
+                    enableRotate={true}
+                    autoRotate={false}
+                    target={[0, 0, 0]}              // 👈 Center of vertical stack
+                />
 
-            {/* Background dots grid */}
-            <DotsGrid />
+                {/* Background dots grid */}
+                <DotsGrid />
 
-            {/* Three OLED layers separated in depth */}
-            <OLEDLayer1 />
-            <OLEDLayer2 />
-            <OLEDLayer3 />
+                {/* Three OLED layers separated in depth */}
+                <OLEDLayer1 />
+                <OLEDLayer2 />
+                <OLEDLayer3 />
 
-            <fog attach="fog" args={[COLORS.FOG_COLOR, 2, 25]} />
-        </Canvas>
+                <fog attach="fog" args={[COLORS.FOG_COLOR, 2, 25]} />
+            </Canvas>
         </div>
     </div>
 

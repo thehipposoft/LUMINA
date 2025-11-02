@@ -9,7 +9,6 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-
 const navigationItems = [
     { href: "/", label: "Home" },
     { href: "/what-we-do", label: "What we do" },
@@ -69,7 +68,6 @@ export default function PersistentHeader({}) {
             backgroundColor: "#FFFFFF80"
         })
     })
-
 
     return (
         <header
