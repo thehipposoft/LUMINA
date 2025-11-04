@@ -117,12 +117,12 @@ export default function Home() {
                 ref={heroRef}
                 className="relative min-h-screen overflow-hidden bg-black"
             >
-                <div className="absolute inset-0 z-10 pointer-events-none flex justify-center top-12 lg:top-[16%]">
+                <div className="absolute inset-0 z-10 pointer-events-none flex justify-center top-[16%]">
                     <h1 className="text-3xl lg:text-6xl text-center p-6 z-10 lg:w-[60%] text-white transition-all">
                         A <span className="font-bold transition-all">REVOLUTION</span> <br /> IN OLED TECHNOLOGY
                     </h1>
                 </div>
-                <div className="relative lg:top-[8rem]">
+                <div className="relative top-[8rem]">
                     <Hero3D />
                 </div>
             </div>

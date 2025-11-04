@@ -56,38 +56,60 @@ export default function LuminaLogo({
         delay: 1,
       });
 
-      // Hover animation
+      // Hover animation - only layers 2 and 3 oscillate on Y-axis + glow effect
       const handleMouseEnter = () => {
-        gsap.to(".logo-layer-1", {
-          y: -8,
-          rotation: 5,
-          duration: 0.6,
-          ease: "power2.out",
-        });
+        // Layer 1 stays completely still
+
+        // Layer 2 oscillates with gentle Y movement only
         gsap.to(".logo-layer-2", {
           y: -5,
-          rotation: -3,
-          duration: 0.6,
-          ease: "power2.out",
-          delay: 0.1,
+          duration: 0.8,
+          repeat: -1,
+          yoyo: true,
+          ease: "power2.inOut",
         });
+
+        // Layer 3 oscillates with different timing for natural effect
         gsap.to(".logo-layer-3", {
-          y: -2,
-          rotation: 2,
-          duration: 0.6,
-          ease: "power2.out",
+          y: -7,
+          duration: 1,
+          repeat: -1,
+          yoyo: true,
+          ease: "power2.inOut",
           delay: 0.2,
         });
+
+        // Animate the glow effect
+        const glowFilter = document.querySelector("#luminaGlow feGaussianBlur");
+        if (glowFilter) {
+          gsap.to(glowFilter, {
+            attr: { stdDeviation: "8" },
+            duration: 0.5,
+            ease: "power2.out",
+          });
+        }
       };
 
       const handleMouseLeave = () => {
-        gsap.to(".logo-layer-1, .logo-layer-2, .logo-layer-3", {
+        // Stop oscillations and reset only layers 2 and 3
+        gsap.killTweensOf(".logo-layer-2, .logo-layer-3");
+
+        gsap.to(".logo-layer-2, .logo-layer-3", {
           y: 0,
-          rotation: 0,
           duration: 0.8,
           ease: "elastic.out(1, 0.3)",
           stagger: 0.1,
         });
+
+        // Remove the glow effect
+        const glowFilter = document.querySelector("#luminaGlow feGaussianBlur");
+        if (glowFilter) {
+          gsap.to(glowFilter, {
+            attr: { stdDeviation: "0" },
+            duration: 0.5,
+            ease: "power2.out",
+          });
+        }
       };
 
       if (logoRef.current) {
@@ -115,6 +137,7 @@ export default function LuminaLogo({
       className={`cursor-pointer ${className}`}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
+      style={{ filter: "url(#luminaGlow)" }}
     >
       <defs>
         <linearGradient id="luminaGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -131,6 +154,15 @@ export default function LuminaLogo({
           <stop offset="0%" stopColor="#35E3ED" />
           <stop offset="100%" stopColor="#007BFF" />
         </linearGradient>
+
+        {/* Glow filter for hover effect */}
+        <filter id="luminaGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="0" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
       </defs>      {/* Layer 1 - Bottom/Base layer */}
       <g className="logo-layer-1">
         <path

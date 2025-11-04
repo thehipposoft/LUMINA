@@ -629,7 +629,7 @@ export default function Hero3D() {
             <Canvas
                 camera={{
                     position: typeof window !== 'undefined' && window.innerWidth < 768
-                        ? [8, 4, 6]      // Mobile: pulled back more for better view
+                        ? [8, 8, 8]      // Mobile: pulled back more for better view
                         : typeof window !== 'undefined' &&  window.innerWidth < 1024
                         ? [7, 3.8, 5]    // Tablet: medium distance
                         : [10, 7.7, 4],   // Desktop: original position

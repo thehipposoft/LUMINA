@@ -197,6 +197,8 @@ html {
     clip-path: path("M30.5.5C13.9315.5.5 13.9315.5 30.5v388.348c0 16.569 13.4315 30 30 30H360c16.569 0 30 13.432 30 30V554.5c0 16.569 13.431 30 30 30h225.5c16.569 0 30-13.431 30-30v-524c0-16.5685-13.431-30-30-30h-615Z");
 }
 
+/* Hope page changes */
+
  /* Hero background */
 .hero-background {
     background: -webkit-linear-gradient(135deg, hsla(211, 100%, 50%, 1) 0%, hsla(207, 30%, 12%, 1) 100%);
@@ -217,7 +219,27 @@ html {
     -webkit-box-reflect: below -3px linear-gradient(transparent, rgba(255, 255, 255, 0.1));
 }
 
-.lenis-scrolling .neon-text {
+.scrolled .neon-text {
     text-shadow: 0 0 0 0;
     -webkit-box-reflect: below -3px linear-gradient(transparent, transparent);
+}
+
+.home-page .nav-item svg rect {
+    fill: #ffffff;
+}
+
+.scrolled .nav-item svg rect {
+    fill: #000000;
+}
+
+.home-page .secondary-menu .nav-item {
+    color: #ffffff;
+}
+
+.home-page .secondary-menu .nav-item:hover {
+    color: #007BFF;
+}
+
+.home-page.scrolled .secondary-menu .nav-item {
+    color: #000000;
 }
