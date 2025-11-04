@@ -1,6 +1,6 @@
 import React from 'react'
 import Boxes from '@/components/Boxes'
-import Contact from '@/components/Contact'
+import Contact from '@/components/Contact/Contact'
 
 export default function InvestorsPage() {
   return (

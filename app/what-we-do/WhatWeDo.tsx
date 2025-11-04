@@ -8,23 +8,23 @@ import Carousel from "@/components/Carousel";
 import Boxes from "@/components/Boxes";
 import VideoComponent from "@/components/VideoComponent";
 import { useGSAP } from "@gsap/react";
-
-// Register ScrollTrigger plugin
-if (typeof window !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger);
-}
+import Contact from "@/components/Contact/Contact";
 
 const WhatWeDo = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
         const tl = gsap.timeline()
+/*         tl.from(containerRef.current, {
+            opacity: 0,
+            delay: 0.5
+        }) */
         tl.from(".title > *" ,{
             y: 100,
             opacity: 0,
-            duration: 1.1,
-            stagger: 0.15,
-            ease: "power3.out",
+            duration: 1,
+            stagger: 0.2,
+            ease: "circ.out",
         })
         tl.from(".subtitle" ,{
             opacity: 0,
@@ -43,7 +43,7 @@ const WhatWeDo = () => {
                 end: "bottom center",
             },
         });
-        gsap.from(".how", {
+        gsap.from(".conteiner-how", {
             scrollTrigger: {
                 trigger: ".conteiner-how",
                 start: "top 60%",
@@ -66,13 +66,13 @@ const WhatWeDo = () => {
                 </div>
                 <div className="bg-white/60 blur-3xl rounded-full absolute w-[400px] h-[300px] -left-12 top-0" />
                 <div className="relative z-10">
-                    <div className="title text-black-text overflow-hidden  font-bold text-6xl">
+                    <div className="title text-black-text overflow-hidden  font-bold text-5xl lg:text-6xl">
                         <h1 className="">FUTURE</h1>
                     </div>
-                    <div className="title text-black-text overflow-hidden  font-bold text-6xl">
+                    <div className="title text-black-text overflow-hidden  font-bold text-5xl lg:text-6xl">
                         <h1 className="">FORWARD</h1>
                     </div>
-                    <div className="title text-black-text overflow-hidden  font-bold text-6xl">
+                    <div className="title text-black-text overflow-hidden  font-bold text-5xl lg:text-6xl">
                         <h1 className="">INNOVATION</h1>
                     </div>
                     <p className="text-xl subtitle text-black-text leading-relaxed">
@@ -87,8 +87,8 @@ const WhatWeDo = () => {
                 className="object-cover"
             />
         </div>
-        <section className="content-sections py-20 w-[85vw] xl:max-w-7xl mx-auto">
-            <div className="flex items-center justify-between gap-10">
+        <section className="content-sections lg:py-20 pb-20 w-[85vw] xl:max-w-7xl mx-auto">
+            <div className="flex lg:flex-row flex-col-reverse lg:items-center justify-between gap-10">
                 <div className="">
                     <Carousel
                         slides={[
@@ -99,14 +99,14 @@ const WhatWeDo = () => {
                         ]}
                     />
                 </div>
-                <div className="w-5/12 flex flex-col gap-3 pt-20 text-black-text">
+                <div className="lg:w-5/12 flex flex-col gap-3 pt-20 text-black-text">
                     <h2 className="text-4xl font-semibold">
                         What we do
                     </h2>
                     <h6 className="font-semibold text-2xl">
                         Innovating at the Molecular Level
                     </h6>
-                    <p className="max-w-[440px]">
+                    <p className="lg:max-w-[440px]">
                         At Lumina Technologies, we design the chemistry that powers the future of optoelectronics.
                         Our team develops advanced surface solutions for OLED, microLED, and next-gen displays,
                         optimizing performance, efficiency, and durability.
@@ -117,16 +117,16 @@ const WhatWeDo = () => {
 
         <VideoComponent />
         <Boxes />
-        <section className="conteiner-how w-[85vw] xl:max-w-7xl  mx-auto py-20">
-            <div className="flex justify-between gap-10">
-                <div className="md:w-[500px] w-5/12 flex flex-col gap-2 how">
+        <section id="why" className="conteiner-how w-[85vw] xl:max-w-7xl mx-auto md:py-20 pt-12">
+            <div className="flex lg:flex-row flex-col justify-between gap-10">
+                <div className="lg:w-[500px] flex flex-col gap-2 ">
                     <h2 className="text-4xl font-semibold text-black-text">
                         Why
                     </h2>
                     <h6 className="text-xl font-semibold text-black-text">
                         A growing national technology
                     </h6>
-                    <p className="text-sm pt-12">
+                    <p className="text-sm lg:pt-12 pt-4">
                         In today&apos;s shifting global trade environment, tariffs on display materials and components are becoming a
                         serious concern for OEMs, panel makers, and system integrators. From rising costs to
                         supply chain delays, the impact is real—and growing.
@@ -144,7 +144,7 @@ const WhatWeDo = () => {
                         the display industry forward—securely and sustainably.
                     </p>
                 </div>
-                <div className="w-7/12 ">
+                <div className="lg:w-7/12">
                     <Carousel
                         slides={[
                             { image: '/images/what-we-do/team.webp', text: "Lumina's Team" },
@@ -159,12 +159,13 @@ const WhatWeDo = () => {
                 <h6 className="text-xl font-semibold text-black-text">
                     Founding sources
                 </h6>
-                <div className="flex gap-4">
+                <div className="flex md:flex-row flex-col gap-4">
                     <Image src={'/images/what-we-do/founding-1.svg'} alt="Foundig partners 1" width={320} height={60} />
                     <Image src={'/images/what-we-do/founding-2.svg'} alt="Foundig partners 1" width={160} height={60} />
                 </div>
             </div>
         </section>
+        <Contact />
     </div>
   );
 }

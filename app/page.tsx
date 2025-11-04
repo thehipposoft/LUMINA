@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PastelRibbons3D from "../components/PastelRibbons3D";
 import Image from "next/image";
 import Banner from "@/components/Banner";
-import Contact from "@/components/Contact";
+import Contact from "@/components/Contact/Contact";
 import Scene from "@/components/Banner3d/Scene";
 import CustomButton from "@/components/commons/CustomButton";
 gsap.registerPlugin(ScrollTrigger);
@@ -49,7 +49,7 @@ export default function Home() {
                 ease: "power3.out",
                 scrollTrigger: {
                     trigger: ".sections-container",
-                    start: "top 60%",
+                    start: "top 55%",
                     end: "bottom center",
                 },
             });
@@ -61,7 +61,7 @@ export default function Home() {
                 ease: "power3.out",
                 scrollTrigger: {
                     trigger: ".sections-containertwo",
-                    start: "top 60%",
+                    start: "top 55%",
                     end: "bottom center",
                 },
             });
@@ -73,10 +73,22 @@ export default function Home() {
                 ease: "power3.out",
                 scrollTrigger: {
                     trigger: ".sections-containerthree",
-                    start: "top 60%",
+                    start: "top 55%",
                     end: "bottom center",
                 },
             });
+            gsap.from(".lab-text", {
+                opacity: 0,
+                y: 80,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".lab-container",
+                    start: "top 50%",
+                    end: "bottom center",
+                },
+            });
+
         }, containerRef);
 
         return () => ctx.revert();
@@ -166,7 +178,6 @@ export default function Home() {
                                     electronics for consumer and corporate utilization.
                                 </p>
                                 <CustomButton href="/benefits" text="Discover" />
-
                             </div>
                             <Image
                                 src="/images/revolution-oled.png"
@@ -178,11 +189,10 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-
-                <section id="luminalab" className="relative py-20 bg-gradient-to-br from-[#35E3ED]/10 via-[#007BFF]/10 to-[#A044FF]/10 overflow-hidden">
+                <section className="lab-container relative py-20 lg:min-h-[450px] min-h-[550px] overflow-hidden">
                     <PastelRibbons3D />
                     <div className="relative z-10 px-6">
-                        <div className="text-right flex flex-col items-end lg:w-1/2">
+                        <div className="lab-text text-right flex flex-col items-end lg:w-1/2 pt-12">
                             <p className="text-lg text-right">
                                 We reimagine the interface between <span className="font-semibold">light and matter</span>
                             </p>

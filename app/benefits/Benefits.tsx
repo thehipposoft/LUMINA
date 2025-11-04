@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -36,12 +36,48 @@ const Benefits = () => {
                 start: "top 60%",
             },
         })
+        gsap.from(".container_three", {
+            opacity: 0,
+            y: 50,
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".container_three",
+                start: "top 60%",
+            },
+        })
+
+
+        gsap.from(".vector", {
+            scrollTrigger: {
+                trigger: ".items-container",
+                start: "top 60%",
+            },
+            opacity: 0,
+            x: -100,
+            duration: 1,
+            ease: "power3.out",
+
+        })
+        gsap.from(".items > *", {
+            scrollTrigger: {
+                trigger: ".items-container",
+                start: "top 60%",
+            },
+            opacity: 0,
+            y: 25,
+            delay: .5,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out",
+        })
+
     }, {scope: containerRef})
 
     return (
         <div ref={containerRef} className="min-h-screen bg-white">
-            <section className="container mx-auto py-20 flex gap-8 w-[85vw] xl:max-w-7xl justify-between">
-                <div className="text-black-text md:w-[415px] md:pt-12 flex flex-col gap-3">
+            <section className="container mx-auto pt-20 flex flex-col lg:flex-row gap-8 w-[85vw] xl:max-w-7xl justify-between">
+                <div className="text-black-text md:w-[415px] pt-12 flex flex-col gap-3">
                     <h3 className="text-4xl font-semibold ">
                         Brighter displays
                     </h3>
@@ -68,12 +104,12 @@ const Benefits = () => {
                 </div>
             </section>
 
-            <section className="max-w-screen relative">
-                <Image src={'/images/vectors/angle.svg'} width={120} height={360} alt="Lumina Arrow" className=" w-20 absolute left-0" />
+            <section className="items-container max-w-screen lg:py-28 relative flex items-center">
+                <Image src={'/images/vectors/angle.svg'} width={120} height={360} alt="Lumina Arrow" className="md:w-20 w-16 absolute left-0 vector" />
                 <div className="flex flex-col w-[85vw] xl:max-w-7xl mx-auto">
-                    <h4 className="font-semibold text-2xl">Our chemical can:</h4>
-                    <div className="flex justify-between pt-8">
-                        <div className="flex relative flex-col gap-4">
+                    <h4 className="font-semibold text-3xl">Our chemical can:</h4>
+                    <div className="flex flex-col lg:flex-row justify-between pt-8 items gap-8 md:gap-0">
+                        <div className="flex relative flex-col items-center md:items-start gap-4">
                             <div className="h-1.5 md:w-40 bg-secondary-bg absolute -right-3/5 top-1/4" />
                             <Image src={'/images/benefits/benefits-icon1.svg'} alt="Benefits Icon 1" width={130} height={80} />
                             <p className="w-[220px] text-sm">Allow metal electrodes on the organic materials in the OLED to be made thinner, increasing light output (brighter OLED)</p>
@@ -96,8 +132,8 @@ const Benefits = () => {
                 </div>
             </section>
 
-            <section className="container__two xl:max-w-7xl mx-auto py-20 flex gap-8">
-                <div className="w-7/12">
+            <section className="container__two lg:flex-row flex-col-reverse w-[85vw] xl:max-w-7xl mx-auto py-20 flex gap-8">
+                <div className="lg:w-7/12">
                     <Carousel
                         slides={[
 
@@ -123,7 +159,7 @@ const Benefits = () => {
                 </div>
             </section>
 
-           <section className="container mx-auto py-20 flex justify-between gap-8 w-[85vw] xl:max-w-7xl">
+           <section className="container_three mx-auto md:py-20 pb-20 flex lg:flex-row flex-col justify-between gap-8 w-[85vw] xl:max-w-7xl">
                 <div className="text-black-text md:w-[415px] md:pt-12 flex flex-col gap-3">
                     <h3 className="text-4xl font-semibold ">
                         Revolution in OLED performance
@@ -136,7 +172,7 @@ const Benefits = () => {
                     <p className="mb-2 text-sm">
                         This allows them to remain relevant in a highly competitive ecosystem where alternative technologies (e.g., microLED) are attacking existing methods from within, while changes in form factors and function (foldable phones, under-screen cameras, etc.) are forcing rapid evolution from the outside, all with billions of dollars at stake ($44 billion per year).</p>
                 </div>
-                <div className="w-7/12">
+                <div className="lg:w-7/12">
                     <Carousel
                         slides={[
 

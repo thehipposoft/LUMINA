@@ -1,11 +1,12 @@
 "use client";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import LuminaLogo from "./LuminaLogo";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import MobileMenu from "./MobileMenu";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,6 +31,8 @@ const navigationSecondary = [
 export default function PersistentHeader({}) {
     const pathname = usePathname();
     const headerRef = useRef<HTMLElement>(null);
+    const [openMenu, setOpenMenu] = useState(false);
+    const mm = gsap.matchMedia();
 
     useEffect(() => {
         // Animate header on mount
@@ -46,26 +49,38 @@ export default function PersistentHeader({}) {
         });
     }, []);
 
-
     useGSAP(() => {
-        gsap.to('.menu', {
-            scrollTrigger: {
-                start: "0 top",
-                end: "500 25%",
-                scrub: 3,
-            },
-            width: "60vw",
-            ease: 'sine.out'
+        mm.add("(min-width: 1300px)", () => {
+            gsap.to('.menu', {
+                scrollTrigger: {
+                    start: "0 top",
+                    end: "500 25%",
+                    scrub: 3,
+                },
+                width: "60vw",
+                ease: 'sine.out'
+            })
+            gsap.to(headerRef.current, {
+                scrollTrigger: {
+                    start: "0 top",
+                    end: "500 25%",
+                    scrub: 3,
+                },
+                width: "60vw",
+                ease: 'sine.out',
+                backgroundColor: "#FFFFFF80"
+            })
         })
-        gsap.to(headerRef.current, {
-            scrollTrigger: {
-                start: "0 top",
-                end: "500 25%",
-                scrub: 3,
-            },
-            width: "60vw",
-            ease: 'sine.out',
-            backgroundColor: "#FFFFFF80"
+        mm.add("(max-width: 1300px)", () => {
+            gsap.to(headerRef.current, {
+                scrollTrigger: {
+                    start: "0 top",
+                    end: "500 25%",
+                    scrub: 3,
+                },
+                ease: 'sine.out',
+                backgroundColor: "#FFFFFF60"
+            })
         })
     })
 
@@ -73,17 +88,17 @@ export default function PersistentHeader({}) {
         <header
             style={{backgroundColor: "#FFFFFF"}}
             ref={headerRef}
-            className={`${pathname === '/' ? "left-1/2 transform -translate-x-1/2 fixed" : "max-w-screen sticky border-0"}  top-0 z-50 bg-white/95 backdrop-blur-lg shadow-lg mx-auto rounded-b-2xl`}
+            className={`lg:w-auto w-full ${pathname === '/' ? "left-1/2 transform -translate-x-1/2 fixed" : "max-w-screen fixed lg:sticky border-0"}  top-0 z-50 bg-white/95 backdrop-blur-lg shadow-lg mx-auto rounded-b-2xl`}
         >
-            <div className={`menu ${pathname === '/' ? "w-[85vw]" : " max-w-[85vw]"} px-6 mx-auto py-4`}>
-                <nav className=" flex items-center justify-between gap-10">
+            <div className={`menu ${pathname === '/' ? "md:w-[85vw]" : "w-[95vw] lg:max-w-[85vw]"} px-6 mx-auto py-4`}>
+                <nav className="relative z-20 flex items-center justify-between gap-10">
                     <Link href="/" className="flex items-center gap-2 nav-item">
                         <LuminaLogo size={32} animated={true} />
-                        <span className="text-xl font-bold text-black">LUMINA</span>
-                        <span className="text-sm text-black/70">TECHNOLOGIES</span>
+                        <span className={`duration-700 ${openMenu ? "text-white" : "text-black"} text-xl font-bold `}>LUMINA</span>
+                        <span className={`duration-700 ${openMenu ? "text-white" : "text-black/70"} text-sm`}>TECHNOLOGIES</span>
                     </Link>
 
-                    <div className="hidden md:flex gap-8 relative">
+                    <div className="hidden lg:flex gap-8 relative">
                         {
                         pathname === '/' ?
                         navigationItems.map((item) => {
@@ -123,14 +138,17 @@ export default function PersistentHeader({}) {
                         })
                         }
                     </div>
-
-                    {/* Mobile menu button */}
-                    <button className="md:hidden nav-item text-black hover:text-brand-primary">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    <button
+                        onClick={() => {setOpenMenu(!openMenu)}}
+                        className="lg:hidden nav-item text-black hover:text-brand-primary">
+                        <svg width="35" height="35" viewBox="0 0 30 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect className={`duration-700 origin-left ${openMenu ? 'rotate-45 fill-white -translate-y-[6px]' : ''}`} width="30" height="2.75" rx="1.375" fill="#151f27"/>
+                            <rect className={`duration-700 ${openMenu ? 'opacity-0' : ''}`} y="6.125" width="30" height="2.75" rx="1.375" fill="#151f27"/>
+                            <rect className={`duration-700 origin-left ${openMenu ? '-rotate-45 fill-white translate-y-[6px]' : ''}`} y="12.25" width="30" height="2.75" rx="1.375" fill="#151f27"/>
                         </svg>
                     </button>
                 </nav>
+                <MobileMenu openMenu={openMenu} />
             </div>
         </header>
     );

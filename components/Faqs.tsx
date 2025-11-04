@@ -30,7 +30,7 @@ const Faqs = () => {
     }
 
   return (
-    <div className='flex lg:flex-row flex-col max-w-[85vw] mx-auto min-h-[650px] lg:pt-16 pt-12'>
+    <div className='flex lg:flex-row flex-col max-w-[85vw] mx-auto min-h-[650px] lg:pt-16 pt-28'>
         <div className='flex flex-col justify-between lg:w-1/2 relative gap-6 lg:gap-0'>
             <div className='flex flex-col gap-6'>
                 <h1 className='font-semibold text-5xl'>FAQs</h1>

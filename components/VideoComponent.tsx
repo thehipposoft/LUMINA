@@ -26,7 +26,7 @@ const VideoComponent = () => {
         tl.from(".animate_one > *", {
             opacity: 0,
             y: 50,
-            duration: 1,
+            duration: .8,
             stagger: 0.05,
             ease: "power3.out",
         });
@@ -40,13 +40,13 @@ const VideoComponent = () => {
     }, {scope: container})
 
   return (
-        <section ref={container} className=" bg-black py-20 fade-in min-h-[585px] relative z-[99]">
+        <section ref={container} id='how' className=" bg-black py-20 fade-in min-h-[585px] relative z-[99]">
             <div className="absolute left-0 top-0 h-full w-full bg-[#151F27]/65" />
             <Image src={'/images/what-we-do/videobg.png'} alt="" fill className="object-cover -scale-x-100 -z-10" />
             <Image src={'/images/vectors/shape3.svg'} alt="" width={220} height={120} className="absolute left-0" />
-            <div className="flex justify-between w-[85vw] xl:max-w-7xl mx-auto relative">
-                <div className="animate_two w-7/12 flex flex-col justify-center items-center gap-12">
-                    <h2 className="text-2xl font-semibold mb-2 text-white">
+            <div className="flex lg:flex-row flex-col-reverse justify-between w-[85vw] xl:max-w-7xl mx-auto relative">
+                <div className="animate_two lg:w-7/12 flex flex-col justify-center items-center lg:gap-12 gap-2 pt-12 lg:pt-0">
+                    <h2 className="text-2xl font-semibold mb-2 text-white text-center lg:text-left">
                         Advanced display technology.
                     </h2>
                     <div className="flex flex-col justify-center items-center gap-4 cursor-pointer">
@@ -58,7 +58,7 @@ const VideoComponent = () => {
                         <h4 onClick={toggleModal} className="cursor-pointer uppercase hover:underline text-white font-semibold tracking-widest text-sm">watch video</h4>
                     </div>
                 </div>
-                <div className="animate_one text-white w-[415px] text-justify flex flex-col gap-4 mr-12">
+                <div className="animate_one text-white lg:w-[415px] text-justify flex flex-col gap-4 lg:mr-12">
                     <h3 className="text-5xl font-black text-white">
                         How
                     </h3>

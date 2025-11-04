@@ -6,6 +6,7 @@ import PageTransition from "../components/PageTransition";
 import SmoothLinkTransition from "../components/SmoothLinkTransition";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/commons/SmoothScroll";
+import TransitionProvider from "@/components/TransitionProvider";
 
 const montserrat = Montserrat({
     variable: "--font-montserrat",
@@ -27,12 +28,11 @@ export default function RootLayout({
         <html lang="en">
             <body className={`${montserrat.variable} antialiased`}>
                 <SmoothScroll>
-                    <PersistentHeader />
-                    <PageTransition>
-                        {children}
+                        <PersistentHeader />
+                        <main className="page-content">
+                            {children}
+                        </main>
                         <Footer />
-                    </PageTransition>
-                    <SmoothLinkTransition />
                 </SmoothScroll>
             </body>
         </html>
