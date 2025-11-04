@@ -123,7 +123,8 @@ export default function LuminaLogo({
           <stop offset="100%" stopColor="#A044FF" />
         </linearGradient>
         <linearGradient id="luminaGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#007BFF" />
+           <stop offset="0%" stopColor="#35E3ED" />
+          <stop offset="50%" stopColor="#007BFF" />
           <stop offset="100%" stopColor="#A044FF" />
         </linearGradient>
         <linearGradient id="luminaGradient3" x1="0%" y1="0%" x2="100%" y2="100%">

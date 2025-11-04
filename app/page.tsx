@@ -9,11 +9,14 @@ import Banner from "@/components/Banner";
 import Contact from "@/components/Contact/Contact";
 import Scene from "@/components/Banner3d/Scene";
 import CustomButton from "@/components/commons/CustomButton";
+import Hero3D from "@/components/Hero3D-8-2";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
     const containerRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
+    const heroRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -91,15 +94,38 @@ export default function Home() {
 
         }, containerRef);
 
+        gsap.to(heroRef.current, {
+            scrollTrigger: {
+                start: "0 top",
+                end: "500 25%",
+                scrub: 3,
+            },
+            ease: 'sine.out',
+            margin: "2rem",
+            borderRadius: "1.5rem",
+        })
+
         return () => ctx.revert();
     }, []);
 
     return (
-        <div ref={containerRef} className=" bg-white ">
+        <div ref={containerRef} className="bg-white">
             <div className="h-screen relative hidden">
                 <Scene />
             </div>
-            <Banner />
+            <div
+                ref={heroRef}
+                className="relative min-h-screen overflow-hidden bg-black"
+            >
+                <div className="absolute inset-0 z-10 pointer-events-none flex justify-center top-12 lg:top-[16%]">
+                    <h1 className="text-3xl lg:text-6xl text-center p-6 z-10 lg:w-[60%] text-white transition-all">
+                        A <span className="font-bold transition-all">REVOLUTION</span> <br /> IN OLED TECHNOLOGY
+                    </h1>
+                </div>
+                <div className="relative lg:top-[8rem]">
+                    <Hero3D />
+                </div>
+            </div>
             <div className="sections-container">
                 <section className="py-20 px-6">
                     <div className="max-w-7xl mx-auto">

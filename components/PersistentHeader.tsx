@@ -58,7 +58,8 @@ export default function PersistentHeader({}) {
                     scrub: 3,
                 },
                 width: "60vw",
-                ease: 'sine.out'
+                ease: 'sine.out',
+                color: "#000000"
             })
             gsap.to(headerRef.current, {
                 scrollTrigger: {
@@ -68,7 +69,8 @@ export default function PersistentHeader({}) {
                 },
                 width: "60vw",
                 ease: 'sine.out',
-                backgroundColor: "#FFFFFF80"
+                backgroundColor: "#FFFFFF80",
+                color: "#000000"
             })
         })
         mm.add("(max-width: 1300px)", () => {
@@ -86,16 +88,15 @@ export default function PersistentHeader({}) {
 
     return (
         <header
-            style={{backgroundColor: "#FFFFFF"}}
             ref={headerRef}
-            className={`lg:w-auto w-full ${pathname === '/' ? "left-1/2 transform -translate-x-1/2 fixed" : "max-w-screen fixed lg:sticky border-0"}  top-0 z-50 bg-white/95 backdrop-blur-lg shadow-lg mx-auto rounded-b-2xl`}
+            className={`lg:w-auto w-full ${pathname === '/' ? "left-1/2 transform -translate-x-1/2 fixed text-white" : "max-w-screen fixed lg:sticky border-0 bg-white/95"} top-0 z-50  backdrop-blur-lg shadow-lg mx-auto rounded-b-2xl`}
         >
             <div className={`menu ${pathname === '/' ? "md:w-[85vw]" : "w-[95vw] lg:max-w-[85vw]"} px-6 mx-auto py-4`}>
                 <nav className="relative z-20 flex items-center justify-between gap-10">
                     <Link href="/" className="flex items-center gap-2 nav-item">
                         <LuminaLogo size={32} animated={true} />
-                        <span className={`duration-700 ${openMenu ? "text-white" : "text-black"} text-xl font-bold `}>LUMINA</span>
-                        <span className={`duration-700 ${openMenu ? "text-white" : "text-black/70"} text-sm`}>TECHNOLOGIES</span>
+                        <span className={`duration-700 neon-text ${openMenu ? "text-white" : "text-inherit"} text-xl font-bold `}>LUMINA</span>
+                        <span className={`duration-700 ${openMenu ? "text-white" : "text-inherit"} text-sm`}>TECHNOLOGIES</span>
                     </Link>
 
                     <div className="hidden lg:flex gap-8 relative">
