@@ -8,9 +8,7 @@ import { Group } from 'three'
 
 const Scene = () => {
     return (
-        <div
-            className="relative w-full h-screen overflow-hidden sm:h-[80vh] md:h-[90vh] lg:h-screen canvas-container"
-        >
+        <div className="relative w-full h-screen overflow-hidden sm:h-[80vh] md:h-[90vh] lg:h-screen canvas-container">
             <Canvas
                 camera={{
                         position: typeof window !== 'undefined' && window.innerWidth < 768
@@ -43,17 +41,17 @@ const AnimatedModel = () => {
 
     useFrame(({ clock }) => {
         if (groupRef.current) {
-        const t = clock.getElapsedTime()
-        // Movimiento flotante
-        groupRef.current.position.y = -0.3 + Math.sin(t * 1) * 0.08
+            const t = clock.getElapsedTime()
+            // Movimiento flotante
+            groupRef.current.position.y = -0.3 + Math.sin(t * 1) * 0.5
         }
     })
 
     return (
         <group
             ref={groupRef}
-            position={[0.5, 1.5, 0]}
-            rotation={[Math.PI / 5, Math.PI / 4, 0]}
+            //position={[0.5, 1.5, 0]}
+            rotation={[Math.PI / 40, Math.PI / 30, -0.1]}
         >
             <GlassModel />
         </group>
