@@ -10,6 +10,7 @@ import Contact from "@/components/Contact/Contact";
 import Scene from "@/components/Banner3d/Scene";
 import CustomButton from "@/components/commons/CustomButton";
 import Hero3D from "@/components/Hero3D-8-2";
+import HeroNew from "@/components/Hero3D-8-3";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -110,9 +111,6 @@ export default function Home() {
 
     return (
         <div ref={containerRef} className="bg-white">
-            <div className="h-screen relative hidden">
-                <Scene />
-            </div>
             <div
                 ref={heroRef}
                 className="relative min-h-screen overflow-hidden bg-black"
@@ -122,10 +120,24 @@ export default function Home() {
                         A <span className="font-bold transition-all">REVOLUTION</span> <br /> IN OLED TECHNOLOGY
                     </h1>
                 </div>
-                <div className="relative top-[8rem]">
+                <div className="relative top-[7rem]">
                     <Hero3D />
                 </div>
             </div>
+            {/*
+            <div
+                ref={heroRef}
+                className="relative min-h-screen overflow-hidden bg-white"
+            >
+                <div className="absolute inset-0 z-10 pointer-events-none flex justify-center top-[16%]">
+                    <h1 className="text-3xl lg:text-6xl text-center p-6 z-10 lg:w-[60%] text-brand-dark transition-all">
+                        A <span className="font-bold transition-all">REVOLUTION</span> <br /> IN OLED TECHNOLOGY
+                    </h1>
+                </div>
+                <div className="relative top-[7rem]">
+                    <HeroNew />
+                </div>
+            </div> */}
             <div className="sections-container">
                 <section className="py-20 px-6">
                     <div className="max-w-7xl mx-auto">

@@ -3,12 +3,20 @@ import React, {useRef} from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import Image from 'next/image'
+import PastelRibbons3D from './PastelRibbons3D'
 
 const LabPageComponent = () => {
 
     const containerRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
+        gsap.from(".hero__title > *", {
+            opacity: 0,
+            y: 50,
+            duration: 1.5,
+            stagger: 0.3,
+            ease: "power2.InOut",
+        })
         gsap.from(".section-one", {
             opacity: 0,
             y: 50,
@@ -68,11 +76,27 @@ const LabPageComponent = () => {
 
   return (
     <div ref={containerRef} className='flex flex-col'>
+        <section className='h-[700px] relative'>
+            <PastelRibbons3D />
+            <div className='w-[85vw] lg:max-w-7xl mx-auto relative z-10'>
+                <div className='hero__title flex items-center gap-6 pt-44'>
+                    <Image src={'/images/vectors/angle.svg'} alt="Lumina Arrow" width={35} height={40} className="object-contain" />
+                    <div className='flex flex-col w-fit lg:items-end pt-8'>
+                        <p className="lg:text-2xl text-xl">
+                            We reimagine the interface between <strong>light and matter</strong>
+                        </p>
+                        <p className="lg:text-2xl text-xl">
+                            Lumina <strong>LAB.</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section className='section-one flex lg:flex-row flex-col gap-12 lg:gap-0 justify-between w-[85vw] lg:max-w-7xl mx-auto lg:py-24 py-12'>
             <div className='lg:w-[520px] flex flex-col gap-2 lg:pt-24'>
                 <h2 className='font-bold text-4xl'>LuminaLAB</h2>
                 <h4 className='font-semibold text-2xl'>Where Innovation Takes Shape</h4>
-                <p className='text-sm leading-6'>Lumina Lab is our experimental playground — where ideas evolve into materials that will define the next wave of optoelectronic devices. From early-stage R&D to prototype-ready solutions, we explore new chemistries and interfaces that push the limits of performance and design.</p>
+                <h1 className='text-sm leading-6'>Lumina Lab is our experimental playground — where ideas evolve into materials that will define the next wave of optoelectronic devices. From early-stage R&D to prototype-ready solutions, we explore new chemistries and interfaces that push the limits of performance and design.</h1>
             </div>
             <div className='lg:w-1/2'>
                 <Image

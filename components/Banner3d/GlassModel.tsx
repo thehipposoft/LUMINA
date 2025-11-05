@@ -17,6 +17,15 @@ const GlassModel = () => {
     color: '#007BFF'
   })
 
+    const materialProps = useControls({
+        thickness: { value: 0.2, min: 0, max: 3, step: 0.05 },
+        roughness: { value: 0, min: 0, max: 1, step: 0.1 },
+        transmission: {value: 1, min: 0, max: 1, step: 0.1},
+        ior: { value: 1.2, min: 0, max: 3, step: 0.1 },
+        chromaticAberration: { value: 0.02, min: 0, max: 1},
+        backside: { value: true},
+    })
+
   // Creamos un material físico reutilizable
   const glassMaterial = useMemo(() => {
     return new MeshPhysicalMaterial({
@@ -42,7 +51,7 @@ const GlassModel = () => {
   })
 }, [gltf, glassMaterial])
 
-  return <primitive object={gltf.scene} scale={0.38} position={[1, -0.5, 0]} />
+  return <primitive object={gltf.scene} scale={0.28} position={[1, -0.5, 0]} />
 }
 
 export default GlassModel

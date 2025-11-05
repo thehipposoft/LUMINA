@@ -20,29 +20,11 @@ const Scene = () => {
             A <strong className='font-semibold'>REVOLUTION</strong> in OLED technology
         </div>
         </Html>
-      <OrbitControls enableZoom={false} />
+      <OrbitControls enableZoom={false} autoRotate={true} enableRotate={false} enablePan={true} />
     </Canvas>
   )
 }
 
-// Texto centrado y siempre fijo
-const CenteredText = () => {
-  return (
-    <Text
-        position={[0, 0, 2]}
-        fontSize={0.08}
-        color="#000000"
-        anchorX="center"
-        anchorY="middle"
-        font="/three/Montserrat-Regular.ttf"
-        // Fijo respecto a la cámara
-        // La propiedad "renderOrder" asegura que siempre se vea
-        renderOrder={999}
-    >
-    A REVOLUTION in OLED technology
-    </Text>
-  )
-}
 
 // Modelo flotante / efecto respiración
 const AnimatedModel = () => {

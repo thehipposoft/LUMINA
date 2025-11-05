@@ -48,7 +48,7 @@ const Carousel = ({
                                     alt={`Slide ${index + 1}`}
                                     width={400}
                                     height={400}
-                                    className="w-full object-cover h-[300px] rounded-lg"
+                                    className="w-full object-cover h-[300px] md:hidden rounded-lg"
                                 />
                                 <div className='lg:absolute relative z-20 lg:bottom-12 pt-4 md:pt-0 '>
                                     <p className='md:w-[380px] text-sm'>

@@ -2,7 +2,7 @@ import React from 'react'
 
 interface VideoModal {
     openModal: boolean,
-    videoUrl: string,
+    videoUrl?: string,
     toggleModal: () => void;
 }
 

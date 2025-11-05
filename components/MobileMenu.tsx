@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 interface MobileMenuTypes {
     openMenu: boolean,
+    handleOpenMenu: () => void,
 }
 
 const navigationSecondary = [
@@ -16,7 +17,7 @@ const navigationSecondary = [
     { href: "/#contact", label: "Contact" },
 ];
 
-const MobileMenu = ({openMenu}:MobileMenuTypes) => {
+const MobileMenu = ({openMenu, handleOpenMenu}:MobileMenuTypes) => {
 
   return (
     <div className={`md:hidden ${openMenu ? "translate-x-0" : "translate-x-full"} z-10 duration-500 h-screen w-screen fixed left-0 top-0
@@ -25,10 +26,11 @@ const MobileMenu = ({openMenu}:MobileMenuTypes) => {
             {
                 navigationSecondary.map((item, index) => (
                         <Link
-                        onClick={() => {!openMenu}}
-                        href={item.href}
-                        key={index}
-                        className='text-3xl font-light uppercase'>
+                            onClick={handleOpenMenu}
+                            href={item.href}
+                            key={index}
+                            className='text-3xl font-light uppercase'
+                        >
                             {item.label}
                         </Link>
                 ))

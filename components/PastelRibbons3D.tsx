@@ -3,6 +3,8 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 function PastelRibbons() {
   const ribbon1Ref = useRef<THREE.Mesh>(null);
@@ -90,8 +92,17 @@ function PastelRibbons() {
 }
 
 export default function PastelRibbons3D() {
+
+    useGSAP(() => {
+        gsap.from(".canva", {
+            opacity: 0,
+            duration: 2,
+            delay: 0.5,
+            ease: "power2.inOut"
+        })
+    })
   return (
-    <div className="absolute inset-0 w-full h-full blur-[50px]">
+    <div className="absolute canva inset-0 w-full h-full blur-[50px]">
       <Canvas camera={{ position: [0, 0, 8], fov: 30 }}>
         <ambientLight intensity={0.9} />
         <directionalLight position={[5, 5, 5]} intensity={2.5} />
