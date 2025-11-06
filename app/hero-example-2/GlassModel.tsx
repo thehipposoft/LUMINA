@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useMemo } from 'react'
-import { useGLTF, Environment, ContactShadows, OrbitControls, Stats } from '@react-three/drei'
-import { Object3D, Mesh, MeshPhysicalMaterial } from 'three';
-import { useControls } from 'leva';
+import React, { useMemo, useState, useRef } from 'react'
+import { useGLTF, Environment, ContactShadows, OrbitControls, Stats } from '@react-three/drei';
+import { Object3D, Mesh, MeshPhysicalMaterial, Vector3, Group, Color, MathUtils } from 'three';
+import { useControls, Leva } from 'leva';
+import { useFrame, useThree } from '@react-three/fiber';
 
 const GlassModel = () => {
     const gltf = useGLTF('/three/lumina.gltf')
@@ -12,7 +13,7 @@ const GlassModel = () => {
     const previewControls = useControls('Preview Settings', {
         showStats: { value: false },
         enableOrbitControls: { value: true },
-        showContactShadows: { value: true },
+        showContactShadows: { value: false },
         autoRotate: { value: false },
         autoRotateSpeed: {
             value: 2,
@@ -25,7 +26,7 @@ const GlassModel = () => {
     // 🌍 ENVIRONMENT CONTROLS
     const environmentControls = useControls('Environment', {
         preset: {
-            value: 'city',
+            value: 'sunset',
             options: [
                 'sunset',
                 'dawn',
@@ -41,13 +42,13 @@ const GlassModel = () => {
         },
         background: { value: false },
         blur: {
-            value: 0,
+            value: 0.49,
             min: 0,
             max: 1,
             step: 0.01
         },
         intensity: {
-            value: 1,
+            value: 1.2,
             min: 0,
             max: 2,
             step: 0.1
@@ -153,8 +154,6 @@ const GlassModel = () => {
         })
     }, [glassControls, materialProps]);
 
-
-
     // 🎯 APPLY MATERIAL - Reemplazamos materiales de cada mesh en el GLTF
     useMemo(() => {
         gltf.scene.traverse((child: Object3D) => {
@@ -165,16 +164,68 @@ const GlassModel = () => {
                 mesh.receiveShadow = true
             }
         })
-    }, [gltf, glassMaterial])
+    }, [gltf, glassMaterial]);
+
+    // 🎯 MOUSE INTERACTION & ANIMATION - Similar to your OLED effect
+    useFrame((state) => {
+        const time = state.clock.elapsedTime
+        const { mouse } = state
+
+        // Detect hover over model area
+        const distance = Math.sqrt(mouse.x * mouse.x + mouse.y * mouse.y)
+        const hoverRadius = 1.2
+        const isHovered = distance < hoverRadius
+
+        // Calculate hover intensity (0 to 1)
+        const hoverIntensity = isHovered ? Math.max(0, 1 - (distance / hoverRadius)) : 0
+
+        // 🎨 DYNAMIC MATERIAL PROPERTIES - Apply to all meshes
+        gltf.scene.traverse((child: Object3D) => {
+            if ((child as Mesh).isMesh) {
+                const mesh = child as Mesh
+                const material = mesh.material as MeshPhysicalMaterial
+
+                if (material) {
+                    // 💎 Glass effect intensifies on hover
+                    const baseOpacity = glassControls.opacity
+                    const baseTransmission = glassControls.transmission
+                    const baseRoughness = glassControls.roughness
+
+                    // Dynamic material changes based on hover
+                   // material.opacity = MathUtils.lerp(baseOpacity, baseOpacity * 0.9, hoverIntensity)
+                   // material.transmission = MathUtils.lerp(baseTransmission, Math.min(1, baseTransmission * 1.2), hoverIntensity)
+                    //material.roughness = MathUtils.lerp(baseRoughness, baseRoughness * 0.5, hoverIntensity)
+
+                    // Add subtle color shift on hover
+                    const baseColor = new Color(glassControls.color)
+                    const hoverColor = new Color(glassControls.color).multiplyScalar(2.1)
+                    //material.color.lerpColors(baseColor, hoverColor, hoverIntensity)
+
+                    // Enhanced clearcoat effect on hover
+                    //material.clearcoat = MathUtils.lerp(materialProps.clearcoat, Math.min(1, materialProps.clearcoat * 1.3), hoverIntensity)
+                }
+            }
+        })
+    })
 
     return (
-        <group>
-            {/* 🌍 ENVIRONMENT */}
-            <Environment
-                preset={environmentControls.preset as "sunset" | "dawn" | "night" | "warehouse" | "forest" | "apartment" | "studio" | "city" | "park" | "lobby"}
-                background={environmentControls.background}
-                blur={environmentControls.blur}
+        <>
+            {/* 🎛️ LEVA CONTROLS - Cambia hidden={true} para ocultar */}
+            <Leva
+                collapsed={false}
+                hidden={true}
+                oneLineLabels={true}
+                flat={true}
+                hideCopyButton={true}
             />
+
+            <group>
+                {/* 🌍 ENVIRONMENT */}
+                <Environment
+                    preset={environmentControls.preset as "sunset" | "dawn" | "night" | "warehouse" | "forest" | "apartment" | "studio" | "city" | "park" | "lobby"}
+                    background={environmentControls.background}
+                    blur={environmentControls.blur}
+                />
 
             {/* 🎮 ORBIT CONTROLS */}
             {previewControls.enableOrbitControls && (
@@ -208,6 +259,7 @@ const GlassModel = () => {
                 position={[8, -3, -1]}
             />
         </group>
+        </>
     )
 }
 

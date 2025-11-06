@@ -7,10 +7,11 @@ import PastelRibbons3D from "../components/PastelRibbons3D";
 import Image from "next/image";
 import Banner from "@/components/Banner";
 import Contact from "@/components/Contact/Contact";
-import Scene from "@/components/Banner3d/Scene";
+//import Scene from "@/components/Banner3d/Scene";
 import CustomButton from "@/components/commons/CustomButton";
 import Hero3D from "@/components/Hero3D-8-2";
 import HeroNew from "@/components/Hero3D-8-3";
+import Scene from "./hero-example-2/Scene";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -121,7 +122,7 @@ export default function Home() {
                     </h1>
                 </div>
                 <div className="relative top-[7rem]">
-                    <Hero3D />
+                    <Scene />
                 </div>
             </div>
             {/*
