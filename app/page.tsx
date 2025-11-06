@@ -123,23 +123,12 @@ export default function Home() {
                 </div>
                 <div className="relative top-[7rem]">
                     <Scene />
+                    <div className="absolute lg:hidden bottom-[17%] left-1/2 transform -translate-x-1/2 z-10">
+                        <CustomButton href="#brighter-displays" text="Discover"/>
+                    </div>
                 </div>
             </div>
-            {/*
-            <div
-                ref={heroRef}
-                className="relative min-h-screen overflow-hidden bg-white"
-            >
-                <div className="absolute inset-0 z-10 pointer-events-none flex justify-center top-[16%]">
-                    <h1 className="text-3xl lg:text-6xl text-center p-6 z-10 lg:w-[60%] text-brand-dark transition-all">
-                        A <span className="font-bold transition-all">REVOLUTION</span> <br /> IN OLED TECHNOLOGY
-                    </h1>
-                </div>
-                <div className="relative top-[7rem]">
-                    <HeroNew />
-                </div>
-            </div> */}
-            <div className="sections-container">
+            <div className="sections-container" id="brighter-displays">
                 <section className="py-20 px-6">
                     <div className="max-w-7xl mx-auto">
                         <div className="section-card grid lg:grid-cols-2 gap-12 items-center">
