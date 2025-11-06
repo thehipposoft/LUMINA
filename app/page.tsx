@@ -123,7 +123,7 @@ export default function Home() {
                 </div>
                 <div className="relative top-[7rem]">
                     <Scene />
-                    <div className="absolute lg:hidden bottom-[17%] left-1/2 transform -translate-x-1/2 z-10">
+                    <div className="absolute lg:hidden bottom-[10rem] left-1/2 transform -translate-x-1/2 z-10">
                         <CustomButton href="#brighter-displays" text="Discover"/>
                     </div>
                 </div>
