@@ -4,6 +4,7 @@ import "./globals.css";
 import PersistentHeader from "../components/PersistentHeader";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/commons/SmoothScroll";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const montserrat = Montserrat({
     variable: "--font-montserrat",
@@ -23,6 +24,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+            <GoogleAnalytics />
             <body className={`${montserrat.variable} antialiased`}>
                 <SmoothScroll>
                     <PersistentHeader />
