@@ -141,10 +141,7 @@ html {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-
 /* Swiper */
-
-
 
 @media (min-width: 800px) {
     .swiper {
@@ -171,15 +168,10 @@ html {
     .swiper-slide {
         width: 85vw !important;
         min-height: 400px !important;
-/*         display: flex;
-        flex-direction: column;
-        justify-content: end;
-        align-items: end; */
         position: relative;
         background-color: white;
     }
 }
-
 
 .swiper-slide-next {
     opacity: 0 !important;
@@ -188,7 +180,6 @@ html {
 .polygon {
      clip-path: path("M.5 30.5v690c0 16.569 13.4314 30 30 30h804c16.569 0 30-13.431 30-30V624c0-16.569 13.431-30 30-30h476c16.57 0 30-13.431 30-30V30.5c0-16.5685-13.43-30-30-30H30.5C13.9315.5.5 13.9315.5 30.5Z")
 }
-
 
 .shape2 {
     clip-path: path("660.432 0c8.047 0 14.568 6.523 14.568 14.568v310.383c0 8.046 -6.522 14.568 -14.568 14.568H296.169c-8.046 0 -14.568 6.522 -14.568 14.568V426.853c0 8.046 -6.522 14.568 -14.568 14.568H14.568c-8.046 0 -14.568 -6.522 -14.568 -14.568V14.568C0 6.523 6.523 0 14.568 0z")
@@ -199,47 +190,50 @@ html {
 
 /* Hope page changes */
 
- /* Hero background */
-.hero-background {
-    background: -webkit-linear-gradient(135deg, hsla(211, 100%, 50%, 1) 0%, hsla(207, 30%, 12%, 1) 100%);
-}
+@layer utilities {
+    /* Hero background */
+    .hero-background {
+        background: -webkit-linear-gradient(135deg, hsla(211, 100%, 50%, 1) 0%, hsla(207, 30%, 12%, 1) 100%);
+    }
 
-.hero-example-3-page {
-    h1 {
-        position: relative;
-        font-size: 2rem;
-        color: white;
-        text-align: center;
-        -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(255, 255, 255, 0.2));
+    .hero-example-3-page {
+        h1 {
+            position: relative;
+            font-size: 2rem;
+            color: white;
+            text-align: center;
+            -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(255, 255, 255, 0.2));
+        }
+    }
+
+    .neon-text {
+        text-shadow: 0 0 10px #007BFF, 0 0 20px #007BFF, 0 0 30px #007BFF;
+        -webkit-box-reflect: below -3px linear-gradient(transparent, rgba(255, 255, 255, 0.1));
+    }
+
+    .scrolled .neon-text {
+        text-shadow: 0 0 0 0;
+        -webkit-box-reflect: below -3px linear-gradient(transparent, transparent);
+    }
+
+    .home-page .nav-item svg rect {
+        @apply fill-white;
+    }
+
+    .scrolled .nav-item svg rect {
+        @apply fill-black;
+    }
+
+    .home-page .secondary-menu .nav-item {
+        @apply text-white;
+    }
+
+    .home-page .secondary-menu .nav-item:hover {
+        @apply text-brand-primary;
+    }
+
+    .home-page.scrolled .secondary-menu .nav-item {
+        @apply text-black;
     }
 }
 
-.neon-text {
-    text-shadow: 0 0 10px #007BFF, 0 0 20px #007BFF, 0 0 30px #007BFF;
-    -webkit-box-reflect: below -3px linear-gradient(transparent, rgba(255, 255, 255, 0.1));
-}
-
-.scrolled .neon-text {
-    text-shadow: 0 0 0 0;
-    -webkit-box-reflect: below -3px linear-gradient(transparent, transparent);
-}
-
-.home-page .nav-item svg rect {
-    fill: #ffffff;
-}
-
-.scrolled .nav-item svg rect {
-    fill: #000000;
-}
-
-.home-page .secondary-menu .nav-item {
-    color: #ffffff;
-}
-
-.home-page .secondary-menu .nav-item:hover {
-    color: #007BFF;
-}
-
-.home-page.scrolled .secondary-menu .nav-item {
-    color: #000000;
-}

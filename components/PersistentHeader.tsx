@@ -144,7 +144,7 @@ export default function PersistentHeader({}) {
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-[#007BFF] text-black relative px-2 py-1 ${
+                                    className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-brand-primary text-black relative px-2 py-1 ${
                                         isActive
                                         ? 'font-semibold'
                                         : ''
@@ -162,7 +162,7 @@ export default function PersistentHeader({}) {
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-[#007BFF] text-black relative py-1 ${
+                                    className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-brand-primary text-black relative py-1 ${
                                         isActive
                                         ? 'font-semibold'
                                         : ''

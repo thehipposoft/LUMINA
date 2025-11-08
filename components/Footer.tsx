@@ -36,7 +36,11 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="mt-8 pt-8 pb-4 border-t border-gray-200 text-center">
-                    <Link href={'www.thehipposoft.com'} rel="noreferrer" target="_blank" className="text-sm text-gray-500 hover:underline">
+                    <Link
+                        href={'https://www.thehipposoft.com/'}
+                        rel="noreferrer"
+                        target="_blank" className="text-sm text-gray-500 hover:underline"
+                    >
                         Created by <span className="font-semibold">Hipposoft</span> | All Right Reserved
                     </Link>
                 </div>

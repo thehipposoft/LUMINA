@@ -33,28 +33,29 @@ const Carousel = ({
                 }}
                 onSwiper={(swiper) => console.log(swiper)}
                 onSlideChange={() => console.log('slide change')}
+                autoplay={true}
             >
                 {slides.map((slide, index) => (
                     <SwiperSlide key={index}>
-                                <div className='absolute top-0 left-0 w-full h-full bg-black/10 z-10 shape hidden md:block' />
-                                <Image
-                                    src={slide.image}
-                                    alt={`Slide ${index + 1}`}
-                                    fill
-                                    className="w-full object-cover shape hidden md:block"
-                                />
-                                <Image
-                                    src={slide.image}
-                                    alt={`Slide ${index + 1}`}
-                                    width={400}
-                                    height={400}
-                                    className="w-full object-cover h-[300px] md:hidden rounded-lg"
-                                />
-                                <div className='lg:absolute relative z-20 lg:bottom-12 pt-4 md:pt-0 '>
-                                    <p className='md:w-[380px] text-sm'>
-                                        {slide.text}
-                                    </p>
-                                </div>
+                        <div className='absolute top-0 left-0 w-full h-full bg-black/10 z-10 shape hidden md:block' />
+                        <Image
+                            src={slide.image}
+                            alt={`Slide ${index + 1}`}
+                            fill
+                            className="w-full object-cover shape hidden md:block"
+                        />
+                        <Image
+                            src={slide.image}
+                            alt={`Slide ${index + 1}`}
+                            width={400}
+                            height={400}
+                            className="w-full object-cover h-[300px] md:hidden rounded-lg"
+                        />
+                        <div className='lg:absolute relative z-20 lg:bottom-12 pt-4 md:pt-0 '>
+                            <p className='md:w-[380px] text-sm'>
+                                {slide.text}
+                            </p>
+                        </div>
                     </SwiperSlide>
                 ))}
             </Swiper>

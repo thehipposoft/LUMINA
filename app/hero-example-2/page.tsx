@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 
-const DynamicScene = dynamic(() => import("./Scene"), {
+const DynamicScene = dynamic(() => import("../../components/Scene"), {
     ssr: false
 });
 

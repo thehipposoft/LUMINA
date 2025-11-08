@@ -7,7 +7,8 @@ import PastelRibbons3D from "../components/PastelRibbons3D";
 import Image from "next/image";
 import Contact from "@/components/Contact/Contact";
 import CustomButton from "@/components/commons/CustomButton";
-const DynamicScene = dynamic(() => import("./hero-example-2/Scene"), {
+
+const DynamicScene = dynamic(() => import("../components/Scene"), {
     ssr: false
 });
 
