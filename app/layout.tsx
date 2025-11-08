@@ -5,6 +5,7 @@ import PersistentHeader from "../components/PersistentHeader";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/commons/SmoothScroll";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { ViewTransitions } from "next-view-transitions";
 
 const montserrat = Montserrat({
     variable: "--font-montserrat",
@@ -23,17 +24,19 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-            <GoogleAnalytics />
-            <body className={`${montserrat.variable} antialiased`}>
-                <SmoothScroll>
-                    <PersistentHeader />
-                    <main className="page-content">
-                        {children}
-                    </main>
-                    <Footer />
-                </SmoothScroll>
-            </body>
-        </html>
+        <ViewTransitions>
+            <html lang="en">
+                <GoogleAnalytics />
+                <body className={`${montserrat.variable} antialiased`}>
+                    <SmoothScroll>
+                        <PersistentHeader />
+                        <main className="page-content">
+                            {children}
+                        </main>
+                        <Footer />
+                    </SmoothScroll>
+                </body>
+            </html>
+        </ViewTransitions>
     );
 }

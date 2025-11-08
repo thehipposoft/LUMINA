@@ -40,7 +40,7 @@ const VideoComponent = () => {
     }, {scope: container})
 
   return (
-        <section ref={container} id='how' className=" bg-black py-20 fade-in min-h-[585px] relative z-[99]">
+        <section ref={container} id='how' className=" bg-black py-20 fade-in min-h-[585px] relative">
             <div className="absolute left-0 top-0 h-full w-full bg-[#151F27]/65" />
             <Image src={'/images/what-we-do/videobg.png'} alt="" fill className="object-cover -scale-x-100 -z-10" />
             <Image src={'/images/vectors/shape3.svg'} alt="" width={220} height={120} className="absolute left-0" />
