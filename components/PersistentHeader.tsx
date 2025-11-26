@@ -15,7 +15,7 @@ const navigationItems = [
     { href: "/", label: "Home" },
     { href: "/what-we-do", label: "What we do" },
     { href: "/benefits", label: "Benefits" },
-    /* { href: "/animations", label: "Blog" }, */
+    { href: "/blog", label: "Blog" },
     { href: "/lab", label: "LuminaLab" },
     { href: "/faqs", label: "FAQS" },
 ];
@@ -23,7 +23,7 @@ const navigationItems = [
 const navigationSecondary = [
     { href: "/what-we-do", label: "What we do" },
     { href: "/benefits", label: "Benefits" },
-    /* { href: "/blog", label: "Blog" }, */
+    { href: "/blog", label: "Blog" },
     { href: "/lab", label: "LuminaLab" },
     { href: "/faqs", label: "FAQS" },
     { href: "/#contact", label: "Contact" },
@@ -123,6 +123,15 @@ export default function PersistentHeader({}) {
                 ease: 'sine.out',
                 color: "#000000"
             })
+            gsap.to('.secondary-menu', {
+                scrollTrigger: {
+                    start: "0 top",
+                    end: "500 25%",
+                    scrub: 3,
+                },
+                marginLeft: "4px",
+                marginRight: "4px",
+            })
             gsap.to(headerRef.current, {
                 scrollTrigger: {
                     start: "0 top",
@@ -166,7 +175,7 @@ export default function PersistentHeader({}) {
         >
             <div className={`menu ${pathname === '/' ? "md:w-[85vw]" : "w-[95vw] lg:max-w-[85vw]"} px-6 mx-auto py-4`}>
                 <nav className="relative z-20 flex items-center justify-between gap-10">
-                    <Link href="/" className="flex items-center gap-2 nav-item">
+                    <Link href="/" className={`flex items-center gap-2 ${pathname === '/' ? "nav-item" : ""}`}>
                         <LuminaLogo size={32} animated={true} />
                         <span className={`duration-700 neon-text logo-text ${openMenu ? "text-white" : "text-inherit"} text-xl font-bold `}>
                             LUMINA
@@ -176,7 +185,7 @@ export default function PersistentHeader({}) {
                         </span>
                     </Link>
 
-                    <div className="hidden lg:flex gap-8 relative secondary-menu">
+                    <div className="hidden lg:flex relative secondary-menu w-xl justify-between">
                         {
                         pathname === '/' ?
                         navigationItems.map((item) => {

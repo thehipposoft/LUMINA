@@ -85,9 +85,10 @@ const Benefits = () => {
                         A New Device Engineering
                     </h2>
                     <p className="mb-2 text-sm">
-                        The displays on the next generation of Samsung phones have a weakness. Their under-display cameras don’t receive enough light because the OLED is not sufficiently transparent. The next generation of Apple watch has a problem. Its OLED displays weren’t bright enough.                    </p>
+                        The displays on the next generation of phones have a weakness. Their under-display cameras don’t receive enough light because the OLED is not sufficiently transparent. The next generation of watches have a problem. Their OLED displays weren’t bright enough.                    </p>
                     <p className="mb-2 text-sm">
-                        The next generation of AR/VR is challenged by light output. Efficiency, light output, and transparency issues are a common theme throughout the OLED display market and one we’re poised to address.                    </p>
+                        The next generation of AR/VR is challenged by light output. Efficiency, light output, and transparency issues are a common theme throughout the OLED display market and one we’re poised to address.
+                    </p>
                     <p className="font-bold text-sm">
                         Our company has generated an idealized chemical that addresses multiple pain points within OLEDs and works cross-platform.
                     </p>
@@ -151,11 +152,14 @@ const Benefits = () => {
                         A new generation of materials
                     </h2>
                     <p className="mb-2 text-sm">
-                        Molecular Interfaces have developed a unique chemical structure that contains exceptionally effective binders of metal, at a high density of binders, and created the only method by which these structures can be generated at the surface. </p>
+                        Molecular Interfaces have developed a unique chemical structure that contains exceptionally effective binders of metal, at a high density of binders, and created the only method by which these structures can be generated at the surface.
+                    </p>
                     <p className="mb-2 text-sm">
-                        Our binder causes the metal to wet the surface effectively during deposition and allows exceptionally thin (~7 nm thickness) metal to be used. </p>
+                        Our binder causes the metal to wet the surface effectively during deposition and allows exceptionally thin (~7 nm thickness) metal to be used.
+                    </p>
                     <p className=" text-sm">
-                        The considerable reduction in the use of materials and, therefore, lower cost, is due to the high adhesion that confines the metal to the surface, limiting the amount of protective material needed for the underlying organic stack of materials.                    </p>
+                        The considerable reduction in the use of materials and, therefore, lower cost, is due to the high adhesion that confines the metal to the surface, limiting the amount of protective material needed for the underlying organic stack of materials.
+                    </p>
                 </div>
             </section>
 
@@ -168,9 +172,11 @@ const Benefits = () => {
                         We increase efficiency
                     </h2>
                     <p className="mb-2 text-sm">
-                        Thanks to the usefulness of our “high light output” chemical, the OLED display manufacturers can create displays with greater transparency that enable higher resolution cameras (Samsung) or increase light output to make OLED displays viable in smart watches (Apple). </p>
+                        Thanks to the usefulness of our “high light output” chemical, the OLED display manufacturers can create displays with greater transparency that enable higher resolution cameras or increase light output to make OLED displays viable in smart watches.
+                    </p>
                     <p className="mb-2 text-sm">
-                        This allows them to remain relevant in a highly competitive ecosystem where alternative technologies (e.g., microLED) are attacking existing methods from within, while changes in form factors and function (foldable phones, under-screen cameras, etc.) are forcing rapid evolution from the outside, all with billions of dollars at stake ($44 billion per year).</p>
+                        This allows them to remain relevant in a highly competitive ecosystem where alternative technologies (e.g., microLED) are attacking existing methods from within, while changes in form factors and function (foldable phones, under-screen cameras, etc.) are forcing rapid evolution from the outside, all with billions of dollars at stake ($44 billion per year).
+                    </p>
                 </div>
                 <div className="lg:w-7/12">
                     <Carousel

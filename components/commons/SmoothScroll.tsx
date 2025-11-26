@@ -8,7 +8,7 @@ type LenisScrollProviderProps = {
 };
 const SmoothScroll: FC<LenisScrollProviderProps> = ({ children }) => {
   const lenisRef = useRef(null);
-  return <ReactLenis ref={lenisRef} root options={{ lerp: 0.1, duration: 2, smoothWheel: true }}>{children}</ReactLenis>;
+  return <ReactLenis ref={lenisRef} root options={{ lerp: 0.05, duration: 2, smoothWheel: true }}>{children}</ReactLenis>;
 };
 
 export default SmoothScroll;

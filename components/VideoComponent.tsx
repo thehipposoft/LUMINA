@@ -66,10 +66,9 @@ const VideoComponent = () => {
                         Designing Solutions
                     </h2>
                     <p className="mb-2 text-sm leading-6">
-                        As an industry forerunner in OLED display manufacturing, we constantly seek innovative solutions to enhance brightness, transparency, and energy efficiency.
-                    </p>
+                        As an industry forerunner in OLED Interface modification, we constantly seek innovative solutions to enhance brightness, transparency, and energy efficiency for our customers.                     </p>
                     <p className="mb-2 text-sm leading-6">
-                        Lumina&apos;s groundbreaking chemical technology has transformed our production process, allowing us to achieve thinner electrodes, brighter displays, and superior transparency—critical for next-generation applications like under-display cameras and AR/VR. Their technical support and expert guidance ensured a seamless integration into our pilot lines, setting the stage for mass production success. Lumina&apos;s solution is not just an upgrade;
+                        Lumina’s groundbreaking chemical technology has transformed the production process, allowing us to achieve thinner electrodes, brighter displays, and superior transparency—critical for next-generation applications like under-display cameras and AR/VR. Our technical support and expert guidance ensured a seamless integration into  pilot lines, setting the stage for mass production success. Lumina’s solution is not just an upgrade;
                     </p>
                     <p className="font-bold text-sm leading-6">
                         It&apos;s a revolution in OLED performance.

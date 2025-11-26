@@ -107,10 +107,28 @@ const WhatWeDo = () => {
                         Innovating at the Molecular Level
                     </h6>
                     <p className="lg:max-w-[440px]">
-                        At Lumina Technologies, we design the chemistry that powers the future of optoelectronics.
-                        Our team develops advanced surface solutions for OLED, microLED, and next-gen displays,
-                        optimizing performance, efficiency, and durability.
+                        At Lumina, we have designed our operations to mitigate these risks entirely for our
+                        company and our customers. By focusing on domestic production and a localized supply
+                        chain, we´re able to offer our partners greater stability, predictability, and independence
+                        from international trade disruptions.
                     </p>
+                    <p className="lg:max-w-[440px]">
+                        Founding Sources needs to be Funding Sources and a separate title for Collaboration Partners
+                    </p>
+                    <div className="flex justify-between pt-4">
+                        <div className="flex flex-col gap-2">
+                            <p className="font-semibold">Funding Sources</p>
+                            <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-brand-primary"/>NSF PFI</div>
+                            <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-brand-primary"/>NSF SBIR</div>
+                            <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-brand-primary"/> Innovate Illinois</div>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <p className="font-semibold">Supporting Partners</p>
+                            <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-brand-primary"/>Polsky Institute UChicago</div>
+                            <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-brand-primary"/>Quinlan Business at Loyola<br/> University Chicago</div>
+                            <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-brand-primary"/> Merck KGaA</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

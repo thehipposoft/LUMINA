@@ -135,10 +135,10 @@ export default function Home() {
                                 <h2 className="text-4xl font-bold text-[#151f25] mb-6">Brighter displays</h2>
                                 <h3 className="text-xl font-semibold text-[#151f25] mb-4">A New Device Engineering</h3>
                                 <p className="text-[#151f25]/70 mb-6 leading-relaxed">
-                                Our primary focus is on the surface science, where most of the ground
-                                breaking science occurs. Through a combination of MALDI XPS, PEMIHAS,
-                                UV-vis, XRD, X-ray crystallography, and SEM we seize one the chemical
-                                changes within a surface for improved device behavior.
+                                    Our primary focus is on the surface science, where most of the
+                                    ground breaking science occurs. Through a combination of variety of
+                                    surface analysis techniques. We seize one the chemical changes within
+                                    a surface for improved device behavior.
                                 </p>
                                 <div className="flex items-center gap-10">
                                     <CustomButton href="/benefits" text="Discover"/>
@@ -172,18 +172,16 @@ export default function Home() {
                                 <h2 className="text-4xl font-bold text-[#151f25] mb-6">Innovative Solutions</h2>
                                 <h3 className="text-xl font-semibold text-[#151f25] mb-4">A new generation of materials</h3>
                                 <p className="text-[#151f25]/70 mb-4 leading-relaxed">
-                                    Operating at the intersection of chemistry, material science, and device
-                                    engineering, we design smart molecular systems that enhance the
-                                    performance of organic optoelectronic devices in applications ranging from
-                                    creating tailor-made technologies that unlock new possibilities in OLEDs,
-                                    OPVs, and beyond.
+                                    Operating at the intersection of chemistry, material science, and device engineering, we design
+                                    smart molecular systems that enhance the performance of organic optoelectronic devices in
+                                    applications ranging from creating tailor-made technologies that unlock new possibilities in
+                                    OLED Displays, Solar Applications, and beyond.
                                 </p>
                                 <p className="text-[#151f25]/70 mb-6 leading-relaxed">
-                                    From our lab at Loyola University Chicago, we engineer surfaces at the
-                                    molecular level to solve real-world challenges — from improving adhesion
-                                    and charge injection to optimizing organic-inorganic interfaces with
-                                    precision. Our mission: to enable brighter, more efficient, and more reliable
-                                    devices by transforming how surfaces interact.
+                                    From our lab at Loyola University Chicago, we engineer surfaces at the molecular level to solve
+                                    real-world challenges — from improving adhesion and charge injection to optimizing organic-
+                                    inorganic interfaces with precision. Our mission: to enable brighter, more efficient, and more
+                                    reliable devices by transforming how surfaces interact.
                                 </p>
                                 <CustomButton href="/benefits#material" text="Discover" />
                             </div>
@@ -197,12 +195,7 @@ export default function Home() {
                                 <h2 className="text-4xl font-bold text-gray-900 mb-6">Revolution in OLED performance</h2>
                                 <h3 className="text-xl font-semibold text-gray-800 mb-4">We increase efficiency</h3>
                                 <p className="text-gray-600 mb-6 leading-relaxed">
-                                    Through the synergism of our multidisciplinary team encompassing
-                                    chemical, engineering and the technological sense of business. Such
-                                    synergism allow integration to industries worldwide will lead to a new
-                                    recognition in the field of Nanotechnology. By pursuing such technological
-                                    developments Molecular Interfaces will increase efficiency of OLED and LED
-                                    electronics for consumer and corporate utilization.
+                                    The synergism of our multidisciplinary team encompasses chemistry, engineering  and the technological sense of business. Such synergism allow integration to industries worldwide will lead to a new recognition in the field of display technology. By pursuing such technological developments Lumina will increase efficiency of OLED displays for consumer and corporate utilization.
                                 </p>
                                 <CustomButton href="/benefits" text="Discover" />
                             </div>

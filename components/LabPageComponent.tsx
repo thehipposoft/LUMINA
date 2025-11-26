@@ -123,7 +123,20 @@ const LabPageComponent = () => {
                     <Image src={'/images/lab/vector.svg'} alt="Lumina Arrow" width={25} height={20} className="object-contain" />
                     <h2 className='font-bold text-4xl'>LUMI-1</h2>
                 </div>
-                <p className='text-sm leading-6'>Organic semiconductors are an emerging technology that promises to revolutionize electronics and computing, especially in light-emitting diodes. In particular, we are examining prototypical semiconductors (tetracene, anthracene, etc.) which have excellent electronic properties, but whose interfacial structure limits its adoption into modern displays and devices. We have developed a means for chemically reacting the surface via the classic Diels-Alder reaction (via a vapor/surface reaction) and use a variety of surface analysis techniques (XPS, PM-IRRAS, MALDI) to study the reacted surface. Device and materials properties of functionalized acenes are examined to discern their performance improvement.</p>
+                <p className='text-sm leading-6'>
+                    Organic semiconductors are an emerging technology that promises to revolutionize
+                    electronics and computing, especially in light-emitting diodes. In particular, we are
+                    examining prototypical semiconductors (tetracene, anthracene, etc.) which have
+                    excellent electronic properties, but whose interfacial structure limits its adoption into
+                    modern displays and devices.
+                </p>
+                <p className='text-sm leading-6'>
+                    We have developed a means for chemically reacting the
+                    surface via both  classical and advanced chemical reactions (via a
+                    vapor/surface reaction) and use a variety of surface analysis techniques (XPS, PM-IRRAS,
+                    MALDI) to study the reacted surface. Device and materials properties of functionalized
+                    acenes are examined to discern their performance improvement.
+                </p>
             </div>
         </section>
         <section className='section-three flex lg:flex-row flex-col gap-12 lg:gap-0 justify-between w-[85vw] lg:max-w-7xl mx-auto lg:py-24 py-12'>
