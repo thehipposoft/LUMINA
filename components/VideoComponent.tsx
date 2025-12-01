@@ -75,7 +75,7 @@ const VideoComponent = () => {
                     </p>
                 </div>
             </div>
-            <VideoModal toggleModal={toggleModal} openModal={openModal} videoUrl="https://res.cloudinary.com/hipposoft/video/upload/v1761605294/VRAY_3_hapt64.mp4" />
+            <VideoModal toggleModal={toggleModal} openModal={openModal} />
         </section>
   )
 }

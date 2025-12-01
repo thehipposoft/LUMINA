@@ -17,14 +17,17 @@ const VideoModal = ({openModal, videoUrl, toggleModal}:VideoModal) => {
         >
           ✕
         </button>
-        <video
-            src={videoUrl}
-            className='w-[80vw] h-[80vh]'
-            autoPlay
-            controls
-            muted
-            playsInline
-        />
+        <iframe
+            title="vimeo-player"
+            src="https://player.vimeo.com/video/1140176277?h=5c37d91adf"
+            width="900"
+            height="520"
+            frameBorder="0"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+            allowFullScreen
+        >
+        </iframe>
     </div>
   )
 }
