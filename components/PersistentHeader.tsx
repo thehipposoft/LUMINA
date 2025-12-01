@@ -8,6 +8,7 @@ import LuminaLogo from "./LuminaLogo";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import MobileMenu from "./MobileMenu";
 import { useTransitionRouter } from "next-view-transitions";
+import AnimatedLink from "./commons/AnimatedLink";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -175,7 +176,8 @@ export default function PersistentHeader({}) {
         >
             <div className={`menu ${pathname === '/' ? "md:w-[85vw]" : "w-[95vw] lg:max-w-[85vw]"} px-6 mx-auto py-4`}>
                 <nav className="relative z-20 flex items-center justify-between gap-10">
-                    <Link href="/" className={`flex items-center gap-2 ${pathname === '/' ? "nav-item" : ""}`}>
+                    {pathname === '/' ?
+                    <AnimatedLink href="/" className={`flex items-center gap-2 nav-item`}>
                         <LuminaLogo size={32} animated={true} />
                         <span className={`duration-700 neon-text logo-text ${openMenu ? "text-white" : "text-inherit"} text-xl font-bold `}>
                             LUMINA
@@ -183,25 +185,46 @@ export default function PersistentHeader({}) {
                         <span className={`duration-700 logo-text ${openMenu ? "text-white" : "text-inherit"} text-sm`}>
                             TECHNOLOGIES
                         </span>
-                    </Link>
+                    </AnimatedLink>
+                    :
+                    <AnimatedLink href="/" className={`flex items-center gap-2`}>
+                        <LuminaLogo size={32} animated={true} />
+                        <span className={`duration-700 neon-text  ${openMenu ? "text-white" : "text-black"} text-xl font-bold `}>
+                            LUMINA
+                        </span>
+                        <span className={`duration-700  ${openMenu ? "text-white" : "text-black"} text-sm`}>
+                            TECHNOLOGIES
+                        </span>
+                    </AnimatedLink>
+                    }
 
                     <div className="hidden lg:flex relative secondary-menu w-xl justify-between">
                         {
                         pathname === '/' ?
-                        navigationItems.map((item) => {
+                        navigationItems.map((item, index) => {
                             const isActive = pathname === item.href;
 
                             return (
-                                <Link
+                                <AnimatedLink
+                                    key={index}
+                                    href={item.href}
+                                    children={item.label}
+                                    className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-brand-primary text-black relative px-2 py-1 ${
+                                        isActive
+                                        ? 'font-semibold'
+                                        : ''
+                                    }`}
+                                 />
+                               /*  <Link
                                     key={item.href}
                                     href={item.href}
                                     onClick={(e) => {
-                                        /*
+
                                         e.preventDefault();
                                         router.push(item.href, {
                                             onTransitionReady: pageAnimation,
                                         });
-                                        */
+
                                     }}
                                     className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-brand-primary text-black relative px-2 py-1 ${
                                         isActive
@@ -210,24 +233,34 @@ export default function PersistentHeader({}) {
                                     }`}
                                     >
                                     {item.label}
-                                </Link>
+                                </Link> */
                             );
                         })
                         :
-                        navigationSecondary.map((item) => {
+                        navigationSecondary.map((item, index) => {
                             const isActive = pathname === item.href;
 
                             return (
-                                <Link
+                                <AnimatedLink
+                                    key={index}
+                                    href={item.href}
+                                    children={item.label}
+                                    className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-brand-primary text-black relative px-2 py-1 ${
+                                        isActive
+                                        ? 'font-semibold'
+                                        : ''
+                                    }`}
+                                 />
+                              /*   <Link
                                     key={item.href}
                                     href={item.href}
                                     onClick={(e) => {
-                                        /*
+
                                         e.preventDefault();
                                         router.push(item.href, {
                                             onTransitionReady: pageAnimation,
                                         });
-                                        */
+
                                     }}
                                     className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-brand-primary text-black relative py-1 ${
                                         isActive
@@ -236,7 +269,7 @@ export default function PersistentHeader({}) {
                                     }`}
                                     >
                                     {item.label}
-                                </Link>
+                                </Link> */
                             );
                         })
                         }

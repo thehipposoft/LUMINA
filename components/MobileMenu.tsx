@@ -21,7 +21,7 @@ const MobileMenu = ({openMenu, handleOpenMenu}:MobileMenuTypes) => {
 
   return (
     <div className={`md:hidden ${openMenu ? "translate-x-0" : "translate-x-full"} z-10 duration-500 h-screen w-screen fixed left-0 top-0
-    bg-black/90 backdrop-blur-3xl flex flex-col justify-center items-center`}>
+    bg-brand-dark/95 backdrop-blur-3xl flex flex-col justify-center items-center`}>
         <ul className='flex flex-col gap-5 text-white'>
             {
                 navigationSecondary.map((item, index) => (

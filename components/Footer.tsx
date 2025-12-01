@@ -1,5 +1,6 @@
 import LuminaLogo from "@/components/LuminaLogo";
 import Link from "next/link";
+import AnimatedLink from "./commons/AnimatedLink";
 
 const Footer = () => {
     return (
@@ -15,21 +16,21 @@ const Footer = () => {
                         <p className="text-sm text-black/70 mb-4">© 2025 LUMINA TECHNOLOGIES. All Rights Reserved.</p>
                     </div>
                     <div>
-                        <Link href={"/what-we-do"} className="font-semibold text-black mb-4 hover:underline">What we do</Link>
-                        <ul className="space-y-4 text-black/70">
-                            <li><Link href="/what-we-do#how" className="hover:text-[#35E3ED] duration-300">How</Link></li>
-                            <li><Link href="/what-we-do#why" className="hover:text-[#35E3ED] duration-300">Why</Link></li>
-                            <li><Link href="/benefits" className="hover:text-[#35E3ED] duration-300 font-semibold">Benefits</Link></li>
+                        <AnimatedLink href={"/what-we-do"} className="font-semibold text-black mb-4 hover:underline">What we do</AnimatedLink>
+                        <ul className="space-y-4 text-black/70 pt-2">
+                            <li><AnimatedLink href="/what-we-do#how" className="hover:text-[#35E3ED] duration-300">How</AnimatedLink></li>
+                            <li><AnimatedLink href="/what-we-do#why" className="hover:text-[#35E3ED] duration-300">Why</AnimatedLink></li>
+                            <li><AnimatedLink href="/benefits" className="hover:text-[#35E3ED] duration-300 font-semibold">Benefits</AnimatedLink></li>
                         </ul>
                     </div>
                     <div>
-                        <Link href={'/lab'} className="font-semibold text-black mb-4 hover:underline">LuminaLab</Link>
+                        <AnimatedLink href={'/lab'} className="font-semibold text-black mb-4 hover:underline">LuminaLab</AnimatedLink>
                     </div>
                     <div>
-                        <Link href={'/faqs'} className="font-semibold text-black mb-4 hover:underline">FAQs</Link>
+                        <AnimatedLink href={'/faqs'} className="font-semibold text-black mb-4 hover:underline">FAQs</AnimatedLink>
                     </div>
                     <div>
-                        <Link href={'/#contact'} className="font-semibold text-black mb-4 hover:underline">Contact</Link>
+                        <AnimatedLink href={'/#contact'} className="font-semibold text-black mb-4 hover:underline">Contact</AnimatedLink>
                     </div>
                     <div>
                         <h4 className="font-semibold text-black mb-4">Social Media </h4>

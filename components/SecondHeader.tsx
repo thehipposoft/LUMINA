@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import LuminaLogo from "./LuminaLogo";
 import NavigationArrow from "./NavigationArrow";
+import AnimatedLink from "./commons/AnimatedLink";
 
 const navigationItems = [
     { href: "/", label: "Home" },
@@ -84,11 +85,11 @@ export default function PersistentHeader() {
         >
             <div className="w-max mx-auto px-6 py-4">
                 <nav className="flex items-center justify-between gap-10">
-                    <Link href="/" className="flex items-center space-x-2 nav-item">
+                    <AnimatedLink href="/" className="flex items-center space-x-2 nav-item">
                         <LuminaLogo size={32} animated={true} />
                         <span className="text-xl font-bold text-black">LUMINA</span>
                         <span className="text-sm text-black/70">TECHNOLOGIES</span>
-                    </Link>
+                    </AnimatedLink>
 
                     <div className="hidden md:flex space-x-8 relative">
                         {/* Navigation Arrow */}
@@ -104,7 +105,7 @@ export default function PersistentHeader() {
                             const isActive = pathname === item.href;
 
                             return (
-                                <Link
+                                <AnimatedLink
                                     key={item.href}
                                     href={item.href}
                                     className={`nav-item nav-link text-sm font-medium transition-all duration-300 hover:text-brand-primary text-black relative px-2 py-1 ${
@@ -114,7 +115,7 @@ export default function PersistentHeader() {
                                     }`}
                                     >
                                     {item.label}
-                                </Link>
+                                </AnimatedLink>
                             );
                         })}
                     </div>
