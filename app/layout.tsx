@@ -23,11 +23,31 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+
+    const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'LUMINA Technologies',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '1068 W Sheridan Rd.',
+      addressLocality: 'Chicago',
+      addressRegion: 'IL',
+      postalCode: '60660',
+      addressCountry: 'US',
+    },
+    url: 'https://lumina.molecularinterfaces.com/',
+  }
+
     return (
         <ViewTransitions>
             <html lang="en">
                 <GoogleAnalytics />
                 <body className={`${montserrat.variable} antialiased`}>
+                    <script
+                        type="application/ld+json"
+                        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                    />
                     <SmoothScroll>
                         <PersistentHeader />
                         <main className="page-content">

@@ -13,6 +13,7 @@ const Footer = () => {
                             <span className="text-xl font-bold text-black pl-4">LUMINA</span>
                             <span className="text-xl font-semibold text-black">TECHNOLOGIES</span>
                         </div>
+                        <p className="text-sm text-black/70 mb-4">1068 W Sheridan Rd., Chicago, Illinois 60660</p>
                         <p className="text-sm text-black/70 mb-4">© 2025 LUMINA TECHNOLOGIES. All Rights Reserved.</p>
                     </div>
                     <div>

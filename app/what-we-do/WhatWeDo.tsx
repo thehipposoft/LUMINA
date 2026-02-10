@@ -166,9 +166,9 @@ const WhatWeDo = () => {
                     <Carousel
                         slides={[
                             { image: '/images/what-we-do/team.webp', text: "Lumina's Team" },
-                            { image: '/images/what-we-do/team2.jpg', text: 'High-performance materials engineered for the demands of modern electronics.' },
+                            { image: '/images/what-we-do/team-2.jpg', text: 'Laboratory Workspace' },
+                            { image: '/images/what-we-do/team-3.jpg', text: 'Lab Equipment' },
                             { image: '/images/what-we-do/team3.jpg', text: 'High-performance materials engineered for the demands of modern electronics.' },
-                            { image: '/images/what-we-do/team4.jpg', text: 'High-performance materials engineered for the demands of modern electronics.' },
                         ]}
                     />
                 </div>
