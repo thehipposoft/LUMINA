@@ -7,6 +7,9 @@ import PastelRibbons3D from "../components/PastelRibbons3D";
 import Image from "next/image";
 import Contact from "@/components/Contact/Contact";
 import CustomButton from "@/components/commons/CustomButton";
+import SeoHead from "@/components/SeoHead";
+import SeoJsonLd from "@/components/SeoJsonLd";
+import { buildWebPageSchema } from "@/lib/seo";
 
 const DynamicScene = dynamic(() => import("../components/Scene"), {
     ssr: false
@@ -111,6 +114,25 @@ export default function Home() {
 
     return (
         <div ref={containerRef} className="bg-white">
+            <SeoHead
+                title="LUMINA Technologies | OLED Revolution"
+                description="A revolution in OLED technology focused on molecular surface engineering for brighter, more efficient displays."
+                path="/"
+                keywords={[
+                    "OLED",
+                    "molecular interfaces",
+                    "surface engineering",
+                    "advanced display technology",
+                ]}
+            />
+            <SeoJsonLd
+                data={buildWebPageSchema({
+                    name: "LUMINA Technologies | OLED Revolution",
+                    description:
+                        "A revolution in OLED technology focused on molecular surface engineering for brighter, more efficient displays.",
+                    path: "/",
+                })}
+            />
             <div
                 ref={heroRef}
                 className="relative min-h-screen overflow-hidden bg-black"

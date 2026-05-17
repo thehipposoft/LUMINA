@@ -6,10 +6,26 @@ import Hero3D2 from "@/components/Hero3D-2";
 import Hero3D6 from "@/components/Hero3D-6";
 import Hero3D8 from "@/components/Hero3D-8";
 import Hero3D9 from "@/components/Hero3D-9";
+import SeoHead from "@/components/SeoHead";
+import SeoJsonLd from "@/components/SeoJsonLd";
+import { buildWebPageSchema } from "@/lib/seo";
 
 export default function AnimationsDemo() {
     return (
         <div>
+            <SeoHead
+                title="LUMINA | Animations Demo"
+                description="Internal animation playground for LUMINA 3D hero experiments."
+                path="/animations"
+                noIndex
+            />
+            <SeoJsonLd
+                data={buildWebPageSchema({
+                    name: "LUMINA Animations Demo",
+                    description: "Internal animation playground for LUMINA 3D hero experiments.",
+                    path: "/animations",
+                })}
+            />
             <div className="relative min-h-screen overflow-hidden rounded-3xl hidden">
                 <Hero3D />
             </div>

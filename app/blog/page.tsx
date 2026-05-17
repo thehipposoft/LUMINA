@@ -1,15 +1,28 @@
 import React from 'react'
 import { Metadata } from "next";
 import Image from 'next/image';
+import SeoJsonLd from '@/components/SeoJsonLd';
+import { buildMetadata, buildWebPageSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
-    title: 'Lumina | Blog',
-    description: 'Discover the benefits of our innovative solutions and services.',
-};
+export const metadata: Metadata = buildMetadata({
+    title: "LUMINA | Blog",
+    description:
+        "Read updates and stories about LUMINA research, OLED innovation, and applied surface science.",
+    path: "/blog",
+    keywords: ["Lumina blog", "OLED research", "materials science"],
+});
 
 export default function BlogPage() {
   return (
     <div className='flex flex-col items-center md:max-w-7xl mx-auto gap-16'>
+        <SeoJsonLd
+            data={buildWebPageSchema({
+                name: "LUMINA Blog",
+                description:
+                    "Read updates and stories about LUMINA research, OLED innovation, and applied surface science.",
+                path: "/blog",
+            })}
+        />
         <div className='relative md:w-7xl w-screen h-[590px]'>
             <Image
                 fill

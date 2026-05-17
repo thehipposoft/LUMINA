@@ -3,6 +3,9 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import LuminaLogo from "../../components/LuminaLogo";
+import SeoHead from "@/components/SeoHead";
+import SeoJsonLd from "@/components/SeoJsonLd";
+import { buildWebPageSchema } from "@/lib/seo";
 
 export default function LogoShowcase() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -24,6 +27,19 @@ export default function LogoShowcase() {
 
   return (
     <div ref={containerRef} className="min-h-screen bg-white">
+      <SeoHead
+        title="LUMINA | Logo Showcase"
+        description="Internal showcase of LUMINA logo treatments and animation variants."
+        path="/logo-showcase"
+        noIndex
+      />
+      <SeoJsonLd
+        data={buildWebPageSchema({
+          name: "LUMINA Logo Showcase",
+          description: "Internal showcase of LUMINA logo treatments and animation variants.",
+          path: "/logo-showcase",
+        })}
+      />
       {/* Hero Section */}
       <section className="py-20 px-6 bg-gradient-to-br from-[#007BFF] via-[#35E3ED] to-[#A044FF]">
         <div className="max-w-4xl mx-auto text-center">

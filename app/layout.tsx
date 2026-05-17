@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/commons/SmoothScroll";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { ViewTransitions } from "next-view-transitions";
+import SeoJsonLd from "@/components/SeoJsonLd";
+import { buildMetadata, siteConfig } from "@/lib/seo";
 
 const montserrat = Montserrat({
     variable: "--font-montserrat",
@@ -13,41 +15,53 @@ const montserrat = Montserrat({
     weight: ["400", "600", "700"],
 });
 
-export const metadata: Metadata = {
-    title: "LUMINA Technologies - OLED Revolution",
-    description: "A revolution in OLED technology. Advanced display solutions and cutting-edge innovations.",
-};
+export const metadata: Metadata = buildMetadata({
+    title: "LUMINA Technologies | OLED Revolution",
+    description: siteConfig.description,
+    path: "/",
+    keywords: [
+        "LUMINA Technologies",
+        "OLED technology",
+        "molecular interfaces",
+        "surface engineering",
+    ],
+});
 
 export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-
-    const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'LUMINA Technologies',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '1068 W Sheridan Rd.',
-      addressLocality: 'Chicago',
-      addressRegion: 'IL',
-      postalCode: '60660',
-      addressCountry: 'US',
-    },
-    url: 'https://lumina.molecularinterfaces.com/',
-  }
+    const jsonLd = [
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: siteConfig.name,
+            url: siteConfig.url,
+            address: {
+                "@type": "PostalAddress",
+                streetAddress: "1068 W Sheridan Rd.",
+                addressLocality: "Chicago",
+                addressRegion: "IL",
+                postalCode: "60660",
+                addressCountry: "US",
+            },
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: siteConfig.name,
+            url: siteConfig.url,
+            description: siteConfig.description,
+        },
+    ];
 
     return (
         <ViewTransitions>
             <html lang="en">
                 <GoogleAnalytics />
                 <body className={`${montserrat.variable} antialiased`}>
-                    <script
-                        type="application/ld+json"
-                        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-                    />
+                    <SeoJsonLd data={jsonLd} />
                     <SmoothScroll>
                         <PersistentHeader />
                         <main className="page-content">

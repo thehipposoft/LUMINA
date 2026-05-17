@@ -4,6 +4,9 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Hero3D8 from "@/components/Hero3D-8-2";
+import SeoHead from "@/components/SeoHead";
+import SeoJsonLd from "@/components/SeoJsonLd";
+import { buildWebPageSchema } from "@/lib/seo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,6 +31,19 @@ export default function AnimationsDemo() {
             ref={heroRef}
             className="relative min-h-screen overflow-hidden bg-black"
         >
+            <SeoHead
+                title="LUMINA | Hero Example 6"
+                description="Internal hero prototype variation 6 for LUMINA 3D animation testing."
+                path="/hero-example-6"
+                noIndex
+            />
+            <SeoJsonLd
+                data={buildWebPageSchema({
+                    name: "LUMINA Hero Example 6",
+                    description: "Internal hero prototype variation 6 for LUMINA 3D animation testing.",
+                    path: "/hero-example-6",
+                })}
+            />
             <div className="absolute inset-0 z-10 pointer-events-none flex justify-center top-12 lg:top-8">
                 <h1 className="text-3xl lg:text-6xl text-center p-6 z-10 lg:w-[60%] text-white transition-all">
                     A <span className="font-bold transition-all">REVOLUTION</span> <br /> IN OLED TECHNOLOGY
