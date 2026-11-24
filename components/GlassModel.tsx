@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useMemo, useState, useRef } from 'react'
-import { useGLTF, Environment, ContactShadows, OrbitControls, Stats } from '@react-three/drei';
+import { useGLTF, Environment, Lightformer, ContactShadows, OrbitControls, Stats } from '@react-three/drei';
 import { Object3D, Mesh, MeshPhysicalMaterial, Vector3, Group, Color, MathUtils } from 'three';
 import { useControls, Leva } from 'leva';
 import { useFrame, useThree } from '@react-three/fiber';
@@ -24,22 +24,8 @@ const GlassModel = () => {
     })
 
     // 🌍 ENVIRONMENT CONTROLS
+    // Entorno procedural (Lightformers): sin descargar ningún .hdr
     const environmentControls = useControls('Environment', {
-        preset: {
-            value: 'sunset',
-            options: [
-                'sunset',
-                'dawn',
-                'night',
-                'warehouse',
-                'forest',
-                'apartment',
-                'studio',
-                'city',
-                'park',
-                'lobby'
-            ]
-        },
         background: { value: false },
         blur: {
             value: 0.49,
@@ -221,11 +207,23 @@ const GlassModel = () => {
 
             <group>
                 {/* 🌍 ENVIRONMENT */}
+                {/* Generado en tiempo real con Lightformers: 0 KB, sin peticiones de red */}
                 <Environment
-                    preset={environmentControls.preset as "sunset" | "dawn" | "night" | "warehouse" | "forest" | "apartment" | "studio" | "city" | "park" | "lobby"}
+                    resolution={256}
                     background={environmentControls.background}
                     blur={environmentControls.blur}
-                />
+                    environmentIntensity={environmentControls.intensity}
+                >
+                    {/* Fondo cálido tipo atardecer */}
+                    <color attach="background" args={['#2a1a14']} />
+                    {/* Luz principal superior */}
+                    <Lightformer intensity={2} color="#fff4e6" position={[0, 5, -9]} scale={[10, 10, 1]} />
+                    {/* Franjas laterales para reflejos en el vidrio */}
+                    <Lightformer intensity={1.5} color="#ffd6a8" rotation-y={Math.PI / 2} position={[-5, 1, -1]} scale={[20, 0.5, 1]} />
+                    <Lightformer intensity={1.5} color="#ffffff" rotation-y={-Math.PI / 2} position={[10, 1, 0]} scale={[20, 1, 1]} />
+                    {/* Acento cálido */}
+                    <Lightformer form="ring" color="#ff9a5c" intensity={3} position={[-5, 2, 5]} scale={2} onUpdate={(self) => self.lookAt(0, 0, 0)} />
+                </Environment>
 
             {/* 🎮 ORBIT CONTROLS */}
             {previewControls.enableOrbitControls && (

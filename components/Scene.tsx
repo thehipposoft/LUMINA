@@ -121,6 +121,8 @@ const Scene = () => {
                         : 75             // Desktop: original FOV
                     }}
                     style={{ width: '100%', height: '100%' }}
+                    // Mano abierta al pasar por encima, puño cerrado al arrastrar (OrbitControls)
+                    className="cursor-grab active:cursor-grabbing"
                 >
                 <ambientLight intensity={0.5} />
                 <directionalLight position={[0, 3, 2]} intensity={3} />
